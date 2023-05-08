@@ -1,0 +1,1 @@
+from src.domain.repositories.domain_user_repository import UserRepository

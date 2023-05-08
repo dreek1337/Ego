@@ -1,12 +1,20 @@
 from datetime import date
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import (
+    BaseModel,
+    Field,
+    EmailStr
+)
+
+
+class UserProfile(BaseModel):
+    pass
 
 
 class User(BaseModel):
     """
     Полная модель пользователя
     """
-    id: int | None = Field(None, 'Идентификатор пользователя')
+    user_id: int | None = Field(None, 'Идентификатор пользователя')
     username: str = Field(..., 'Никнейм пользователя в сервисе')
     email: EmailStr = Field(..., 'Почта для пользователя')
     password: str | None = Field(None, 'Пароль пользователя')
