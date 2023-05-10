@@ -20,7 +20,7 @@ from src.domain.models.value_objects import (
 
 
 @dataclass
-class User:
+class UserAggregator:
     """
     Полная модель пользователя
     """

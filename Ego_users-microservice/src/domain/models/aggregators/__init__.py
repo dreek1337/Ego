@@ -1,1 +1,1 @@
-from src.domain.models.aggregators.user_aggregator import User
+from src.domain.models.aggregators.user_aggregator import UserAggregator
