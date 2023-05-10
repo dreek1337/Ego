@@ -1,16 +1,15 @@
 from datetime import date
 from abc import ABC, abstractmethod
 
-from src.domain.models import UserProfile
+from src.domain.models import (
+    UserProfile,
+    UserRegistrationInfo
+)
 
 
 class UserRepository(ABC):
     @abstractmethod
-    def get_user(
-            self,
-            *,
-            user_id: int
-    ) -> UserProfile:
+    def get_user(self, user_id: int) -> UserProfile:
         """Отображает информацию профиля"""
 
     @abstractmethod
@@ -20,21 +19,23 @@ class UserRepository(ABC):
             username: str,
             email: str,
             password: str,
-            birthday: date,
-            registration_date: date,
-            photo: id,
-            right: str
-    ) -> UserProfile:
+            gender: str | None = None,
+            birthday: date | None = None
+    ) -> UserRegistrationInfo:
         """Регистрация пользователя"""
 
     @abstractmethod
-    def update_profile_info(self) -> None:
+    def update_profile_info(
+            self,
+            *,
+            user_id: int,
+            username: str | None = None,
+            email: str | None = None,
+            gender: str | None = None,
+            birthday: date | None = None,
+    ) -> bool:
         """Изменение данных в профиле"""
 
     @abstractmethod
-    def delete_user(
-            self,
-            *,
-            user_id: int
-    ) -> bool:
+    def delete_user(self, user_id: int) -> bool:
         """Делает пользователя неактивным"""

@@ -1,6 +1,9 @@
 from datetime import date
 
-from src.domain.models import UserProfile
+from src.domain.models import (
+    UserProfile,
+    UserRegistrationInfo
+)
 from src.domain.repositories import UserRepository
 
 
@@ -8,11 +11,7 @@ class UserService:
     def __init__(self, user_repository: UserRepository) -> None:
         self.user_repository = user_repository
 
-    def get_profile(
-            self,
-            *,
-            user_id: int
-    ) -> UserProfile:
+    def get_user_info(self, user_id: int) -> UserProfile:
         """
         Получаем данные профиля пользователя по id или по username
         """
@@ -24,11 +23,9 @@ class UserService:
             username: str,
             email: str,
             password: str,
-            birthday: date,
-            registration_date: date,
-            photo: id,
-            right: str
-    ) -> UserProfile:
+            gender: str | None = None,
+            birthday: date | None = None,
+    ) -> UserRegistrationInfo:
         """
         Регистрация пользователя
         """
@@ -36,25 +33,30 @@ class UserService:
             username=username,
             email=email,
             password=password,
-            birthday=birthday,
-            registration_date=registration_date,
-            photo=photo,
-            right=right
+            gender=gender,
+            birthday=birthday
         )
 
-    def change_profile_data(
+    def update_user_data(
             self,
             *,
-            user_id
+            user_id: int,
+            email: str | None = None,
+            gender: str | None = None,
+            birthday: date | None = None
     ) -> bool:
         """
         Обновление данных профиля
         """
+        return self.user_repository.update_profile_info(
+            user_id=user_id,
+            email=email,
+            gender=gender,
+            birthday=birthday
+        )
 
-    def change_email(
-            self,
-            *,
-            user_id,
-            new_email
-    ) -> bool:
-        pass
+    def delete_user(self, user_id: int) -> bool:
+        """
+        Удаление пользователя
+        """
+        return self.user_repository.delete_user(user_id=user_id)

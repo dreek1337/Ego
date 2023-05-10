@@ -1,1 +1,2 @@
+from src.domain.repositories.domain_file_repository import FileRepository
 from src.domain.repositories.domain_user_repository import UserRepository
