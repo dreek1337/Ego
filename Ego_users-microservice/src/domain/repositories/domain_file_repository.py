@@ -2,27 +2,27 @@ from abc import (
     ABC,
     abstractmethod
 )
-from typing import Any
+from typing import Any, Callable
 
 from pydantic import UUID4
 
-from src.domain.models import (
-    FileInfo,
-    FileContent
-)
+from src.domain.models import FileInfo
 
 
 class FileRepository(ABC):
+    def __init__(self, session: Callable) -> None:
+        self.session = session
+
     @abstractmethod
-    def get_file(self, file_uuid: UUID4) -> FileInfo | FileContent:
+    def get_file(self, file_uuid: UUID4) -> FileInfo:
         """Получаем данные файла"""
 
     @abstractmethod
-    def save_file(self, save_object: Any) -> bool:
+    def save_file(self, save_object: FileInfo) -> bool:
         """Сохраняем данные/файл"""
 
     @abstractmethod
-    def update_file(self, update_object: Any) -> bool:
+    def update_file(self, update_object: FileInfo) -> bool:
         """Обновляем данные файла"""
 
     @abstractmethod
