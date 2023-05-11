@@ -6,7 +6,7 @@ from typing import Any, Callable
 
 from pydantic import UUID4
 
-from src.domain.models import FileInfo
+from src.domain.common import FileInfo
 
 
 class FileRepository(ABC):

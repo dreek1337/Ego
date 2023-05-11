@@ -2,11 +2,11 @@ from typing import Any
 
 from pydantic import UUID4
 
-from src.domain.models import (
+from src.domain.common import (
     FileInfo,
     FileContent
 )
-from src.domain.repositories import FileRepository
+from src.application.repositories import FileRepository
 
 
 class FileService:

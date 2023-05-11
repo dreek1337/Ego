@@ -1,10 +1,10 @@
 from datetime import date
 
-from src.domain.models import (
+from src.domain.common import (
     UserProfile,
     UserRegistrationInfo
 )
-from src.domain.repositories import UserRepository
+from src.application.repositories import UserRepository
 
 
 class UserService:

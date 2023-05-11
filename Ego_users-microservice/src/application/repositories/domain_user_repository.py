@@ -5,7 +5,7 @@ from abc import (
 from datetime import date
 from typing import Callable
 
-from src.domain.models import UserAggregator
+from src.domain.common import UserAggregator
 
 
 class UserRepository(ABC):
