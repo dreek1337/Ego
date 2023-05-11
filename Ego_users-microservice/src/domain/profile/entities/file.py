@@ -1,6 +1,6 @@
-from dataclasses import dataclass
-from typing import Self
 from uuid import UUID
+from typing import Self
+from dataclasses import dataclass
 
 from src.domain.common import Empty
 from src.domain.profile.value_objects import (
