@@ -19,7 +19,7 @@ from src.domain.profile.entities import (
 
 
 @dataclass
-class UserAggregator:
+class ProfileAggregator:
     """
     Полная модель пользователя
     """
@@ -51,7 +51,7 @@ class UserAggregator:
         """
         Создание модели пользователя
         """
-        user = UserAggregator(
+        user = ProfileAggregator(
             user_id=user_id,
             first_name=first_name,
             last_name=last_name,

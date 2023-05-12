@@ -1,6 +1,8 @@
 from src.domain.common import AbstractBaseException
+from dataclasses import dataclass
 
 
+@dataclass
 class UserIsDeleted(AbstractBaseException):
     user_id: int
 
