@@ -7,7 +7,7 @@ class DeletedProfile(DTO):
     """
     Информация об удаленном пользователе
     """
-    id: int = Field(..., description='Айди пользователя')
+    profile_id: int = Field(..., description='Айди профиля')
     first_name: str = Field(..., description='Имя пользователя')
     last_name: str = Field(..., description='Фамилия пользователя')
     deleted: bool = Field(True, description='Указывает, что пользователь удален')

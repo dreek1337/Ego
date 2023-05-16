@@ -10,7 +10,7 @@ from src.domain.profile.value_objects import (
 
 
 @dataclass
-class File:
+class FileEntity:
     """
     Информация о файле
     """

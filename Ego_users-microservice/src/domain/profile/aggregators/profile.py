@@ -11,48 +11,48 @@ from src.domain.profile.value_objects import (
     UserBirthday
 )
 from src.domain.profile.entities import (
-    File,
-    Post,
-    Subscription,
-    Subscriber
+    FileEntity,
+    PostEntity,
+    SubscriptionEntity,
+    SubscriberEntity
 )
 
 
 @dataclass
-class Profile:
+class ProfileAggregator:
     """
     Полная модель пользователя
     """
-    user_id: int
+    profile_id: int
     first_name: str
     last_name: str
     gender: UserGender
     birthday: UserBirthday
-    photo: File | None
-    posts: list[Post] | None
-    subscriptions: list[Subscription] | None
-    subscribers: list[Subscriber] | None
+    photo: FileEntity | None
+    posts: list[PostEntity] | None
+    subscriptions: list[SubscriptionEntity] | None
+    subscribers: list[SubscriberEntity] | None
     deleted: bool = field(default=False)
 
     @classmethod
     def create_user(
             cls,
             *,
-            user_id: int,
+            profile_id: int,
             first_name: str,
             last_name: str,
             gender: UserGender,
             birthday: UserBirthday,
-            photo: File | None = None,
-            posts: list[Post] | None = None,
-            subscriptions: list[Subscription] | None = None,
-            subscribers: list[Subscriber] | None = None
+            photo: FileEntity | None = None,
+            posts: list[PostEntity] | None = None,
+            subscriptions: list[SubscriptionEntity] | None = None,
+            subscribers: list[SubscriberEntity] | None = None
     ) -> Self:
         """
         Создание модели пользователя
         """
-        user = Profile(
-            user_id=user_id,
+        user = ProfileAggregator(
+            profile_id=profile_id,
             first_name=first_name,
             last_name=last_name,
             gender=gender,
@@ -99,10 +99,10 @@ class Profile:
             last_name: str | Empty = Empty.UNSET,
             gender: UserGender | Empty = Empty.UNSET,
             birthday: UserBirthday | Empty = Empty.UNSET,
-            photo: File | None | Empty = Empty.UNSET,
-            posts: list[Post] | None | Empty = Empty.UNSET,
-            subscriptions: list[Subscription] | None | Empty = Empty.UNSET,
-            subscribers: list[Subscriber] | None | Empty = Empty.UNSET
+            photo: FileEntity | None | Empty = Empty.UNSET,
+            posts: list[PostEntity] | None | Empty = Empty.UNSET,
+            subscriptions: list[SubscriptionEntity] | None | Empty = Empty.UNSET,
+            subscribers: list[SubscriberEntity] | None | Empty = Empty.UNSET
     ) -> None:
         """
         Обнавление информации, пользователя
@@ -131,4 +131,4 @@ class Profile:
 
     def _check_on_delete(self) -> None:
         if self.deleted:
-            raise UserIsDeleted(self.user_id)
+            raise UserIsDeleted(self.profile_id)

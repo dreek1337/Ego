@@ -11,7 +11,7 @@ class Profile(DTO):
     """
     Модель профиля
     """
-    user_id: int = Field(..., description='Айди пользователя')
+    profile_id: int = Field(..., description='Айди профиля')
     first_name: str = Field(..., description='Имя пользователя')
     last_name: str = Field(..., description='Фамилия пользователя')
     gender: str = Field(..., description='Пол пользователя')

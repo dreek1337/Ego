@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Post:
+class PostEntity:
     """
     Модель поста
     """

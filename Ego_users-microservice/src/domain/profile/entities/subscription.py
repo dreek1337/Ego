@@ -35,9 +35,9 @@ class BaseSubscriptionAndSubscriber:
         return f"{self.first_name} {self.last_name}"
 
 
-class Subscription(BaseSubscriptionAndSubscriber):
+class SubscriptionEntity(BaseSubscriptionAndSubscriber):
     """Создание модели подписки"""
 
 
-class Subscriber(BaseSubscriptionAndSubscriber):
+class SubscriberEntity(BaseSubscriptionAndSubscriber):
     """Создание модели подписчика"""
