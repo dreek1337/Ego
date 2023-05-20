@@ -4,5 +4,6 @@ from src.domain.profile.value_objects.file import (
 )
 from src.domain.profile.value_objects.profile import (
     UserBirthday,
-    UserGender
+    UserGender,
+    ProfileId
 )

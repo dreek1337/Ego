@@ -8,7 +8,8 @@ from src.domain.common import Empty
 from src.domain.profile.exceptions import UserIsDeleted
 from src.domain.profile.value_objects import (
     UserGender,
-    UserBirthday
+    UserBirthday,
+    ProfileId
 )
 from src.domain.profile.entities import (
     FileEntity,
@@ -23,7 +24,7 @@ class ProfileAggregator:
     """
     Полная модель пользователя
     """
-    profile_id: int
+    profile_id: ProfileId
     first_name: str
     last_name: str
     gender: UserGender
@@ -35,10 +36,10 @@ class ProfileAggregator:
     deleted: bool = field(default=False)
 
     @classmethod
-    def create_user(
+    def create_profile(
             cls,
             *,
-            profile_id: int,
+            profile_id: ProfileId,
             first_name: str,
             last_name: str,
             gender: UserGender,
@@ -126,9 +127,9 @@ class ProfileAggregator:
         if subscribers is not Empty.UNSET:
             self.subscribers = subscribers
 
-    def delete_user(self) -> None:
+    def delete_profile(self) -> None:
         self.deleted = True
 
     def _check_on_delete(self) -> None:
         if self.deleted:
-            raise UserIsDeleted(self.profile_id)
+            raise UserIsDeleted(self.profile_id.to_int)
