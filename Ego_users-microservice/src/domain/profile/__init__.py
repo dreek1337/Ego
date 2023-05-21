@@ -1,4 +1,4 @@
-from aggregators import ProfileAggregator
+from aggregates import ProfileAggregat
 from entities import (
     FileEntity,
     PostEntity,

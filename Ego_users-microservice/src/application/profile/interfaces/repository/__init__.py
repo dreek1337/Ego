@@ -1,0 +1,1 @@
+from src.application.profile.interfaces.repository.profile_repository import ProfileRepo

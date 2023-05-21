@@ -1,5 +1,5 @@
 from .profile import (
-    ProfileAggregator,
+    ProfileAggregat,
     PostEntity,
     FileEntity,
     SubscriberEntity,

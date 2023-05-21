@@ -20,7 +20,7 @@ from src.domain.profile.entities import (
 
 
 @dataclass
-class ProfileAggregator:
+class ProfileAggregat:
     """
     Полная модель пользователя
     """
@@ -34,6 +34,8 @@ class ProfileAggregator:
     subscriptions: list[SubscriptionEntity] | None
     subscribers: list[SubscriberEntity] | None
     deleted: bool = field(default=False)
+
+    # Сделать add_posts, add_photo и т.д.
 
     @classmethod
     def create_profile(
@@ -52,7 +54,7 @@ class ProfileAggregator:
         """
         Создание модели пользователя
         """
-        user = ProfileAggregator(
+        user = ProfileAggregat(
             profile_id=profile_id,
             first_name=first_name,
             last_name=last_name,
@@ -101,9 +103,9 @@ class ProfileAggregator:
             gender: UserGender | Empty = Empty.UNSET,
             birthday: UserBirthday | Empty = Empty.UNSET,
             photo: FileEntity | None | Empty = Empty.UNSET,
-            posts: list[PostEntity] | None | Empty = Empty.UNSET,
-            subscriptions: list[SubscriptionEntity] | None | Empty = Empty.UNSET,
-            subscribers: list[SubscriberEntity] | None | Empty = Empty.UNSET
+            posts: list[PostEntity] | Empty = Empty.UNSET,
+            subscriptions: list[SubscriptionEntity] | Empty = Empty.UNSET,
+            subscribers: list[SubscriberEntity] | Empty = Empty.UNSET
     ) -> None:
         """
         Обнавление информации, пользователя
