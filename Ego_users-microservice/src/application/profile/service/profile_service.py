@@ -5,7 +5,9 @@ from src.application.profile.use_cases import (
     CreateProfileData,
     CreateProfile,
     DeleteProfileData,
-    DeleteProfile
+    DeleteProfile,
+    UpdateProfileData,
+    UpdateProfile
 )
 
 
@@ -22,8 +24,11 @@ class ProfileService:
         self._uow = uow
         self._mapper = mapper
 
-    async def create_profile(self, data: CreateProfileData) -> dto.Profile:
+    async def create_profile(self, data: CreateProfileData) -> dto.CreatedProfile:
         return await CreateProfile(uow=self._uow, mapper=self._mapper)(data=data)
 
     async def delete_profile(self, data: DeleteProfileData) -> dto.DeletedProfile:
         return await DeleteProfile(uow=self._uow, mapper=self._mapper)(data=data)
+
+    async def update_profile(self, data: UpdateProfileData) -> dto.UpdatedProfile:
+        return await UpdateProfile(uow=self._uow, mapper=self._mapper)(data=data)

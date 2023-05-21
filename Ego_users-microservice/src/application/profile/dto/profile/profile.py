@@ -3,8 +3,8 @@ from datetime import datetime
 from pydantic import Field
 
 from src.application.common import DTO
-from src.application.profile.dto.file import File
-from src.application.profile.dto.post import Post
+from src.application.profile.dto import File
+from src.application.profile.dto import Post
 
 
 class Profile(DTO):

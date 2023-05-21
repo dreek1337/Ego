@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from src.domain import ProfileAggregat
-from src.application.profile.dto import Profile
+from src.application.profile import dto
 from src.application.profile.uow import ProfileUoW
 from src.application.common import (
     Mapper,
@@ -36,7 +36,7 @@ class CreateProfile(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: CreateProfileData) -> Profile:
+    async def __call__(self, data: CreateProfileData) -> dto.CreatedProfile:
         """
         Создание профиля
         """
@@ -51,6 +51,6 @@ class CreateProfile(BaseUseCase):
         await self._uow.profile_repo.create_profile(profile)
         await self._uow.commit()
 
-        profile_dto = self._mapper.load(profile, Profile)
+        profile_dto = self._mapper.load(profile, dto.CreatedProfile)
 
         return profile_dto
