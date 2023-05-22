@@ -1,5 +1,5 @@
-from pydantic import BaseModel
+from abc import ABC
 
 
-class DTO(BaseModel):
+class DTO(ABC):
     """Базовый класс для DTO"""

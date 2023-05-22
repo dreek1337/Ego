@@ -8,6 +8,9 @@ from pydantic import BaseModel
 class UseCaseData(BaseModel, ABC):
     """Модель данных для UseCase"""
 
+    class Config:
+        frozen = True
+
 
 class BaseUseCase(ABC):
     @abstractmethod

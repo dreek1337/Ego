@@ -1,6 +1,5 @@
-from .profile import (
-    ProfileAggregat,
-    PostEntity,
+from src.domain.user import (
+    UserAggregate,
     FileEntity,
     SubscriberEntity,
     SubscriptionEntity

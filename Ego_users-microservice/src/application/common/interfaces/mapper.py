@@ -9,5 +9,5 @@ T = TypeVar("T")
 
 class Mapper(ABC):
     @abstractmethod
-    def load(self, data: Any, class_: type[T]) -> T:
-        """Переработка модели в другую модель"""
+    def load(self, data: Any, model: type[T]) -> T:
+        """Переработка данных в другую модель"""
