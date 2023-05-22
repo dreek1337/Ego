@@ -5,11 +5,11 @@ from abc import (
 from pydantic import BaseModel
 
 
-class UseCaseData(BaseModel, ABC):
+class UseCaseData(ABC, BaseModel):
     """Модель данных для UseCase"""
 
-    class Config:
-        frozen = True
+    class Config(ABC):
+        """Конфигурации модели"""
 
 
 class BaseUseCase(ABC):

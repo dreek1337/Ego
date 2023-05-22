@@ -1,4 +1,5 @@
 from src.application.common.dto import DTO
+from src.application.common.services import Service
 from src.application.common.use_cases import (
     BaseUseCase,
     UseCaseData

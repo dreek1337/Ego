@@ -1,22 +1,22 @@
 from typing import Self
 
 from dataclasses import (
-    dataclass,
-    field
+    field,
+    dataclass
 )
 
 
 from src.domain.common import Empty
 from src.domain.user.exceptions import UserIsDeleted
 from src.domain.user.value_objects import (
+    UserId,
     UserGender,
-    UserBirthday,
-    UserId
+    UserBirthday
 )
 from src.domain.user.entities import (
-    FileEntity,
-    SubscriptionEntity,
-    SubscriberEntity
+    AvatarEntity,
+    SubscriberEntity,
+    SubscriptionEntity
 )
 
 
@@ -30,9 +30,9 @@ class UserAggregate:
     last_name: str
     gender: UserGender
     birthday: UserBirthday
-    photo: FileEntity | None = field(default=None)
-    subscriptions: list[SubscriptionEntity] | None = field(default=None)
     subscribers: list[SubscriberEntity] | None = field(default=None)
+    subscriptions: list[SubscriptionEntity] | None = field(default=None)
+    avatar: AvatarEntity | None = field(default=None)
     deleted: bool = field(default=False)
 
     @classmethod
@@ -58,33 +58,6 @@ class UserAggregate:
 
         return user
 
-    @property
-    def full_name(self) -> str:
-        """
-        Отображение полного имени
-        """
-        return f"{self.first_name} {self.last_name}"
-
-    @property
-    def count_of_subscriptions(self) -> int:
-        """
-        Колличество подписок
-        """
-        if self.subscriptions:
-            return len(self.subscriptions)
-
-        return 0
-
-    @property
-    def count_of_subscribers(self) -> int:
-        """
-        Колличество подписчиков
-        """
-        if self.subscribers:
-            return len(self.subscribers)
-
-        return 0
-
     def update(
             self,
             *,
@@ -107,9 +80,40 @@ class UserAggregate:
         if birthday is not Empty.UNSET:
             self.birthday = birthday
 
+    def count_of_subscribers(self):
+        """
+        Подсчет кол-ва подписчиков у пользователя
+        """
+        if self.subscribers:
+            return len(self.subscribers)
+
+        return 0
+
+    def count_of_subscriptions(self):
+        """
+        Подсчет кол-ва подписок у пользователя
+        """
+        if self.subscriptions:
+            return len(self.subscriptions)
+
+        return 0
+
+    def set_photo(self, avatar: AvatarEntity | None):
+        """
+        Установка аватара
+        """
+        if avatar:
+            self.avatar = avatar
+
     def delete_user(self) -> None:
+        """
+        Удаление пользователя
+        """
         self.deleted = True
 
     def _check_on_delete(self) -> None:
+        """
+        Проверка на удаленного пользователя
+        """
         if self.deleted:
             raise UserIsDeleted(self.user_id.to_int)

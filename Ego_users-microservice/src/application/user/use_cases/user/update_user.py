@@ -1,3 +1,5 @@
+from pydantic import BaseModel
+
 from src.application.user import dto
 from src.domain.common.constants import Empty
 from src.application.user.uow import UserUoW
@@ -16,6 +18,10 @@ class UpdateUserData(UseCaseData):
     gender: str | Empty = Empty.UNSET
     birthday: str | Empty = Empty.UNSET
 
+    class Config:
+        frozen = True
+
+
 
 class UpdateUser(BaseUseCase):
     """
@@ -30,8 +36,8 @@ class UpdateUser(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: UpdateUserData) -> dto.UpdatedUser:
-        user = await self._uow.user_repo.get_user_by_id(user_id=UserId(data.user_id))
+    async def __call__(self, data: UpdateUserData) -> dto.UpdatedUserDTO:
+        user = await self._uow.user_repo.get_user_by_id(user_id=UserId(value=data.user_id))
 
         user.update(
             first_name=data.first_name,

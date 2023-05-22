@@ -3,6 +3,11 @@ from abc import (
     abstractmethod
 )
 
+from src.domain.user.value_objects import (
+    UserId,
+    SubscriptionId
+)
+
 
 class SubscriptionRepo(ABC):
     """
@@ -12,8 +17,8 @@ class SubscriptionRepo(ABC):
     async def subscribe(
             self,
             *,
-            profile_id: int,
-            subscriber_id: int
+            user_id: UserId,
+            subscriber_id: SubscriptionId
     ) -> None:
         """Подписаться на пользователя"""
 
@@ -21,7 +26,7 @@ class SubscriptionRepo(ABC):
     async def unsubscribe(
             self,
             *,
-            profile_id: int,
-            subscriber_id: int
+            user_id: UserId,
+            subscriber_id: SubscriptionId
     ) -> None:
         """Отписаться от пользователя"""

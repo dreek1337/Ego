@@ -1,11 +1,15 @@
-from src.application.user.dto.file.file import File
+from src.application.user.dto.avatar.avatardto import AvatarDTO
+from src.application.user.dto.avatar import (
+    SetAvatarDTO,
+    DeletedAvatarDTO
+)
+from src.application.user.dto.subscription.subscription_data import (
+    Subscription,
+    Subscriber
+)
 from src.application.user.dto.user import (
     CreatedUserDTO,
     DeletedUserDTO,
-    UpdatedUser,
-    User
-)
-from src.application.user.dto.subscription.subsription import (
-    Subscription,
-    Subscriber
+    UpdatedUserDTO,
+    UserDTO
 )

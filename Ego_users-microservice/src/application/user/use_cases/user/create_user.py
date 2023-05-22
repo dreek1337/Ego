@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from pydantic import BaseModel
+
 from src.domain import UserAggregate
 from src.application.user import dto
 from src.application.user.uow import UserUoW
@@ -22,6 +24,9 @@ class CreateUserData(UseCaseData):
     gender: str
     birthday: datetime
 
+    class Config:
+        frozen = True
+
 
 class CreateUser(BaseUseCase):
     """
@@ -38,7 +43,7 @@ class CreateUser(BaseUseCase):
 
     async def __call__(self, data: CreateUserData) -> dto.CreatedUserDTO:
         user = UserAggregate.create_user(
-            user_id=UserId(data.user_id),
+            user_id=UserId(value=data.user_id),
             first_name=data.first_name,
             last_name=data.last_name,
             gender=UserGender(data.gender),

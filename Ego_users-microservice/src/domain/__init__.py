@@ -1,6 +1,6 @@
 from src.domain.user import (
     UserAggregate,
-    FileEntity,
+    AvatarEntity,
     SubscriberEntity,
     SubscriptionEntity
 )

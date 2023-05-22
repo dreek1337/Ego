@@ -1,21 +1,25 @@
 from dataclasses import dataclass
 from typing import Self
 
+from src.domain import AvatarEntity
+from src.domain.user.value_objects import SubscriptionId
+
 
 @dataclass
 class BaseSubscriptionAndSubscriber:
     """
     Модель подписок/подписчиков
     """
-    user_id: int
+    user_id: SubscriptionId
     first_name: str
     last_name: str
+    avatar: AvatarEntity | None
 
     @classmethod
     def create_subscriber(
             cls,
             *,
-            user_id: int,
+            user_id: SubscriptionId,
             first_name: str,
             last_name: str
     ) -> Self:
