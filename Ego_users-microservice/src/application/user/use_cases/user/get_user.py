@@ -30,11 +30,9 @@ class GetUser(BaseUseCase):
 
     async def __call__(self, data: GetUserData) -> dto.UserDTO:
         user = await self._uow.user_repo.get_user_by_id(user_id=UserId(value=data.user_id))
-        avatar = await self._uow.avatar_repo.get_avatar_by_id(user_id=UserId(value=data.user_id))
         subscribers = await self._uow.subscription_repo.get_subscribers_by_id(user_id=UserId(value=data.user_id))
         subscriptions = await self._uow.subscription_repo.get_subscriptions_by_id(user_id=UserId(value=data.user_id))
 
-        user.set_avatar(avatar=avatar)
         user.set_subscribers(subscribers=subscribers)
         user.set_subscriptions(subscriptions=subscriptions)
 
