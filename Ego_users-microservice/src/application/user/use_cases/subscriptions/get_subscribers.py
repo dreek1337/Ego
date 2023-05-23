@@ -8,16 +8,16 @@ from src.application.common import (
 )
 
 
-class DeleteAvatarData(UseCaseData):
+class GetSubscribersData(UseCaseData):
     user_id: int
 
     class Config:
         frozen = True
 
 
-class DeleteAvatar(BaseUseCase):
+class GetSubscribers(BaseUseCase):
     """
-    Сохранение аватара
+    Получение всех подписчиков
     """
     def __init__(
             self,
@@ -28,10 +28,9 @@ class DeleteAvatar(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: DeleteAvatarData) -> dto.DeletedAvatarDTO:
-        await self._uow.avatar_repo.delete_avatar(user_id=UserId(value=data.user_id))
-        await self._uow.commit()
+    async def __call__(self, data: GetSubscribersData) -> dto.SubscribersDTO:
+        subscribers = await self._uow.subscription_repo.get_subscribers_by_id(user_id=UserId(value=data.user_id))
 
-        deleted_avatar_dto = self._mapper.load(data=data, model=dto.DeletedAvatarDTO)
+        subscribers_dto = self._mapper.load(data=subscribers, model=dto.SubscribersDTO)
 
-        return deleted_avatar_dto
+        return subscribers_dto

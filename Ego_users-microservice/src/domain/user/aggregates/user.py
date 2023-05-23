@@ -80,7 +80,7 @@ class UserAggregate:
         if birthday is not Empty.UNSET:
             self.birthday = birthday
 
-    def count_of_subscribers(self):
+    def count_of_subscribers(self) -> int:
         """
         Подсчет кол-ва подписчиков у пользователя
         """
@@ -89,7 +89,7 @@ class UserAggregate:
 
         return 0
 
-    def count_of_subscriptions(self):
+    def count_of_subscriptions(self) -> int:
         """
         Подсчет кол-ва подписок у пользователя
         """
@@ -98,12 +98,26 @@ class UserAggregate:
 
         return 0
 
-    def set_photo(self, avatar: AvatarEntity | None):
+    def set_avatar(self, avatar: AvatarEntity | None) -> None:
         """
         Установка аватара
         """
         if avatar:
             self.avatar = avatar
+
+    def set_subscribers(self, subscribers: list[SubscriberEntity] | None) -> None:
+        """
+        Установка подпичсиков
+        """
+        if subscribers:
+            self.subscribers = subscribers
+
+    def set_subscriptions(self, subscriptions: list[SubscriptionEntity] | None) -> None:
+        """
+        Установка подписок
+        """
+        if subscriptions:
+            self.subscriptions = subscriptions
 
     def delete_user(self) -> None:
         """

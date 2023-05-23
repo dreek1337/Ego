@@ -1,5 +1,3 @@
-from pydantic import BaseModel
-
 from src.application.user import dto
 from src.domain.common.constants import Empty
 from src.application.user.uow import UserUoW
@@ -20,7 +18,6 @@ class UpdateUserData(UseCaseData):
 
     class Config:
         frozen = True
-
 
 
 class UpdateUser(BaseUseCase):
@@ -48,6 +45,6 @@ class UpdateUser(BaseUseCase):
         await self._uow.user_repo.update_user(user=user)
         await self._uow.commit()
 
-        profile_dto = self._mapper.load(data=user, model=dto.UpdatedProfile)
+        updated_user_dto = self._mapper.load(data=user, model=dto.UpdatedUserDTO)
 
-        return profile_dto
+        return updated_user_dto

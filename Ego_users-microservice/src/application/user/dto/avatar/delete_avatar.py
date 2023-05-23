@@ -1,14 +1,11 @@
-from pydantic import (
-    Field,
-    UUID4
-)
+from pydantic import Field
 
 from src.application.common import DTO
 
 
 class DeletedAvatarDTO(DTO):
     """Информация об удаленном файле"""
-    avatar_id: UUID4 = Field(..., descriprion="Айди фалйа")
+    user_id: int = Field(..., descriprion="Айди пользователя, у которого удаляем аватар")
 
     class Config:
         frozen = True

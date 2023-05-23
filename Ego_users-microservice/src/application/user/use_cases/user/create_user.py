@@ -53,6 +53,6 @@ class CreateUser(BaseUseCase):
         await self._uow.user_repo.create_user(user=user)
         await self._uow.commit()
 
-        user_dto = self._mapper.load(data=user, model=dto.CreatedUserDTO)
+        created_user_dto = self._mapper.load(data=user, model=dto.CreatedUserDTO)
 
-        return user_dto
+        return created_user_dto

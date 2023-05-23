@@ -10,3 +10,7 @@ from src.application.user.use_cases.user.update_user import (
     UpdateUserData,
     UpdateUser
 )
+from src.application.user.use_cases.user.get_user import (
+    GetUser,
+    GetUserData
+)

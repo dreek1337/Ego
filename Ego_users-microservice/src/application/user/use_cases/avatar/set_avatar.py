@@ -1,4 +1,8 @@
-from pydantic import UUID4
+from pydantic import (
+    UUID4,
+    Field
+)
+
 from src.domain import AvatarEntity
 from src.application.user import dto
 from src.application.user.uow import UserUoW
@@ -8,13 +12,14 @@ from src.application.common import (
     UseCaseData
 )
 from src.domain.user.value_objects import (
+    UserId,
     AvatarId,
     AvatarType
 )
 
 
 class SetAvatarData(UseCaseData):
-    avatar_id: UUID4
+    avatar_id: UUID4 = Field(UUID4, description="Айди аватара")
     avatar_type: str
     avatar_content: bytes
     user_id: int
@@ -43,9 +48,12 @@ class SetAvatar(BaseUseCase):
             avatar_content=data.avatar_content
         )
 
-        await self._uow.avatar_repo.set_avatar(avatar=avatar)
+        await self._uow.avatar_repo.set_avatar(
+            user_id=UserId(value=data.user_id),
+            avatar=avatar
+        )
         await self._uow.commit()
 
-        avatar_dto = self._mapper.load(data=avatar, model=dto.SetAvatarDTO)
+        set_avatar_dto = self._mapper.load(data=avatar, model=dto.SetAvatarDTO)
 
-        return avatar_dto
+        return set_avatar_dto

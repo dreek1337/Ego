@@ -1,12 +1,13 @@
 from src.application.common import DTO
-from src.application.user.dto.subscription.subscription_data import Subscriber
+from src.application.user.dto.subscription.subscriptiondto import SubscriptionDTO
 
 
-class Subscribers(DTO):
+class SubscribersDTO(DTO):
     """
     Модель подписчиков
     """
-    users: list[Subscriber]
+    subscribers: list[SubscriptionDTO]
 
     class Config:
         frozen = True
+        arbitrary_types_allowed = True

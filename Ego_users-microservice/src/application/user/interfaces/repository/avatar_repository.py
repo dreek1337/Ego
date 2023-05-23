@@ -2,10 +2,9 @@ from abc import (
     ABC,
     abstractmethod
 )
-from typing import Any
 
 from src.domain import AvatarEntity
-from src.domain.user.value_objects import AvatarId
+from src.domain.user.value_objects import UserId
 
 
 class AvatarRepo(ABC):
@@ -13,13 +12,18 @@ class AvatarRepo(ABC):
     Репозиторий файла
     """
     @abstractmethod
-    async def get_avatar_by_id(self, avatar_id: AvatarId) -> AvatarEntity:
+    async def get_avatar_by_id(self, user_id: UserId) -> AvatarEntity:
         """Получение файла с помощью id"""
 
     @abstractmethod
-    async def set_avatar(self, avatar: AvatarEntity) -> None:
+    async def set_avatar(
+            self,
+            *,
+            user_id: UserId,
+            avatar: AvatarEntity
+    ) -> None:
         """Сохранение файла"""
 
     @abstractmethod
-    async def delete_avatar(self, avatar_id: AvatarId) -> Any:
+    async def delete_avatar(self, user_id: UserId) -> None:
         """Удаление файла"""

@@ -3,7 +3,7 @@ from pydantic import Field
 from src.application.common import DTO
 
 
-class BaseSubscription(DTO):
+class SubscriptionDTO(DTO):
     """
     Модель подписок/подписчиков
     """
@@ -14,11 +14,3 @@ class BaseSubscription(DTO):
 
     class Config:
         frozen = True
-
-
-class Subscription(BaseSubscription):
-    """Создание модели подписки"""
-
-
-class Subscriber(BaseSubscription):
-    """Создание модели подписчика"""
