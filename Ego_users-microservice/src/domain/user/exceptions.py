@@ -10,3 +10,10 @@ class UserIsDeleted(AbstractBaseException):
     @property
     def message(self) -> str:
         return f'The user with "{self.user_id}" id is deleted'
+
+
+class AvatarIsDeleted(AbstractBaseException):
+    """Ошибка об том, что аватар удален"""
+    @property
+    def message(self) -> str:
+        return f'User hasn\'t avatar'

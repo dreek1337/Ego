@@ -35,6 +35,9 @@ class UserService(Service):
     async def set_avatar(self, data: use_cases.SetAvatarData) -> dto.SetAvatarDTO:
         return await use_cases.SetAvatar(uow=self._uow, mapper=self._mapper)(data=data)
 
+    async def update_avatar(self, data: use_cases.UpdateAvatarData) -> dto.UpdatedAvatarDTO:
+        return await use_cases.UpdateAvatar(uow=self._uow, mapper=self._mapper)(data=data)
+
     async def delete_avatar(self, data: use_cases.DeleteAvatarData) -> dto.DeletedAvatarDTO:
         return await use_cases.DeleteAvatar(uow=self._uow, mapper=self._mapper)(data=data)
 

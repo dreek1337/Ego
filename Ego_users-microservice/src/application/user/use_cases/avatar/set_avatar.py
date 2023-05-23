@@ -42,7 +42,7 @@ class SetAvatar(BaseUseCase):
         self._uow = uow
 
     async def __call__(self, data: SetAvatarData) -> dto.SetAvatarDTO:
-        avatar = AvatarEntity.set_avatar(
+        avatar = AvatarEntity.create_avatar(
             avatar_id=AvatarId(value=data.avatar_id),
             avatar_type=AvatarType(value=data.avatar_type),
             avatar_content=data.avatar_content
