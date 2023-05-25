@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 
 from pydantic import Field
 
@@ -13,7 +13,7 @@ class CreatedUserDTO(DTO):
     first_name: str = Field(..., description='Имя пользователя')
     last_name: str = Field(..., description='Фамилия пользователя')
     gender: str = Field(..., description='Пол пользователя')
-    birthday: datetime = Field(..., description='День рождения пользователя')
+    birthday: date = Field(..., description='День рождения пользователя')
 
     class Config:
         frozen = True

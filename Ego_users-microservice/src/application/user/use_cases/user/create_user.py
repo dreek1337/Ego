@@ -1,7 +1,5 @@
 from datetime import datetime
 
-from pydantic import BaseModel
-
 from src.domain import UserAggregate
 from src.application.user import dto
 from src.application.user.uow import UserUoW

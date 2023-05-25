@@ -1,15 +1,15 @@
-from typing import Self
 from dataclasses import (
     dataclass,
     field
 )
 
+from src.domain.common import Entity
 from src.domain.user.entities import AvatarEntity
 from src.domain.user.value_objects import SubscriptionId
 
 
 @dataclass
-class BaseSubscriptionAndSubscriber:
+class BaseSubscriptionAndSubscriber(Entity):
     """
     Модель подписок/подписчиков
     """
@@ -26,7 +26,7 @@ class BaseSubscriptionAndSubscriber:
             first_name: str,
             last_name: str,
             avatar: AvatarEntity | None = None
-    ) -> Self:
+    ) -> 'BaseSubscriptionAndSubscriber':
         """
         Создание модели подписчики/подписчика
         """

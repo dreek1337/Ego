@@ -1,4 +1,4 @@
-from src.application.user.dto import DeletedAvatarDTO
+from src.application.user.dto.avatar.delete_avatar import DeletedAvatarDTO
 
 
 class UpdatedAvatarDTO(DeletedAvatarDTO):

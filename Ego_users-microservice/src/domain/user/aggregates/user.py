@@ -1,12 +1,10 @@
-from typing import Self
-
 from dataclasses import (
     field,
     dataclass
 )
 
 
-from src.domain.common import Empty
+from src.domain.common import Empty, Aggregate
 from src.domain.user.exceptions import UserIsDeleted
 from src.domain.user.value_objects import (
     UserId,
@@ -21,7 +19,7 @@ from src.domain.user.entities import (
 
 
 @dataclass
-class UserAggregate:
+class UserAggregate(Aggregate):
     """
     Полная модель пользователя
     """
@@ -32,6 +30,8 @@ class UserAggregate:
     birthday: UserBirthday
     subscribers: list[SubscriberEntity] | None = field(default=None)
     subscriptions: list[SubscriptionEntity] | None = field(default=None)
+    count_of_subscribers: int = field(default=0)
+    count_of_subscriptions: int = field(default=0)
     avatar: AvatarEntity | None = field(default=None)
     deleted: bool = field(default=False)
 
@@ -44,7 +44,7 @@ class UserAggregate:
             last_name: str,
             gender: UserGender,
             birthday: UserBirthday,
-    ) -> Self:
+    ) -> 'UserAggregate':
         """
         Создание модели пользователя
         """
@@ -80,23 +80,23 @@ class UserAggregate:
         if birthday is not Empty.UNSET:
             self.birthday = birthday
 
-    def count_of_subscribers(self) -> int:
+    def set_count_of_subscribers(self) -> None:
         """
         Подсчет кол-ва подписчиков у пользователя
         """
         if self.subscribers:
-            return len(self.subscribers)
+            self.count_of_subscribers = len(self.subscribers)
 
-        return 0
+        self.count_of_subscribers = 0
 
-    def count_of_subscriptions(self) -> int:
+    def set_count_of_subscriptions(self) -> None:
         """
         Подсчет кол-ва подписок у пользователя
         """
         if self.subscriptions:
-            return len(self.subscriptions)
+            self.count_of_subscriptions = len(self.subscriptions)
 
-        return 0
+        self.count_of_subscriptions = 0
 
     def set_avatar(self, avatar: AvatarEntity | None) -> None:
         """
@@ -130,4 +130,4 @@ class UserAggregate:
         Проверка на удаленного пользователя
         """
         if self.deleted:
-            raise UserIsDeleted(self.user_id.to_int)
+            raise UserIsDeleted(user_id=self.user_id.to_int)

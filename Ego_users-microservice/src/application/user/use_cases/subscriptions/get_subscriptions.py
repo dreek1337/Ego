@@ -29,8 +29,13 @@ class GetSubscriptions(BaseUseCase):
         self._uow = uow
 
     async def __call__(self, data: GetSubscriptionsData) -> dto.SubscriptionsDTO:
-        subscriptions = await self._uow.subscription_repo.get_subscribers_by_id(user_id=UserId(value=data.user_id))
+        subscriptions = await self._uow.subscription_repo.get_subscribers_by_id(
+            user_id=UserId(value=data.user_id)
+        )
 
-        subscription_dto = self._mapper.load(data=subscriptions, model=dto.SubscriptionsDTO)
+        subscription_dto = self._mapper.load(
+            data=subscriptions,
+            model=dto.SubscriptionsDTO
+        )
 
         return subscription_dto

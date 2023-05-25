@@ -1,3 +1,5 @@
+import uuid
+
 from pydantic import (
     UUID4,
     Field
@@ -19,7 +21,7 @@ from src.domain.user.value_objects import (
 
 
 class SetAvatarData(UseCaseData):
-    avatar_id: UUID4 = Field(UUID4(), description="Айди аватара")
+    avatar_id: UUID4 = Field(uuid.uuid4(), description="Айди аватара")
     avatar_type: str
     avatar_content: bytes
     user_id: int

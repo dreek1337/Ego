@@ -1,7 +1,13 @@
+from datetime import date
+
 from src.application.user import dto
 from src.domain.common.constants import Empty
 from src.application.user.uow import UserUoW
-from src.domain.user.value_objects import UserId
+from src.domain.user.value_objects import (
+    UserId,
+    UserGender,
+    UserBirthday
+)
 from src.application.common import (
     Mapper,
     BaseUseCase,
@@ -11,10 +17,10 @@ from src.application.common import (
 
 class UpdateUserData(UseCaseData):
     user_id: int
-    first_name: str | Empty = Empty.UNSET
-    last_name: str | Empty = Empty.UNSET
-    gender: str | Empty = Empty.UNSET
-    birthday: str | Empty = Empty.UNSET
+    first_name: str | Empty
+    last_name: str | Empty
+    gender: str | Empty
+    birthday: date | Empty
 
     class Config:
         frozen = True
@@ -34,13 +40,25 @@ class UpdateUser(BaseUseCase):
         self._uow = uow
 
     async def __call__(self, data: UpdateUserData) -> dto.UpdatedUserDTO:
-        user = await self._uow.user_repo.get_user_by_id(user_id=UserId(value=data.user_id))
+        user = await self._uow.user_repo.get_user_by_id(
+            user_id=UserId(value=data.user_id)
+        )
+        user_gender: UserGender | Empty = (
+            UserGender(value=data.gender)
+            if data.gender is not Empty.UNSET
+            else Empty.UNSET
+        )
+        user_birthday: UserBirthday | Empty = (
+            UserBirthday(value=data.birthday)
+            if data.birthday is not Empty.UNSET
+            else Empty.UNSET
+        )
 
         user.update(
             first_name=data.first_name,
             last_name=data.last_name,
-            gender=data.gender,
-            birthday=data.birthday
+            gender=user_gender,
+            birthday=user_birthday
         )
         await self._uow.user_repo.update_user(user=user)
         await self._uow.commit()

@@ -1,1 +1,1 @@
-from src.application.common.services.service import Service
+from src.application.common.services.base import Service

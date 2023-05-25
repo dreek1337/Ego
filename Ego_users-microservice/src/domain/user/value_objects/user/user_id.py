@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 
+from src.domain.common import ValueObject
+
 
 @dataclass(frozen=True)
-class UserId:
+class UserId(ValueObject[int]):
     value: int
 
     @property

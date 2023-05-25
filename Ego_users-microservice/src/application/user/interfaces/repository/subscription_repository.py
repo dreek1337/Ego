@@ -18,11 +18,17 @@ class SubscriptionRepo(ABC):
     Репозиторий подпичок
     """
     @abstractmethod
-    async def get_subscriptions_by_id(self, user_id: UserId) -> list[SubscriptionEntity]:
+    async def get_subscriptions_by_id(
+            self,
+            user_id: UserId
+    ) -> list[SubscriptionEntity]:
         """Получение подписок"""
 
     @abstractmethod
-    async def get_subscribers_by_id(self, user_id: UserId) -> list[SubscriberEntity]:
+    async def get_subscribers_by_id(
+            self,
+            user_id: UserId
+    ) -> list[SubscriberEntity]:
         """Получение подписчиков"""
 
     @abstractmethod

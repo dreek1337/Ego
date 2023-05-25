@@ -29,7 +29,9 @@ class DeleteAvatar(BaseUseCase):
         self._uow = uow
 
     async def __call__(self, data: DeleteAvatarData) -> dto.DeletedAvatarDTO:
-        avatar = await self._uow.avatar_repo.get_avatar_by_id(user_id=UserId(value=data.user_id))
+        avatar = await self._uow.avatar_repo.get_avatar_by_id(
+            user_id=UserId(value=data.user_id)
+        )
 
         avatar.delete()
         await self._uow.avatar_repo.update_avatar(avatar=avatar)

@@ -1,9 +1,13 @@
-from datetime import datetime
+from datetime import date
 
 from pydantic import Field
 
 from src.application.common import DTO
-from src.application.user.dto.avatar.avatardto import AvatarDTO
+from src.application.user.dto.avatar import AvatarDTO
+from src.application.user.dto.subscription import (
+    SubscribersDTO,
+    SubscriptionsDTO
+)
 
 
 class UserDTO(DTO):
@@ -14,11 +18,13 @@ class UserDTO(DTO):
     first_name: str = Field(..., description='Имя пользователя')
     last_name: str = Field(..., description='Фамилия пользователя')
     gender: str = Field(..., description='Пол пользователя')
-    birthday: datetime = Field(..., description='День рождения пользователя')
+    birthday: date = Field(..., description='День рождения пользователя')
     photo: AvatarDTO | None = Field(None, description='Аватарка пользователя')
-    subscriptions: int = Field(..., description='Колличество подписок')
-    subscribers: int = Field(..., description='Колличество подписчиков')
-    deleted: bool = Field(False, description='Указывает, что пользователь удален/неудален')
+    subscriptions: SubscribersDTO | None = Field(..., description='Кол-во подписок')
+    subscribers: SubscriptionsDTO | None = Field(..., description='Кол-во подписчиков')
+    count_of_subscriptions: int = Field(..., description='Кол-во подписок')
+    count_of_subscribers: int = Field(..., description='Кол-во подписчиков')
+    deleted: bool = Field(False, description='Пользователь удален/неудален')
 
     class Config:
         frozen = True

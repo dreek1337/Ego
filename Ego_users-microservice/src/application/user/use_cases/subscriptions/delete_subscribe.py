@@ -39,6 +39,9 @@ class DeleteSubscription(BaseUseCase):
         )
         await self._uow.commit()
 
-        delete_subscription_dto = self._mapper.load(data=data, model=dto.DeleteSubscriptionDTO)
+        delete_subscription_dto = self._mapper.load(
+            data=data,
+            model=dto.DeleteSubscriptionDTO
+        )
 
         return delete_subscription_dto

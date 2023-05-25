@@ -1,7 +1,4 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC
 from pydantic import BaseModel
 
 
@@ -13,6 +10,4 @@ class UseCaseData(ABC, BaseModel):
 
 
 class BaseUseCase(ABC):
-    @abstractmethod
-    async def __call__(self, data: UseCaseData):
-        """Вызов логики"""
+    """Базовй класс Юзкейса"""

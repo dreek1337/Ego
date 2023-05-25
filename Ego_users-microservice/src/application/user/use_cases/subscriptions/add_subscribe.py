@@ -39,6 +39,9 @@ class AddSubscription(BaseUseCase):
         )
         await self._uow.commit()
 
-        add_subscription_dto = self._mapper.load(data=data, model=dto.AddSubscriptionDTO)
+        add_subscription_dto = self._mapper.load(
+            data=data,
+            model=dto.AddSubscriptionDTO
+        )
 
         return add_subscription_dto

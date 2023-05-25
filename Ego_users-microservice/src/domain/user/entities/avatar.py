@@ -1,12 +1,13 @@
-from typing import Self
-
 from dataclasses import (
     dataclass,
     field
 )
 
-from src.domain.common import Empty
 from src.domain.user.exceptions import AvatarIsDeleted
+from src.domain.common import (
+    Empty,
+    Entity
+)
 from src.domain.user.value_objects import (
     AvatarType,
     AvatarId
@@ -14,11 +15,11 @@ from src.domain.user.value_objects import (
 
 
 @dataclass
-class AvatarEntity:
+class AvatarEntity(Entity):
     """
     Информация о файле
     """
-    avatar_id: AvatarId
+    avatar_id: AvatarId | None
     avatar_type: AvatarType | None
     avatar_content: bytes | None
     deleted: bool = field(default=False)
@@ -30,7 +31,7 @@ class AvatarEntity:
             avatar_id: AvatarId,
             avatar_type: AvatarType,
             avatar_content: bytes
-    ) -> Self:
+    ) -> 'AvatarEntity':
         """
         Создание файла
         """
