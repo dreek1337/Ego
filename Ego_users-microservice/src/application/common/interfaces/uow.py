@@ -7,8 +7,8 @@ from abc import (
 class UnitOfWork(ABC):
     @abstractmethod
     async def commit(self) -> None:
-        """Происходит коммит"""
+        """Сохранение изменений в бд"""
 
     @abstractmethod
     async def rollback(self) -> None:
-        """Происходит ролбэк"""
+        """Откат изменений в бд"""

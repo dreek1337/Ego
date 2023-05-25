@@ -15,7 +15,7 @@ class UserUoW(UnitOfWork, ABC):
             user_repo: UserRepo,
             avatar_repo: AvatarRepo,
             subscription_repo: SubscriptionRepo
-    ):
+    ) -> None:
         self.user_repo = user_repo
         self.avatar_repo = avatar_repo
         self.subscription_repo = subscription_repo
