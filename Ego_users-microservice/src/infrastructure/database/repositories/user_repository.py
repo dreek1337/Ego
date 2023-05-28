@@ -1,10 +1,14 @@
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 
-from src.application import UserRepo
 from src.domain import UserAggregate
+from src.application import UserRepo
 from src.domain.user.value_objects import UserId
-from src.infrastructure.database.models import Users, Avatars
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
+from src.infrastructure.database.models import (
+    Users,
+    Avatars
+)
 
 
 class UserRepoImpl(SQLAlchemyRepo, UserRepo):
@@ -19,15 +23,37 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
             select(Users, Avatars.avatar_content)
             .join(Users.avatar, isouter=True)
             .where(Users.user_id == user_id.to_int)
+            .with_for_update()
         )
-        user = await self._session.scalars(query)
+        user = await self._session.execute(query)
 
-        user_entity = self._mapper.load(data=user, model=UserAggregate)
+        if not user:
+            # raise UserIsNotExist(user_id.to_int)
+            pass
 
-        return user_entity
+        user_aggregate = self._mapper.load(data=user, model=UserAggregate)
+
+        return user_aggregate
 
     async def update_user(self, user: UserAggregate) -> None:
-        pass
+        """
+        Обновление данных пользователя в базе
+        """
+        user_model = self._mapper.load(user, Users)
+        try:
+            await self._session.merge(user_model)
+        except IntegrityError:
+            pass  # Добавить обрабокту ошибок
 
     async def create_user(self, user: UserAggregate) -> None:
-        pass
+        """
+        Создание пользователя в базе
+        """
+        user_model = self._mapper.load(user, Users)
+
+        self._session.add(user_model)
+
+        try:
+            await self._session.flush((user_model,))
+        except IntegrityError:
+            pass  # Добавить обрабокту ошибок

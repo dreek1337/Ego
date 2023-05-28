@@ -4,17 +4,16 @@ from dataclasses import (
 )
 
 
-from src.domain.common import Empty, Aggregate
+from src.domain.user.entities import AvatarEntity
 from src.domain.user.exceptions import UserIsDeleted
+from src.domain.common import (
+    Empty,
+    Aggregate
+)
 from src.domain.user.value_objects import (
     UserId,
     UserGender,
     UserBirthday
-)
-from src.domain.user.entities import (
-    AvatarEntity,
-    SubscriberEntity,
-    SubscriptionEntity
 )
 
 
@@ -28,8 +27,6 @@ class UserAggregate(Aggregate):
     last_name: str
     gender: UserGender
     birthday: UserBirthday
-    subscribers: list[SubscriberEntity] | None = field(default=None)
-    subscriptions: list[SubscriptionEntity] | None = field(default=None)
     count_of_subscribers: int = field(default=0)
     count_of_subscriptions: int = field(default=0)
     avatar: AvatarEntity | None = field(default=None)
@@ -80,23 +77,17 @@ class UserAggregate(Aggregate):
         if birthday is not Empty.UNSET:
             self.birthday = birthday
 
-    def set_count_of_subscribers(self) -> None:
+    def set_count_of_subscribers(self, count_of_subscribers: int) -> None:
         """
         Подсчет кол-ва подписчиков у пользователя
         """
-        if self.subscribers:
-            self.count_of_subscribers = len(self.subscribers)
+        self.count_of_subscribers = count_of_subscribers
 
-        self.count_of_subscribers = 0
-
-    def set_count_of_subscriptions(self) -> None:
+    def set_count_of_subscriptions(self, count_of_subscriptions: int) -> None:
         """
         Подсчет кол-ва подписок у пользователя
         """
-        if self.subscriptions:
-            self.count_of_subscriptions = len(self.subscriptions)
-
-        self.count_of_subscriptions = 0
+        self.count_of_subscriptions = count_of_subscriptions
 
     def set_avatar(self, avatar: AvatarEntity | None) -> None:
         """
@@ -104,20 +95,6 @@ class UserAggregate(Aggregate):
         """
         if avatar:
             self.avatar = avatar
-
-    def set_subscribers(self, subscribers: list[SubscriberEntity] | None) -> None:
-        """
-        Установка подпичсиков
-        """
-        if subscribers:
-            self.subscribers = subscribers
-
-    def set_subscriptions(self, subscriptions: list[SubscriptionEntity] | None) -> None:
-        """
-        Установка подписок
-        """
-        if subscriptions:
-            self.subscriptions = subscriptions
 
     def delete_user(self) -> None:
         """

@@ -9,6 +9,13 @@ from src.domain.user.exceptions import InvalidBirthdayDate
 class UserBirthday(ValueObject[date]):
     value: date
 
+    @property
+    def get_value(self) -> date:
+        """
+        Получение значения
+        """
+        return self.value
+
     def _validate(self) -> None:
         """
         Проверка на то, что пользователь не может родится в будущем

@@ -1,10 +1,10 @@
-from src.application.user.use_cases.subscriptions.add_subscribe import (
-    AddSubscription,
-    AddSubscriptionData
+from src.application.user.use_cases.subscriptions.subscribe import (
+    Subscribe,
+    SubscribeData
 )
-from src.application.user.use_cases.subscriptions.delete_subscribe import (
-    DeleteSubscription,
-    DeleteSubscriptionData
+from src.application.user.use_cases.subscriptions.unsubscribe import (
+    Unsubscribe,
+    UnsubscribeData
 )
 from src.application.user.use_cases.subscriptions.get_subscribers import (
     GetSubscribers,

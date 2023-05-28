@@ -19,7 +19,7 @@ class UserDTO(DTO):
     last_name: str = Field(..., description='Фамилия пользователя')
     gender: str = Field(..., description='Пол пользователя')
     birthday: date = Field(..., description='День рождения пользователя')
-    photo: AvatarDTO | None = Field(None, description='Аватарка пользователя')
+    avatar: AvatarDTO | None = Field(None, description='Аватарка пользователя')
     subscriptions: SubscribersDTO | None = Field(..., description='Кол-во подписок')
     subscribers: SubscriptionsDTO | None = Field(..., description='Кол-во подписчиков')
     count_of_subscriptions: int = Field(..., description='Кол-во подписок')

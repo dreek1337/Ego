@@ -1,7 +1,15 @@
-from src.domain.common import Empty
+from uuid import UUID
+
 from src.application.user import dto
 from src.application.user.uow import UserUoW
-from src.domain.user.value_objects import UserId, AvatarType
+from src.domain.common import (
+    Empty,
+    ValidAvatarType
+)
+from src.domain.user.value_objects import (
+    AvatarId,
+    AvatarType
+)
 from src.application.common import (
     Mapper,
     BaseUseCase,
@@ -11,7 +19,8 @@ from src.application.common import (
 
 class UpdateAvatarData(UseCaseData):
     user_id: int
-    avatar_type: str | Empty
+    avatar_id: UUID
+    avatar_type: ValidAvatarType | Empty
     avatar_content: bytes | Empty
 
     class Config:
@@ -33,7 +42,7 @@ class UpdateAvatar(BaseUseCase):
 
     async def __call__(self, data: UpdateAvatarData) -> dto.UpdatedAvatarDTO:
         avatar = await self._uow.avatar_repo.get_avatar_by_id(
-            user_id=UserId(value=data.user_id)
+            avatar_id=AvatarId(value=data.avatar_id)
         )
         avatar_type: AvatarType | Empty = (
             AvatarType(value=data.avatar_type)

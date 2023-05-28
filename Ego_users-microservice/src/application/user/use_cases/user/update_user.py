@@ -1,8 +1,11 @@
 from datetime import date
 
 from src.application.user import dto
-from src.domain.common.constants import Empty
 from src.application.user.uow import UserUoW
+from src.domain.common.constants import (
+    Empty,
+    GenderValue
+)
 from src.domain.user.value_objects import (
     UserId,
     UserGender,
@@ -19,7 +22,7 @@ class UpdateUserData(UseCaseData):
     user_id: int
     first_name: str | Empty
     last_name: str | Empty
-    gender: str | Empty
+    gender: GenderValue | Empty
     birthday: date | Empty
 
     class Config:

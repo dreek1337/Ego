@@ -15,7 +15,10 @@ class BaseValueObject(ABC):
     Базовый класс для во
     """
     def __post_init__(self) -> None:
-        """Пост обработка"""
+        """
+        Пост обработка, проверка на валидность данных
+        """
+        self._validate()
 
     def _validate(self) -> None:
         """Валидация данных"""

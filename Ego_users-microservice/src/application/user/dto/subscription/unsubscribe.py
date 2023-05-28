@@ -1,9 +1,11 @@
 from src.application.common import DTO
 
 
-class DeleteSubscriptionDTO(DTO):
-    """Модель отписки"""
-    user_id: int
+class UnsubscribeDTO(DTO):
+    """
+    Модель отписки
+    """
+    subscriber_id: int
     subscription_id: int
 
     class Config:

@@ -19,15 +19,17 @@ class AvatarEntity(Entity):
     """
     Информация о файле
     """
-    avatar_id: AvatarId | None
-    avatar_type: AvatarType | None
-    avatar_content: bytes | None
+    user_id: int
+    avatar_id: AvatarId
+    avatar_type: AvatarType
+    avatar_content: bytes
     deleted: bool = field(default=False)
 
     @classmethod
     def create_avatar(
             cls,
             *,
+            user_id: int,
             avatar_id: AvatarId,
             avatar_type: AvatarType,
             avatar_content: bytes
@@ -36,6 +38,7 @@ class AvatarEntity(Entity):
         Создание файла
         """
         avatar = AvatarEntity(
+            user_id=user_id,
             avatar_id=avatar_id,
             avatar_type=avatar_type,
             avatar_content=avatar_content

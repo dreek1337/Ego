@@ -14,7 +14,16 @@ class Subscriptions(Base):
     Таблица, которая хранит данные о подписчках пользователей
     """
     __tablename__ = 'subscriptions'
-    subscriber_id: Mapped[int] = mapped_column(sa.BigInteger, nullable=False)
-    user_id: Mapped[int] = mapped_column(sa.ForeignKey('users.user_id'))
+    subscription_id: Mapped[sa.BigInteger] = mapped_column(
+        sa.ForeignKey('users.user_id')
+    )
+    subscriber_id: Mapped[sa.BigInteger] = mapped_column(
+        sa.ForeignKey('users.user_id')
+    )
 
-    user: Mapped['Users'] = relationship(back_populates='subscriptions')
+    user_subscriptions: Mapped['Users'] = relationship(
+        back_populates='subscriptions'
+    )
+    user_subscribers: Mapped['Users'] = relationship(
+        back_populates='subscribers'
+    )

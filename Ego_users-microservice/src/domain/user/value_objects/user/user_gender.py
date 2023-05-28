@@ -5,8 +5,15 @@ from src.domain.user.exceptions import InvalidGender
 
 
 @dataclass(frozen=True)
-class UserGender(ValueObject[str]):
-    value: str
+class UserGender(ValueObject[GenderValue]):
+    value: GenderValue
+
+    @property
+    def get_value(self) -> GenderValue:
+        """
+        Получение значения
+        """
+        return self.value
 
     def _validate(self) -> None:
         """

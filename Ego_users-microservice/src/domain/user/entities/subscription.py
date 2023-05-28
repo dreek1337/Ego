@@ -1,48 +1,33 @@
-from dataclasses import (
-    dataclass,
-    field
-)
+from dataclasses import dataclass
 
 from src.domain.common import Entity
-from src.domain.user.entities import AvatarEntity
-from src.domain.user.value_objects import SubscriptionId
+from src.domain.user.value_objects import (
+    SubscriberId,
+    SubscriptionId
+)
 
 
 @dataclass
-class BaseSubscriptionAndSubscriber(Entity):
+class SubscriptionEntity(Entity):
     """
-    Модель подписок/подписчиков
+    Модель подписок
     """
-    user_id: SubscriptionId
-    first_name: str
-    last_name: str
-    avatar: AvatarEntity | None = field(default=None)
+    subscription_user_id: SubscriptionId
+    subscriber_user_id: SubscriberId
 
     @classmethod
-    def create_subscriber(
+    def subscribe(
             cls,
             *,
-            user_id: SubscriptionId,
-            first_name: str,
-            last_name: str,
-            avatar: AvatarEntity | None = None
-    ) -> 'BaseSubscriptionAndSubscriber':
+            subscription_id: SubscriptionId,
+            subscriber_id: SubscriberId
+    ) -> 'SubscriptionEntity':
         """
-        Создание модели подписчики/подписчика
+        Создание модели подписки
         """
-        subscription = BaseSubscriptionAndSubscriber(
-            user_id=user_id,
-            first_name=first_name,
-            last_name=last_name,
-            avatar=avatar
+        subscription = SubscriptionEntity(
+            subscription_user_id=subscription_id,
+            subscriber_user_id=subscriber_id
         )
 
         return subscription
-
-
-class SubscriptionEntity(BaseSubscriptionAndSubscriber):
-    """Создание модели подписки"""
-
-
-class SubscriberEntity(BaseSubscriptionAndSubscriber):
-    """Создание модели подписчика"""

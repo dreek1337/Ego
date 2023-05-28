@@ -17,10 +17,10 @@ from src.application.user.use_cases.user import (
     UpdateUser
 )
 from src.application.user.use_cases.subscriptions import (
-    AddSubscription,
-    AddSubscriptionData,
-    DeleteSubscription,
-    DeleteSubscriptionData,
+    Subscribe,
+    SubscribeData,
+    Unsubscribe,
+    UnsubscribeData,
     GetSubscribers,
     GetSubscribersData,
     GetSubscriptions,

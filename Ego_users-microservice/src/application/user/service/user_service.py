@@ -104,14 +104,14 @@ class UserService(Service):
             mapper=self._mapper
         )(data=data)
 
-    async def add_subscribe(
+    async def subscribe(
             self,
-            data: use_cases.AddSubscriptionData
-    ) -> dto.AddSubscriptionDTO:
+            data: use_cases.SubscribeData
+    ) -> dto.SubscribeDTO:
         """
         Подписаться на пользователя
         """
-        return await use_cases.AddSubscription(
+        return await use_cases.Subscribe(
             uow=self._uow,
             mapper=self._mapper
         )(data=data)
@@ -124,8 +124,7 @@ class UserService(Service):
         Получить всех подписчиков
         """
         return await use_cases.GetSubscribers(
-            uow=self._uow,
-            mapper=self._mapper
+            uow=self._uow
         )(data=data)
 
     async def get_subscriptions(
@@ -136,18 +135,17 @@ class UserService(Service):
         Получить все подписки
         """
         return await use_cases.GetSubscriptions(
-            uow=self._uow,
-            mapper=self._mapper
+            uow=self._uow
         )(data=data)
 
-    async def delete_subscribe(
+    async def unsubscribe(
             self,
-            data: use_cases.DeleteSubscriptionData
-    ) -> dto.DeleteSubscriptionDTO:
+            data: use_cases.UnsubscribeData
+    ) -> dto.UnsubscribeDTO:
         """
         Отписаться от пользователя
         """
-        return await use_cases.DeleteSubscription(
+        return await use_cases.Unsubscribe(
             uow=self._uow,
             mapper=self._mapper
         )(data=data)

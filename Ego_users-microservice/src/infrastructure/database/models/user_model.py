@@ -33,7 +33,14 @@ class Users(Base):
     birthday: Mapped[date] = mapped_column(sa.Date, nullable=False)
     deleted: Mapped[bool] = mapped_column(sa.Boolean, default=False)
 
-    avatar: Mapped['Avatars'] = relationship(back_populates='user')
-    subscriptions: Mapped['Subscriptions'] = relationship(back_populates='user')
+    avatar: Mapped['Avatars'] = relationship(
+        back_populates='user'
+    )
+    subscriptions: Mapped['Subscriptions'] = relationship(
+        back_populates='user_subscriptions'
+    )
+    subscribers: Mapped['Subscriptions'] = relationship(
+        back_populates='user_subscribers'
+    )
 
     time_updated: Mapped[datetime] = mapped_column(sa.DateTime, onupdate=sa.func.now())

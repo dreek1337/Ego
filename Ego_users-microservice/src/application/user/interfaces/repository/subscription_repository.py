@@ -3,12 +3,9 @@ from abc import (
     abstractmethod
 )
 
-from src.domain.user import (
-    SubscriberEntity,
-    SubscriptionEntity
-)
+from src.domain.user import SubscriptionEntity
 from src.domain.user.value_objects import (
-    UserId,
+    SubscriberId,
     SubscriptionId
 )
 
@@ -18,33 +15,18 @@ class SubscriptionRepo(ABC):
     Репозиторий подпичок
     """
     @abstractmethod
-    async def get_subscriptions_by_id(
-            self,
-            user_id: UserId
-    ) -> list[SubscriptionEntity]:
-        """Получение подписок"""
-
-    @abstractmethod
-    async def get_subscribers_by_id(
-            self,
-            user_id: UserId
-    ) -> list[SubscriberEntity]:
-        """Получение подписчиков"""
-
-    @abstractmethod
-    async def add_subscribe(
+    async def get_subscription_by_id(
             self,
             *,
-            user_id: UserId,
-            subscription_id: SubscriptionId
-    ) -> None:
+            subscription_id: SubscriptionId,
+            subscriber_id: SubscriberId
+    ) -> SubscriptionEntity:
+        """Получение подписки"""
+
+    @abstractmethod
+    async def subscribe(self, subscription: SubscriptionEntity) -> None:
         """Подписаться на пользователя"""
 
     @abstractmethod
-    async def delete_subscribe(
-            self,
-            *,
-            user_id: UserId,
-            subscription_id: SubscriptionId
-    ) -> None:
+    async def unsubscribe(self, subscription: SubscriptionEntity) -> None:
         """Отписаться от пользователя"""

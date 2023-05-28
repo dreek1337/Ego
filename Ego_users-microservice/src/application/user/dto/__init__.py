@@ -10,9 +10,9 @@ from src.application.user.dto.user import (
     UserDTO
 )
 from src.application.user.dto.subscription import (
-    AddSubscriptionDTO,
+    SubscribeDTO,
     SubscribersDTO,
-    DeleteSubscriptionDTO,
+    UnsubscribeDTO,
     SubscriptionDTO,
     SubscriptionsDTO
 )

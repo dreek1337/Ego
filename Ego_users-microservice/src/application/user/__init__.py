@@ -1,5 +1,8 @@
 from src.application.user.interfaces import (
     UserRepo,
     AvatarRepo,
-    SubscriptionRepo
+    SubscriptionRepo,
+    SubscriptionReader,
+    GetSubscriptionsOrder,
+    GetSubscriptionsFilters
 )

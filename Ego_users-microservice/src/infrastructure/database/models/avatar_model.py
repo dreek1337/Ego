@@ -24,6 +24,8 @@ class Avatars(Base):
     avatar_content: Mapped[bytes] = mapped_column(sa.LargeBinary, nullable=True)
     user_id: Mapped[int] = mapped_column(sa.ForeignKey('users.user_id'))
 
-    user: Mapped['Users'] = relationship(back_populates='avatar')
+    user: Mapped['Users'] = relationship(
+        back_populates='avatar'
+    )
 
     time_updated: Mapped[datetime] = mapped_column(sa.DateTime, onupdate=sa.func.now())

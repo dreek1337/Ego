@@ -4,7 +4,7 @@ from abc import (
 )
 
 from src.domain import AvatarEntity
-from src.domain.user.value_objects import UserId
+from src.domain.user.value_objects import AvatarId
 
 
 class AvatarRepo(ABC):
@@ -12,18 +12,17 @@ class AvatarRepo(ABC):
     Репозиторий файла
     """
     @abstractmethod
-    async def get_avatar_by_id(self, user_id: UserId) -> AvatarEntity:
+    async def get_avatar_by_id(self, avatar_id: AvatarId) -> AvatarEntity:
         """Получение файла с помощью id"""
 
     @abstractmethod
-    async def set_avatar(
-            self,
-            *,
-            user_id: UserId,
-            avatar: AvatarEntity
-    ) -> None:
+    async def set_avatar(self, avatar: AvatarEntity) -> None:
         """Сохранение файла"""
 
     @abstractmethod
     async def update_avatar(self, avatar: AvatarEntity) -> None:
+        """Обнавление файла"""
+
+    @abstractmethod
+    async def delete_avatar(self, avatar_id: AvatarId) -> None:
         """Удаление файла"""

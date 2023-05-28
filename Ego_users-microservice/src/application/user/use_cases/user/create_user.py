@@ -2,6 +2,7 @@ from datetime import datetime
 
 from src.domain import UserAggregate
 from src.application.user import dto
+from src.domain.common import GenderValue
 from src.application.user.uow import UserUoW
 from src.application.common import (
     Mapper,
@@ -19,7 +20,7 @@ class CreateUserData(UseCaseData):
     user_id: int
     first_name: str
     last_name: str
-    gender: str
+    gender: GenderValue
     birthday: datetime
 
     class Config:
