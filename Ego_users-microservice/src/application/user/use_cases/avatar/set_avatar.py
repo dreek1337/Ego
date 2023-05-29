@@ -11,7 +11,8 @@ from src.application.user.uow import UserUoW
 from src.domain.common import ValidAvatarType
 from src.domain.user.value_objects import (
     AvatarId,
-    AvatarType
+    AvatarType,
+    AvatarUserId
 )
 from src.application.common import (
     Mapper,
@@ -21,7 +22,7 @@ from src.application.common import (
 
 
 class SetAvatarData(UseCaseData):
-    user_id: int
+    avatar_user_id: int
     avatar_id: UUID4 = Field(uuid.uuid4(), description="Айди аватара")
     avatar_type: ValidAvatarType
     avatar_content: bytes
@@ -45,7 +46,7 @@ class SetAvatar(BaseUseCase):
 
     async def __call__(self, data: SetAvatarData) -> dto.SetAvatarDTO:
         avatar = AvatarEntity.create_avatar(
-            user_id=data.user_id,
+            user_id=AvatarUserId(value=data.avatar_user_id),
             avatar_id=AvatarId(value=data.avatar_id),
             avatar_type=AvatarType(value=data.avatar_type),
             avatar_content=data.avatar_content

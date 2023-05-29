@@ -42,7 +42,7 @@ class UpdateUser(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: UpdateUserData) -> dto.UpdatedUserDTO:
+    async def __call__(self, data: UpdateUserData) -> dto.UserDTO:
         user = await self._uow.user_repo.get_user_by_id(
             user_id=UserId(value=data.user_id)
         )
@@ -66,9 +66,9 @@ class UpdateUser(BaseUseCase):
         await self._uow.user_repo.update_user(user=user)
         await self._uow.commit()
 
-        updated_user_dto = self._mapper.load(
+        user_dto = self._mapper.load(
             from_model=user,
-            to_model=dto.UpdatedUserDTO
+            to_model=dto.UserDTO
         )
 
-        return updated_user_dto
+        return user_dto

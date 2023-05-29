@@ -5,6 +5,7 @@ from src.application.user import (
     UserRepo,
     AvatarDTO,
     AvatarRepo,
+    DeletedUserDTO,
     SubscriptionRepo,
     SubscriptionReader,
     GetSubscriptionsOrder,

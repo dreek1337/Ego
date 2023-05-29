@@ -1,8 +1,6 @@
 from src.application.user.dto.user import (
     UserDTO,
-    CreatedUserDTO,
-    DeletedUserDTO,
-    UpdatedUserDTO,
+    DeletedUserDTO
 )
 from src.application.user.dto.avatar import (
     AvatarDTO,

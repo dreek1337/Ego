@@ -1,8 +1,6 @@
-from uuid import UUID
-
 from src.application.user import dto
 from src.application.user.uow import UserUoW
-from src.domain.user.value_objects import AvatarId
+from src.domain.user.value_objects import AvatarUserId
 from src.application.common import (
     Mapper,
     BaseUseCase,
@@ -11,7 +9,7 @@ from src.application.common import (
 
 
 class DeleteAvatarData(UseCaseData):
-    avatar_id: UUID
+    avatar_user_id: int
 
     class Config:
         frozen = True
@@ -31,8 +29,8 @@ class DeleteAvatar(BaseUseCase):
         self._uow = uow
 
     async def __call__(self, data: DeleteAvatarData) -> dto.DeletedAvatarDTO:
-        avatar = await self._uow.avatar_repo.get_avatar_by_id(
-            avatar_id=AvatarId(value=data.avatar_id)
+        avatar = await self._uow.avatar_repo.get_avatar_by_user_id(
+            avatar_user_id=AvatarUserId(value=data.avatar_user_id)
         )
 
         avatar.delete()

@@ -8,11 +8,11 @@ from src.domain.user.exceptions import InvalidAvatarType
 
 
 @dataclass(frozen=True)
-class AvatarType(ValueObject[ValidAvatarType]):
-    value: ValidAvatarType
+class AvatarType(ValueObject[str]):
+    value: str
 
     @property
-    def get_value(self) -> ValidAvatarType:
+    def get_value(self) -> str:
         """
         Возвращает значение
         """

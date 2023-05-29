@@ -5,6 +5,7 @@ from typing import (
 
 from src import application as app
 from src.domain import UserAggregate
+from src.infrastructure.database import models
 from src.infrastructure.mapper.convert import Convert
 from src.infrastructure.mapper import convert_functions as cf
 
@@ -16,7 +17,7 @@ class MapperImpl(app.Mapper):
     """
     Реализация маппера
     """
-    def __init__(self, convert_mappers: tuple[Convert]) -> None:
+    def __init__(self, convert_mappers: list[Convert]) -> None:
         self._convert_mappers = convert_mappers
 
     def load(
@@ -52,12 +53,37 @@ def create_convert() -> MapperImpl:
     """
     Инициализация маппера
     """
-    mapper = MapperImpl(convert_mappers=((
+    mapper = MapperImpl(convert_mappers=([
         Convert(
             from_model=UserAggregate,
             to_model=app.UserDTO,
             loader=cf.convert_user_aggregate_to_dto
         ),
-    )))
+        Convert(
+            from_model=UserAggregate,
+            to_model=app.DeletedUserDTO,
+            loader=cf.convert_deleted_user_aggregate_to_dto
+        ),
+        Convert(
+            from_model=UserAggregate,
+            to_model=models.Users,
+            loader=cf.convert_user_aggregate_to_db_model
+        ),
+        Convert(
+            from_model=models.Users,
+            to_model=UserAggregate,
+            loader=cf.convert_db_model_to_user_aggregate
+        ),
+        Convert(
+            from_model=models.Users,
+            to_model=app.UserDTO,
+            loader=cf.convert_db_model_to_user_dto
+        ),
+        Convert(
+            from_model=models.Users,
+            to_model=app.DeletedUserDTO,
+            loader=cf.convert_db_model_to_deleted_user_dto
+        )
+    ]))
 
     return mapper

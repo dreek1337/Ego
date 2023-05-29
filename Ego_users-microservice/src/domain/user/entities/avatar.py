@@ -9,8 +9,9 @@ from src.domain.common import (
     Entity
 )
 from src.domain.user.value_objects import (
+    AvatarId,
     AvatarType,
-    AvatarId
+    AvatarUserId
 )
 
 
@@ -19,7 +20,7 @@ class AvatarEntity(Entity):
     """
     Информация о файле
     """
-    user_id: int
+    avatar_user_id: AvatarUserId
     avatar_id: AvatarId
     avatar_type: AvatarType
     avatar_content: bytes
@@ -29,7 +30,7 @@ class AvatarEntity(Entity):
     def create_avatar(
             cls,
             *,
-            user_id: int,
+            user_id: AvatarUserId,
             avatar_id: AvatarId,
             avatar_type: AvatarType,
             avatar_content: bytes
@@ -38,7 +39,7 @@ class AvatarEntity(Entity):
         Создание файла
         """
         avatar = AvatarEntity(
-            user_id=user_id,
+            avatar_user_id=user_id,
             avatar_id=avatar_id,
             avatar_type=avatar_type,
             avatar_content=avatar_content

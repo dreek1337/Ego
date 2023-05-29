@@ -4,7 +4,10 @@ from abc import (
 )
 
 from src.domain import AvatarEntity
-from src.domain.user.value_objects import AvatarId
+from src.domain.user.value_objects import (
+    AvatarId,
+    AvatarUserId
+)
 
 
 class AvatarRepo(ABC):
@@ -12,7 +15,7 @@ class AvatarRepo(ABC):
     Репозиторий файла
     """
     @abstractmethod
-    async def get_avatar_by_id(self, avatar_id: AvatarId) -> AvatarEntity:
+    async def get_avatar_by_user_id(self, avatar_user_id: AvatarUserId) -> AvatarEntity:
         """Получение файла с помощью id"""
 
     @abstractmethod

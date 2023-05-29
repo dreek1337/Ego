@@ -40,7 +40,7 @@ class CreateUser(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: CreateUserData) -> dto.CreatedUserDTO:
+    async def __call__(self, data: CreateUserData) -> dto.UserDTO:
         user = UserAggregate.create_user(
             user_id=UserId(value=data.user_id),
             first_name=data.first_name,
@@ -54,7 +54,7 @@ class CreateUser(BaseUseCase):
 
         created_user_dto = self._mapper.load(
             from_model=user,
-            to_model=dto.CreatedUserDTO
+            to_model=dto.UserDTO
         )
 
         return created_user_dto

@@ -13,7 +13,7 @@ class AvatarDTO(DTO):
     avatar_id: UUID4 = Field(..., description='Айди файла')
     avatar_type: str = Field(..., description='Формат файла')
     avatar_content: bytes = Field(..., description='Байты файла')
-    user_id: int = Field(..., description='Айди пользователя, кому предналежит аватар')
+    avatar_user_id: int = Field(..., description='Айди пользователя')
 
     class Config:
         frozen = True

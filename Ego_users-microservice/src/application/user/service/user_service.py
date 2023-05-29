@@ -35,7 +35,7 @@ class UserService(Service):
     async def create_user(
             self,
             data: use_cases.CreateUserData
-    ) -> dto.CreatedUserDTO:
+    ) -> dto.UserDTO:
         """
         Сохранение данных пользователя в бд
         """
@@ -47,7 +47,7 @@ class UserService(Service):
     async def update_user(
             self,
             data: use_cases.UpdateUserData
-    ) -> dto.UpdatedUserDTO:
+    ) -> dto.UserDTO:
         """
         Обновление данных пользователя
         """
