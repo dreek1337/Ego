@@ -1,5 +1,6 @@
 from pydantic import (
     Field,
+    BaseModel,
     BaseSettings
 )
 
@@ -16,9 +17,16 @@ class DatabaseConfig(BaseSettings):
     echo: bool = Field(..., env='ORM_ECHO_SETTINGS')
 
     @property
-    def db_connection(self):
+    def db_connection_url(self):
         return f"postgres+asyncpg://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
 
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+
+
+class EngineConfig(BaseModel):
+    url: str = DatabaseConfig().db_connection_url  # type: ignore
+    echo_pool: bool = DatabaseConfig().echo  # type: ignore
+    future: bool = False
+    pool_size: int = 50

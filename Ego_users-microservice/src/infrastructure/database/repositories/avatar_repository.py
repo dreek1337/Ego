@@ -30,7 +30,7 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
             # raise AvatarIsNotExist(avatar_id.to_uuid)
             pass
 
-        avatar_entity = self._mapper.load(avatar, AvatarEntity)
+        avatar_entity = self._mapper.load(from_model=avatar, to_model=AvatarEntity)
 
         return avatar_entity
 
@@ -38,7 +38,7 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
         """
         Установка аватарки пользователю
         """
-        avatar_model = self._mapper.load(avatar, Avatars)
+        avatar_model = self._mapper.load(from_model=avatar, to_model=Avatars)
 
         self._session.add(avatar_model)
 
@@ -51,7 +51,7 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
         """
         Обнавление аватарки пользователя
         """
-        avatar_model = self._mapper.load(avatar, Avatars)
+        avatar_model = self._mapper.load(from_model=avatar, to_model=Avatars)
 
         try:
             await self._session.merge(avatar_model)

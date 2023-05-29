@@ -42,6 +42,6 @@ class GetUser(BaseUseCase):
         user.set_count_of_subscribers(count_of_subscribers=subscribers)
         user.set_count_of_subscriptions(count_of_subscriptions=subscriptions)
 
-        profile_dto = self._mapper.load(data=user, model=dto.UserDTO)
+        profile_dto = self._mapper.load(from_model=user, to_model=dto.UserDTO)
 
         return profile_dto

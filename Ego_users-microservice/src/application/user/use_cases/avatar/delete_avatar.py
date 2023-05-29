@@ -39,6 +39,9 @@ class DeleteAvatar(BaseUseCase):
         await self._uow.avatar_repo.delete_avatar(avatar_id=avatar.avatar_id)
         await self._uow.commit()
 
-        deleted_avatar_dto = self._mapper.load(data=avatar, model=dto.DeletedAvatarDTO)
+        deleted_avatar_dto = self._mapper.load(
+            from_model=avatar,
+            to_model=dto.DeletedAvatarDTO
+        )
 
         return deleted_avatar_dto

@@ -49,8 +49,8 @@ class Subscribe(BaseUseCase):
         await self._uow.commit()
 
         add_subscription_dto = self._mapper.load(
-            data=data,
-            model=dto.SubscribeDTO
+            from_model=data,
+            to_model=dto.SubscribeDTO
         )
 
         return add_subscription_dto

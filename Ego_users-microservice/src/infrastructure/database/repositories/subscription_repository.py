@@ -41,8 +41,12 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
         cte_query = (
             select(Subscriptions.subscription_id).label('subscription_id')
             .where(Subscriptions.subscriber_id == subscriber_id)
-            .cte()
         )
+        cte_query = add_filters(
+            query=cte_query,
+            filters=filters,
+            column_for_order=cte_query.subscription_id
+        ).cte()
 
         query = (
             select(
@@ -51,19 +55,16 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
                 Users.last_name,
                 Avatars.avatar_content
             )
-            .join(Users.subscriptions)
+            .join(Users)
             .join(Users.avatar, isouter=True)
-        )
-
-        query = add_filters(
-            query=query,
-            filters=filters,
-            column_for_order=cte_query.subscription_id
         )
 
         subscriptions = await self._session.execute(query)
 
-        subscriptions_dto = self._mapper.load(subscriptions, list[dto.SubscriptionDTO])
+        subscriptions_dto = self._mapper.load(
+            from_model=subscriptions,
+            to_model=list[dto.SubscriptionDTO]
+        )
 
         return subscriptions_dto
 
@@ -79,8 +80,12 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
         cte_query = (
             select(Subscriptions.subscriber_id).label('subscriber_id')
             .where(Subscriptions.subscription_id == subscription_id)
-            .cte()
         )
+        cte_query = add_filters(
+            query=cte_query,
+            filters=filters,
+            column_for_order=cte_query.subscriber_id
+        ).cte()
 
         query = (
             select(
@@ -89,19 +94,16 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
                 Users.last_name,
                 Avatars.avatar_content
             )
-            .join(Users.subscriptions)
+            .join(Users)
             .join(Users.avatar, isouter=True)
-        )
-
-        query = add_filters(
-            query=query,
-            filters=filters,
-            column_for_order=cte_query.subscriber_id
         )
 
         subscribers = await self._session.execute(query)
 
-        subscriptions_dto = self._mapper.load(subscribers, list[dto.SubscriptionDTO])
+        subscriptions_dto = self._mapper.load(
+            from_model=subscribers,
+            to_model=list[dto.SubscriptionDTO]
+        )
 
         return subscriptions_dto
 
@@ -161,7 +163,10 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
 
         result = subscription.all()
 
-        subscription_entity = self._mapper.load(result, SubscriptionEntity)
+        subscription_entity = self._mapper.load(
+            from_model=result,
+            to_model=SubscriptionEntity
+        )
 
         return subscription_entity
 
@@ -169,7 +174,10 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
         """
         Подписаться на пользователя
         """
-        subscription_model = self._mapper.load(subscription, Subscriptions)
+        subscription_model = self._mapper.load(
+            from_model=subscription,
+            to_model=Subscriptions
+        )
 
         self._session.add(subscription_model)
 
@@ -185,8 +193,16 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
         query = (
             delete(Subscriptions)
             .where(
-                Subscriptions.subscription_id == subscription.subscription_user_id,
-                Subscriptions.subscriber_id == subscription.subscriber_user_id
+                Subscriptions.subscription_id == (
+                    subscription
+                    .subscription_user_id
+                    .to_int
+                ),
+                Subscriptions.subscriber_id == (
+                    subscription
+                    .subscriber_user_id
+                    .to_int
+                )
             )
         )
 

@@ -20,7 +20,7 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
         Получение пользователя по id
         """
         query = (
-            select(Users, Avatars.avatar_content)
+            select(Users, Avatars)
             .join(Users.avatar, isouter=True)
             .where(Users.user_id == user_id.to_int)
             .with_for_update()
@@ -31,7 +31,7 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
             # raise UserIsNotExist(user_id.to_int)
             pass
 
-        user_aggregate = self._mapper.load(data=user, model=UserAggregate)
+        user_aggregate = self._mapper.load(from_model=user, to_model=UserAggregate)
 
         return user_aggregate
 
@@ -39,7 +39,7 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
         """
         Обновление данных пользователя в базе
         """
-        user_model = self._mapper.load(user, Users)
+        user_model = self._mapper.load(from_model=user, to_model=Users)
         try:
             await self._session.merge(user_model)
         except IntegrityError:
@@ -49,7 +49,7 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
         """
         Создание пользователя в базе
         """
-        user_model = self._mapper.load(user, Users)
+        user_model = self._mapper.load(from_model=user, to_model=Users)
 
         self._session.add(user_model)
 

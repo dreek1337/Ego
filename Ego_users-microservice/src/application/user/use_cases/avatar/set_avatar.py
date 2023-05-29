@@ -54,6 +54,6 @@ class SetAvatar(BaseUseCase):
         await self._uow.avatar_repo.set_avatar(avatar=avatar)
         await self._uow.commit()
 
-        set_avatar_dto = self._mapper.load(data=avatar, model=dto.SetAvatarDTO)
+        set_avatar_dto = self._mapper.load(from_model=avatar, to_model=dto.SetAvatarDTO)
 
         return set_avatar_dto

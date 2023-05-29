@@ -10,10 +10,10 @@ class AvatarDTO(DTO):
     """
     Информация о файле
     """
-    avatar_id: UUID4 = Field(None, description='Айди файла')
-    avatar_type: str = Field(None, description='Формат файла')
-    avatar_content: bytes = Field(None, description='Байты файла')
-    user_id: int = Field(None, description='Айди пользователя, кому предналежит аватар')
+    avatar_id: UUID4 = Field(..., description='Айди файла')
+    avatar_type: str = Field(..., description='Формат файла')
+    avatar_content: bytes = Field(..., description='Байты файла')
+    user_id: int = Field(..., description='Айди пользователя, кому предналежит аватар')
 
     class Config:
         frozen = True

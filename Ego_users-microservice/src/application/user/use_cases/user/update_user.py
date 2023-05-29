@@ -66,6 +66,9 @@ class UpdateUser(BaseUseCase):
         await self._uow.user_repo.update_user(user=user)
         await self._uow.commit()
 
-        updated_user_dto = self._mapper.load(data=user, model=dto.UpdatedUserDTO)
+        updated_user_dto = self._mapper.load(
+            from_model=user,
+            to_model=dto.UpdatedUserDTO
+        )
 
         return updated_user_dto

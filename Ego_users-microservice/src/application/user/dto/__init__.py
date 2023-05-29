@@ -1,13 +1,14 @@
-from src.application.user.dto.avatar import (
-    SetAvatarDTO,
-    DeletedAvatarDTO,
-    UpdatedAvatarDTO
-)
 from src.application.user.dto.user import (
+    UserDTO,
     CreatedUserDTO,
     DeletedUserDTO,
     UpdatedUserDTO,
-    UserDTO
+)
+from src.application.user.dto.avatar import (
+    AvatarDTO,
+    SetAvatarDTO,
+    DeletedAvatarDTO,
+    UpdatedAvatarDTO
 )
 from src.application.user.dto.subscription import (
     SubscribeDTO,

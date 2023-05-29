@@ -57,6 +57,9 @@ class UpdateAvatar(BaseUseCase):
         await self._uow.avatar_repo.update_avatar(avatar=avatar)
         await self._uow.commit()
 
-        updated_avatar_dto = self._mapper.load(data=avatar, model=dto.UpdatedAvatarDTO)
+        updated_avatar_dto = self._mapper.load(
+            from_model=avatar,
+            to_model=dto.UpdatedAvatarDTO
+        )
 
         return updated_avatar_dto

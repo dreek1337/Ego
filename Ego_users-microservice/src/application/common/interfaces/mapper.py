@@ -4,10 +4,16 @@ from abc import (
 )
 from typing import Any, TypeVar
 
-T = TypeVar("T")
+FromModel = TypeVar("FromModel", bound=Any)
+ToModel = TypeVar("ToModel", bound=Any)
 
 
 class Mapper(ABC):
     @abstractmethod
-    def load(self, data: Any, model: type[T]) -> T:
+    def load(
+            self,
+            *,
+            from_model: FromModel,
+            to_model: type[ToModel]
+    ) -> ToModel:
         """Переработка данных в другую модель"""

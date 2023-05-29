@@ -37,6 +37,9 @@ class DeleteUser(BaseUseCase):
         await self._uow.user_repo.update_user(user=user)
         await self._uow.commit()
 
-        deleted_user_dto = self._mapper.load(data=user, model=dto.DeletedUserDTO)
+        deleted_user_dto = self._mapper.load(
+            from_model=user,
+            to_model=dto.DeletedUserDTO
+        )
 
         return deleted_user_dto
