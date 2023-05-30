@@ -1,9 +1,9 @@
 from src.application.common import DTO
 
 
-class UnsubscribeDTO(DTO):
+class SubscribeActionDTO(DTO):
     """
-    Модель отписки
+    Модель оформления подписчки и отписки
     """
     subscriber_id: int
     subscription_id: int

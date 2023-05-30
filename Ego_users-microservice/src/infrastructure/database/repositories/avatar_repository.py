@@ -6,28 +6,31 @@ from sqlalchemy import (
 
 from src.domain import AvatarEntity
 from src.application import AvatarRepo
-from src.domain.user.value_objects import AvatarId
 from src.infrastructure.database.models import Avatars
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
+from src.domain.user.value_objects import (
+    AvatarId,
+    AvatarUserId
+)
 
 
 class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
     """
     Реализация репозитория аватарки
     """
-    async def get_avatar_by_id(self, avatar_id: AvatarId) -> AvatarEntity:
+    async def get_avatar_by_user_id(self, avatar_user_id: AvatarUserId) -> AvatarEntity:
         """
         Получение аватарки по ее айди
         """
         query = (
             select(Avatars)
-            .where(Avatars.avatar_id == avatar_id.to_uuid)
+            .where(Avatars.avatar_user_id == avatar_user_id.to_int)
         )
 
         avatar = await self._session.scalar(query)
 
         if not avatar:
-            # raise AvatarIsNotExist(avatar_id.to_uuid)
+            # raise AvatarIsNotExist(avatar_user_id.to_int)
             pass
 
         avatar_entity = self._mapper.load(from_model=avatar, to_model=AvatarEntity)

@@ -33,7 +33,7 @@ class Subscribe(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: SubscribeData) -> dto.SubscribeDTO:
+    async def __call__(self, data: SubscribeData) -> dto.SubscribeActionDTO:
         subscription_user = await self._uow.user_repo.get_user_by_id(
             user_id=UserId(value=data.subscription_id)
         )
@@ -50,7 +50,7 @@ class Subscribe(BaseUseCase):
 
         add_subscription_dto = self._mapper.load(
             from_model=data,
-            to_model=dto.SubscribeDTO
+            to_model=dto.SubscribeActionDTO
         )
 
         return add_subscription_dto

@@ -3,8 +3,10 @@ from typing import (
     TypeVar
 )
 
+from sqlalchemy import Result
+
+from src import domain
 from src import application as app
-from src.domain import UserAggregate
 from src.infrastructure.database import models
 from src.infrastructure.mapper.convert import Convert
 from src.infrastructure.mapper import convert_functions as cf
@@ -53,37 +55,84 @@ def create_convert() -> MapperImpl:
     """
     Инициализация маппера
     """
-    mapper = MapperImpl(convert_mappers=([
-        Convert(
-            from_model=UserAggregate,
-            to_model=app.UserDTO,
-            loader=cf.convert_user_aggregate_to_dto
-        ),
-        Convert(
-            from_model=UserAggregate,
-            to_model=app.DeletedUserDTO,
-            loader=cf.convert_deleted_user_aggregate_to_dto
-        ),
-        Convert(
-            from_model=UserAggregate,
-            to_model=models.Users,
-            loader=cf.convert_user_aggregate_to_db_model
-        ),
-        Convert(
-            from_model=models.Users,
-            to_model=UserAggregate,
-            loader=cf.convert_db_model_to_user_aggregate
-        ),
-        Convert(
-            from_model=models.Users,
-            to_model=app.UserDTO,
-            loader=cf.convert_db_model_to_user_dto
-        ),
-        Convert(
-            from_model=models.Users,
-            to_model=app.DeletedUserDTO,
-            loader=cf.convert_db_model_to_deleted_user_dto
-        )
-    ]))
+    mapper = MapperImpl(convert_mappers=(
+        [
+            Convert(
+                from_model=domain.UserAggregate,
+                to_model=app.UserDTO,
+                loader=cf.convert_user_aggregate_to_dto
+            ),
+            Convert(
+                from_model=domain.UserAggregate,
+                to_model=app.DeletedUserDTO,
+                loader=cf.convert_deleted_user_aggregate_to_dto
+            ),
+            Convert(
+                from_model=domain.UserAggregate,
+                to_model=models.Users,
+                loader=cf.convert_user_aggregate_to_db_model
+            ),
+            Convert(
+                from_model=models.Users,
+                to_model=domain.UserAggregate,
+                loader=cf.convert_db_model_to_user_aggregate
+            ),
+            Convert(
+                from_model=models.Users,
+                to_model=app.UserDTO,
+                loader=cf.convert_db_model_to_user_dto
+            ),
+            Convert(
+                from_model=models.Users,
+                to_model=app.DeletedUserDTO,
+                loader=cf.convert_db_model_to_deleted_user_dto
+            ),
+            Convert(
+                from_model=domain.AvatarEntity,
+                to_model=app.AvatarDTO,
+                loader=cf.convert_avatar_entity_to_dto
+            ),
+            Convert(
+                from_model=domain.AvatarEntity,
+                to_model=app.DeletedAvatarDTO,
+                loader=cf.convert_deleted_avatar_entity_to_dto
+            ),
+            Convert(
+                from_model=domain.AvatarEntity,
+                to_model=models.Avatars,
+                loader=cf.convert_avatar_entity_to_db_model
+            ),
+            Convert(
+                from_model=models.Avatars,
+                to_model=domain.AvatarEntity,
+                loader=cf.convert_db_model_to_avatar_entity
+            ),
+            Convert(
+                from_model=models.Avatars,
+                to_model=app.AvatarDTO,
+                loader=cf.convert_db_model_to_avatar_dto
+            ),
+            Convert(
+                from_model=models.Avatars,
+                to_model=app.DeletedAvatarDTO,
+                loader=cf.convert_db_model_to_deleted_avatar_dto
+            ),
+            Convert(
+                from_model=domain.SubscriptionEntity,
+                to_model=app.SubscribeActionDTO,
+                loader=cf.convert_subscription_entity_to_dto
+            ),
+            Convert(
+                from_model=Result,
+                to_model=list[app.SubscriptionDTO],
+                loader=cf.convert_subscriptions_db_model_to_subscription_dto
+            ),
+            Convert(
+                from_model=models.Subscriptions,
+                to_model=domain.SubscriptionEntity,
+                loader=cf.convert_subscription_db_model_to_subscription_entity
+            )
+        ]
+    ))
 
     return mapper

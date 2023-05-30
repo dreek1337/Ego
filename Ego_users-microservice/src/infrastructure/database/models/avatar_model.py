@@ -8,7 +8,6 @@ from sqlalchemy.orm import (
     mapped_column
 )
 
-from src.domain.user.value_objects import AvatarType
 from src.infrastructure.database.models.base import Base
 from src.infrastructure.database.models.user_model import Users
 
@@ -20,9 +19,9 @@ class Avatars(Base):
     __tablename__ = 'avatars'
 
     avatar_id: Mapped[UUID] = mapped_column(sa.Uuid, nullable=False)
-    avatar_type: Mapped[str] = mapped_column(sa.Enum(AvatarType))
+    avatar_type: Mapped[str] = mapped_column(sa.String(10))
     avatar_content: Mapped[bytes] = mapped_column(sa.LargeBinary, nullable=True)
-    user_id: Mapped[int] = mapped_column(sa.ForeignKey('users.user_id'))
+    avatar_user_id: Mapped[int] = mapped_column(sa.ForeignKey('users.user_id'))
 
     user: Mapped['Users'] = relationship(
         back_populates='avatar'

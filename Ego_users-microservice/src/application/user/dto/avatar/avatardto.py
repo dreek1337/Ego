@@ -17,3 +17,4 @@ class AvatarDTO(DTO):
 
     class Config:
         frozen = True
+        orm_mode = True

@@ -12,3 +12,4 @@ class DeletedAvatarDTO(DTO):
 
     class Config:
         frozen = True
+        orm_mode = True

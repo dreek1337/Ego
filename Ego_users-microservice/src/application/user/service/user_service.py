@@ -71,7 +71,7 @@ class UserService(Service):
     async def set_avatar(
             self,
             data: use_cases.SetAvatarData
-    ) -> dto.SetAvatarDTO:
+    ) -> dto.AvatarDTO:
         """
         Установить аватарку пользователю
         """
@@ -83,7 +83,7 @@ class UserService(Service):
     async def update_avatar(
             self,
             data: use_cases.UpdateAvatarData
-    ) -> dto.UpdatedAvatarDTO:
+    ) -> dto.AvatarDTO:
         """
         Обновить аватарку пользователя
         """
@@ -107,7 +107,7 @@ class UserService(Service):
     async def subscribe(
             self,
             data: use_cases.SubscribeData
-    ) -> dto.SubscribeDTO:
+    ) -> dto.SubscribeActionDTO:
         """
         Подписаться на пользователя
         """
@@ -141,7 +141,7 @@ class UserService(Service):
     async def unsubscribe(
             self,
             data: use_cases.UnsubscribeData
-    ) -> dto.UnsubscribeDTO:
+    ) -> dto.SubscribeActionDTO:
         """
         Отписаться от пользователя
         """

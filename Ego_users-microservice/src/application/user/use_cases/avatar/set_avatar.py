@@ -44,7 +44,7 @@ class SetAvatar(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: SetAvatarData) -> dto.SetAvatarDTO:
+    async def __call__(self, data: SetAvatarData) -> dto.AvatarDTO:
         avatar = AvatarEntity.create_avatar(
             user_id=AvatarUserId(value=data.avatar_user_id),
             avatar_id=AvatarId(value=data.avatar_id),
@@ -55,6 +55,6 @@ class SetAvatar(BaseUseCase):
         await self._uow.avatar_repo.set_avatar(avatar=avatar)
         await self._uow.commit()
 
-        set_avatar_dto = self._mapper.load(from_model=avatar, to_model=dto.SetAvatarDTO)
+        set_avatar_dto = self._mapper.load(from_model=avatar, to_model=dto.AvatarDTO)
 
         return set_avatar_dto

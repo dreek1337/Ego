@@ -78,13 +78,13 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
         Получения списка всех подписчиков пользователя
         """
         cte_query = (
-            select(Subscriptions.subscriber_id).label('subscriber_id')
+            select(Subscriptions.subscriber_id).label('subscription_id')
             .where(Subscriptions.subscription_id == subscription_id)
         )
         cte_query = add_filters(
             query=cte_query,
             filters=filters,
-            column_for_order=cte_query.subscriber_id
+            column_for_order=cte_query.subscription_id
         ).cte()
 
         query = (
@@ -161,10 +161,8 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
             # raise SubscriptionIsNotExist(subscription_id.to_int, subscriber_id.to_int)
             pass
 
-        result = subscription.all()
-
         subscription_entity = self._mapper.load(
-            from_model=result,
+            from_model=subscription,
             to_model=SubscriptionEntity
         )
 

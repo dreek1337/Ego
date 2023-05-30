@@ -1,7 +1,10 @@
 from src.application.user.dto import (
     UserDTO,
     AvatarDTO,
-    DeletedUserDTO
+    DeletedUserDTO,
+    SubscriptionDTO,
+    DeletedAvatarDTO,
+    SubscribeActionDTO,
 )
 from src.application.user.interfaces import (
     UserRepo,

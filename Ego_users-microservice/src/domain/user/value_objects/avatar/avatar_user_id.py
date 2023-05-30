@@ -8,5 +8,5 @@ class AvatarUserId(ValueObject[int]):
     value: int
 
     @property
-    def to_uuid(self) -> int:
+    def to_int(self) -> int:
         return self.value

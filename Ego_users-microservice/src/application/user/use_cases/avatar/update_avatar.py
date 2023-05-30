@@ -40,7 +40,7 @@ class UpdateAvatar(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: UpdateAvatarData) -> dto.UpdatedAvatarDTO:
+    async def __call__(self, data: UpdateAvatarData) -> dto.AvatarDTO:
         avatar = await self._uow.avatar_repo.get_avatar_by_user_id(
             avatar_user_id=AvatarUserId(value=data.avatar_user_id)
         )
@@ -59,7 +59,7 @@ class UpdateAvatar(BaseUseCase):
 
         updated_avatar_dto = self._mapper.load(
             from_model=avatar,
-            to_model=dto.UpdatedAvatarDTO
+            to_model=dto.AvatarDTO
         )
 
         return updated_avatar_dto

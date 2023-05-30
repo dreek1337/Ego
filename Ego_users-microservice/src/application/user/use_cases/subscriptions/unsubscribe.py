@@ -32,7 +32,7 @@ class Unsubscribe(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: UnsubscribeData) -> dto.UnsubscribeDTO:
+    async def __call__(self, data: UnsubscribeData) -> dto.SubscribeActionDTO:
         subscription = await self._uow.subscription_repo.get_subscription_by_id(
             subscription_id=SubscriptionId(value=data.subscription_id),
             subscriber_id=SubscriberId(value=data.subscriber_id)
@@ -43,7 +43,7 @@ class Unsubscribe(BaseUseCase):
 
         delete_subscription_dto = self._mapper.load(
             from_model=data,
-            to_model=dto.UnsubscribeDTO
+            to_model=dto.SubscribeActionDTO
         )
 
         return delete_subscription_dto
