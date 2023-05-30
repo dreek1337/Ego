@@ -51,7 +51,7 @@ class MapperImpl(app.Mapper):
         raise Exception
 
 
-def create_convert() -> MapperImpl:
+def create_mapper() -> MapperImpl:
     """
     Инициализация маппера
     """

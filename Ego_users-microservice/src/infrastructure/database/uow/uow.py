@@ -12,8 +12,7 @@ class SQLAlchemyUoW(SQLAlchemyBaseUoW, UserUoW):
             session: AsyncSession,
             user_repo: repo.UserRepoImpl,
             avatar_repo: repo.AvatarRepoImpl,
-            subscription_repo: repo.SubscriptionRepoImpl,
-            mapper
+            subscription_repo: repo.SubscriptionRepoImpl
     ) -> None:
         self.user_repo = user_repo
         self.avatar_repo = avatar_repo
