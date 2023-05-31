@@ -1,11 +1,12 @@
 from sqlalchemy import Result
 
 from src.domain import SubscriptionEntity
+from src.domain.user import value_objects as vo
+from src.infrastructure.database.models.subscriptions_model import Subscriptions
 from src.application.user.dto import (
     SubscriptionDTO,
     SubscribeActionDTO
 )
-from src.infrastructure.database.models import Subscriptions
 
 
 def convert_subscription_entity_to_dto(
@@ -48,8 +49,8 @@ def convert_subscription_db_model_to_subscription_entity(
     Преобразования ORM модели в Энтити
     """
     subscription_entity = SubscriptionEntity(
-        subscription_user_id=subscription.subscription_id,
-        subscriber_user_id=subscription.subscriber_id
+        subscription_user_id=vo.SubscriptionId(value=subscription.subscription_id),
+        subscriber_user_id=vo.SubscriberId(value=subscription.subscriber_id)
     )
 
     return subscription_entity

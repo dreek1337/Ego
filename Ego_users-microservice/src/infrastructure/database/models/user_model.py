@@ -16,6 +16,7 @@ from src.infrastructure.database.models.avatar_model import Avatars
 from src.infrastructure.database.models.subscriptions_model import Subscriptions
 
 
+
 class Users(Base):
     """
     Таблица для хранения данные о пользователе
@@ -34,13 +35,13 @@ class Users(Base):
     deleted: Mapped[bool] = mapped_column(sa.Boolean, default=False)
 
     avatar: Mapped['Avatars'] = relationship(
-        back_populates='user'
+        backref='user'
     )
     subscriptions: Mapped['Subscriptions'] = relationship(
-        back_populates='user_subscriptions'
+        backref='user_subscriptions'
     )
     subscribers: Mapped['Subscriptions'] = relationship(
-        back_populates='user_subscribers'
+        backref='user_subscribers'
     )
 
     time_updated: Mapped[datetime] = mapped_column(sa.DateTime, onupdate=sa.func.now())

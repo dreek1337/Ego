@@ -18,7 +18,7 @@ class DatabaseConfig(BaseSettings):
 
     @property
     def db_connection_url(self):
-        return f"postgres+asyncpg://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
+        return f"postgresql+asyncpg://{self.db_user}:{self.db_password}@{self.db_host}:{self.db_port}/{self.db_name}"
 
     class Config:
         env_file = ".env"
@@ -28,5 +28,5 @@ class DatabaseConfig(BaseSettings):
 class EngineConfig(BaseModel):
     url: str = DatabaseConfig().db_connection_url  # type: ignore
     echo_pool: bool = DatabaseConfig().echo  # type: ignore
-    future: bool = False
+    future: bool = True
     pool_size: int = 50

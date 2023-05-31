@@ -1,5 +1,8 @@
-from src.application.user.service.user_service import UserService
+from src import app
+from src.presentation.api.config import APIConfig
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    import uvicorn
 
-    print(UserService)
+    uvicorn.run(app, **APIConfig().dict())
+

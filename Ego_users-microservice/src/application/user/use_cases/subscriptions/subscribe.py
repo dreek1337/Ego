@@ -2,8 +2,8 @@ from src.application.user import dto
 from src.domain import SubscriptionEntity
 from src.application.user.uow import UserUoW
 from src.domain.user.value_objects import (
-    UserId,
-    SubscriptionId, SubscriberId
+    SubscriberId,
+    SubscriptionId,
 )
 from src.application.common import (
     Mapper,
@@ -34,16 +34,9 @@ class Subscribe(BaseUseCase):
         self._uow = uow
 
     async def __call__(self, data: SubscribeData) -> dto.SubscribeActionDTO:
-        subscription_user = await self._uow.user_repo.get_user_by_id(
-            user_id=UserId(value=data.subscription_id)
-        )
-        subscriber_user = await self._uow.user_repo.get_user_by_id(
-            user_id=UserId(value=data.subscriber_id)
-        )
-
         subscription = SubscriptionEntity.subscribe(
-            subscription_id=SubscriptionId(value=subscription_user.user_id.to_int),
-            subscriber_id=SubscriberId(value=subscriber_user.user_id.to_int)
+            subscription_id=SubscriptionId(value=data.subscription_id),
+            subscriber_id=SubscriberId(value=data.subscriber_id)
         )
         await self._uow.subscription_repo.subscribe(subscription=subscription)
         await self._uow.commit()

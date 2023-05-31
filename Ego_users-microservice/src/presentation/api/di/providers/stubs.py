@@ -1,12 +1,8 @@
-def get_session_stub():
-    raise NotImplementedError
-
-
 def get_mapper_stub():
     raise NotImplementedError
 
 
-def get_uow_sub():
+def get_uow_stub():
     raise NotImplementedError
 
 
