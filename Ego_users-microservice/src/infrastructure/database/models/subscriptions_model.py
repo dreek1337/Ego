@@ -1,6 +1,7 @@
 import sqlalchemy as sa
 from sqlalchemy.orm import (
     Mapped,
+    relationship,
     mapped_column
 )
 
@@ -23,4 +24,14 @@ class Subscriptions(Base):
     subscriber_id: Mapped[int] = mapped_column(
         sa.BigInteger,
         sa.ForeignKey('users.user_id')
+    )
+
+    subscription = relationship(
+        "Users",
+        foreign_keys=[subscription_id]
+    )
+
+    subscriber = relationship(
+        "Users",
+        foreign_keys=[subscriber_id]
     )

@@ -27,12 +27,13 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
             .where(Avatars.avatar_user_id == avatar_user_id.to_int)
         )
 
-        avatar = await self._session.scalar(query)
+        avatar = await self._session.execute(query)
 
-        if not avatar:
+        if avatar:
             # raise AvatarIsNotExist(avatar_user_id.to_int)
-            pass
-
+            avatar = avatar.scalar()  # type: ignore
+        # Сделать что-то с моделью, которая будет None,
+        # может перенести проверку в маппер
         avatar_entity = self._mapper.load(from_model=avatar, to_model=AvatarEntity)
 
         return avatar_entity

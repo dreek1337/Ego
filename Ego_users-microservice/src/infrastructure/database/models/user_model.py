@@ -12,9 +12,6 @@ from sqlalchemy.orm import (
 
 from src.domain.common import GenderValue
 from src.infrastructure.database.models.base import Base
-from src.infrastructure.database.models.avatar_model import Avatars
-from src.infrastructure.database.models.subscriptions_model import Subscriptions
-
 
 
 class Users(Base):
@@ -34,14 +31,10 @@ class Users(Base):
     birthday: Mapped[date] = mapped_column(sa.Date, nullable=False)
     deleted: Mapped[bool] = mapped_column(sa.Boolean, default=False)
 
-    avatar: Mapped['Avatars'] = relationship(
-        backref='user'
-    )
-    subscriptions: Mapped['Subscriptions'] = relationship(
-        backref='user_subscriptions'
-    )
-    subscribers: Mapped['Subscriptions'] = relationship(
-        backref='user_subscribers'
-    )
+    avatar = relationship("Avatars", back_populates="user")
 
-    time_updated: Mapped[datetime] = mapped_column(sa.DateTime, onupdate=sa.func.now())
+    time_updated: Mapped[datetime] = mapped_column(
+        sa.DateTime,
+        onupdate=sa.func.now(),
+        nullable=True
+    )

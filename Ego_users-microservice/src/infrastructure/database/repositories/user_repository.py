@@ -23,11 +23,13 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
         )
         user = await self._session.execute(query)
 
-        if not user:
+        result = user.scalar()
+
+        if not result:
             # raise UserIsNotExist(user_id.to_int)
             pass
 
-        user_aggregate = self._mapper.load(from_model=user, to_model=UserAggregate)
+        user_aggregate = self._mapper.load(from_model=result, to_model=UserAggregate)
 
         return user_aggregate
 

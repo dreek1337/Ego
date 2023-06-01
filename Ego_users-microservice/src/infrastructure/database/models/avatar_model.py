@@ -4,6 +4,7 @@ from uuid import UUID
 import sqlalchemy as sa
 from sqlalchemy.orm import (
     Mapped,
+    relationship,
     mapped_column
 )
 
@@ -26,4 +27,10 @@ class Avatars(Base):
     avatar_content: Mapped[bytes] = mapped_column(sa.LargeBinary, nullable=True)
     avatar_user_id: Mapped[int] = mapped_column(sa.ForeignKey('users.user_id'))
 
-    time_updated: Mapped[datetime] = mapped_column(sa.DateTime, onupdate=sa.func.now())
+    user = relationship("Users", back_populates="avatar")
+
+    time_updated: Mapped[datetime] = mapped_column(
+        sa.DateTime,
+        onupdate=sa.func.now(),
+        nullable=True
+    )

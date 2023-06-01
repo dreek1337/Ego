@@ -1,6 +1,6 @@
 from src.presentation.api.di.providers.providers import (
     UoWProvider,
-    UserService
+    get_service
 )
 from src.presentation.api.di.providers.stubs import (
     get_uow_stub,
