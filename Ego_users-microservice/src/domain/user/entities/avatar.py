@@ -58,10 +58,10 @@ class AvatarEntity(Entity):
         """
         self._check_on_delete()
 
-        if avatar_type is not Empty.UNSET:
-            self.avatar_type = avatar_type
-        if avatar_content is not Empty.UNSET:
-            self.avatar_content = avatar_content
+        if not avatar_type == Empty.UNSET:
+            self.avatar_type = avatar_type  # type: ignore
+        if not avatar_content == Empty.UNSET:
+            self.avatar_content = avatar_content  # type: ignore
 
     def delete(self) -> None:
         """
