@@ -18,7 +18,10 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
     """
     Реализация репозитория аватарки
     """
-    async def get_avatar_by_user_id(self, avatar_user_id: AvatarUserId) -> AvatarEntity:
+    async def get_avatar_by_user_id(
+            self,
+            avatar_user_id: AvatarUserId
+    ) -> AvatarEntity | None:
         """
         Получение аватарки по ее айди
         """
@@ -29,14 +32,15 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
 
         avatar = await self._session.execute(query)
 
-        if avatar:
-            # raise AvatarIsNotExist(avatar_user_id.to_int)
-            avatar = avatar.scalar()  # type: ignore
-        # Сделать что-то с моделью, которая будет None,
-        # может перенести проверку в маппер
+        result = avatar.scalar()
+
+        if not result:
+            return result  # type: ignore
+
         avatar_entity = self._mapper.load(from_model=avatar, to_model=AvatarEntity)
 
         return avatar_entity
+
 
     async def set_avatar(self, avatar: AvatarEntity) -> None:
         """

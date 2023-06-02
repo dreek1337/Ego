@@ -68,14 +68,14 @@ class UserAggregate(Aggregate):
         """
         self._check_on_delete()
 
-        if first_name is not Empty.UNSET:
+        if not first_name == Empty.UNSET:
             self.first_name = first_name
-        if last_name is not Empty.UNSET:
+        if not last_name == Empty.UNSET:
             self.last_name = last_name
-        if gender is not Empty.UNSET:
-            self.gender = gender
-        if birthday is not Empty.UNSET:
-            self.birthday = birthday
+        if not gender == Empty.UNSET:
+            self.gender = gender   # type: ignore
+        if not birthday == Empty.UNSET:
+            self.birthday = birthday  # type: ignore
 
     def set_count_of_subscribers(self, count_of_subscribers: int) -> None:
         """
@@ -100,6 +100,9 @@ class UserAggregate(Aggregate):
         """
         Удаление пользователя
         """
+        if self.deleted:
+            raise UserIsDeleted(user_id=self.user_id.to_int)
+
         self.deleted = True
 
     def _check_on_delete(self) -> None:

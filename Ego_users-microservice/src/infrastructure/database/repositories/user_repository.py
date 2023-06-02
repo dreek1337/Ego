@@ -1,11 +1,16 @@
 from sqlalchemy import select
-from sqlalchemy.exc import IntegrityError
+from asyncpg import UniqueViolationError  # type: ignore
+from sqlalchemy.exc import IntegrityError, DBAPIError
 
 from src.domain import UserAggregate
 from src.application import UserRepo
 from src.domain.user.value_objects import UserId
 from src.infrastructure.database.models import Users
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
+from src.application.user.exceptions import (
+    UserIsNotExist,
+    UserIdIsAlreadyExist
+)
 
 
 class UserRepoImpl(SQLAlchemyRepo, UserRepo):
@@ -26,8 +31,7 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
         result = user.scalar()
 
         if not result:
-            # raise UserIsNotExist(user_id.to_int)
-            pass
+            raise UserIsNotExist(user_id=user_id.to_int)
 
         user_aggregate = self._mapper.load(from_model=result, to_model=UserAggregate)
 
@@ -41,7 +45,7 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
         try:
             await self._session.merge(user_model)
         except IntegrityError:
-            pass  # Добавить обрабокту ошибок
+            pass
 
     async def create_user(self, user: UserAggregate) -> None:
         """
@@ -53,5 +57,16 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
 
         try:
             await self._session.flush((user_model,))
-        except IntegrityError:
-            pass  # Добавить обрабокту ошибок
+        except IntegrityError as err:
+            self._parse_error(err=err, user=user)
+
+    @staticmethod
+    def _parse_error(err: DBAPIError, user: UserAggregate) -> None:
+        """
+        определение ошибки
+        """
+        error = err.__cause__.__cause__.__class__  # type: ignore
+
+        if error == UniqueViolationError:
+            raise UserIdIsAlreadyExist(user_id=user.user_id.to_int)
+

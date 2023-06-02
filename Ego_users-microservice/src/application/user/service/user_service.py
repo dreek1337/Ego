@@ -83,7 +83,7 @@ class UserService(Service):
     async def update_avatar(
             self,
             data: use_cases.UpdateAvatarData
-    ) -> dto.AvatarDTO:
+    ) -> dto.AvatarDTO | None:
         """
         Обновить аватарку пользователя
         """
@@ -95,7 +95,7 @@ class UserService(Service):
     async def delete_avatar(
             self,
             data: use_cases.DeleteAvatarData
-    ) -> dto.DeletedAvatarDTO:
+    ) -> dto.DeletedAvatarDTO | None:
         """
         Удаление аватарки
         """

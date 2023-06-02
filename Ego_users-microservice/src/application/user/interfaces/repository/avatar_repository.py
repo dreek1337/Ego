@@ -15,7 +15,10 @@ class AvatarRepo(ABC):
     Репозиторий файла
     """
     @abstractmethod
-    async def get_avatar_by_user_id(self, avatar_user_id: AvatarUserId) -> AvatarEntity:
+    async def get_avatar_by_user_id(
+            self,
+            avatar_user_id: AvatarUserId
+    ) -> AvatarEntity | None:
         """Получение файла с помощью id"""
 
     @abstractmethod

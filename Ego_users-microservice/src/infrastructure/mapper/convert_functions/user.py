@@ -95,6 +95,10 @@ def convert_db_model_to_user_dto(user: Users) -> UserDTO:
     """
     Преобразование из модели орм в ДТО
     """
+    if user.deleted:
+        # Придумать для этого ошибку
+        raise Exception
+
     user_dto = UserDTO.from_orm(user)
 
     return user_dto
@@ -104,6 +108,10 @@ def convert_db_model_to_deleted_user_dto(user: Users) -> DeletedUserDTO:
     """
     Преобразование из модели орм в ДТО
     """
+    if not user.deleted:
+        # Придумать для этого ошибку
+        raise Exception
+
     deleted_user_dto = DeletedUserDTO.from_orm(user)
 
     return deleted_user_dto

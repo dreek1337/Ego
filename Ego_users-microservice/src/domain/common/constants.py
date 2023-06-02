@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Empty(Enum):
+class Empty(str, Enum):
     UNSET = "UNSET"
 
 

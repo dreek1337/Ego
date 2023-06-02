@@ -38,16 +38,16 @@ class GetUser(BaseUseCase):
         avatar = await self._uow.avatar_repo.get_avatar_by_user_id(
             avatar_user_id=AvatarUserId(value=user.user_id.to_int)
         )
-        subscribers = await self._uow.subscription_reader.get_count_subscribers(
+        subscribers_cnt = await self._uow.subscription_reader.get_count_subscribers(
             subscription_id=user.user_id.to_int
         )
-        subscriptions = await self._uow.subscription_reader.get_count_subscriptions(
+        subscriptions_cnt = await self._uow.subscription_reader.get_count_subscriptions(
             subscriber_id=user.user_id.to_int
         )
 
         user.set_avatar(avatar=avatar)
-        user.set_count_of_subscribers(count_of_subscribers=subscribers)
-        user.set_count_of_subscriptions(count_of_subscriptions=subscriptions)
+        user.set_count_of_subscribers(count_of_subscribers=subscribers_cnt)
+        user.set_count_of_subscriptions(count_of_subscriptions=subscriptions_cnt)
 
         user_dto = self._mapper.load(from_model=user, to_model=dto.UserDTO)
 

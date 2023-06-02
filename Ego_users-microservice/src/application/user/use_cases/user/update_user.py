@@ -20,10 +20,10 @@ from src.application.common import (
 
 class UpdateUserData(UseCaseData):
     user_id: int
-    first_name: str | Empty
-    last_name: str | Empty
-    gender: GenderValue | Empty
-    birthday: date | Empty
+    first_name: str | Empty = Empty.UNSET
+    last_name: str | Empty = Empty.UNSET
+    gender: GenderValue | Empty = Empty.UNSET
+    birthday: date | Empty = Empty.UNSET
 
     class Config:
         frozen = True

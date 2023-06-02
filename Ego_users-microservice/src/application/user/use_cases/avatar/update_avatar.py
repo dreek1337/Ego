@@ -40,10 +40,14 @@ class UpdateAvatar(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: UpdateAvatarData) -> dto.AvatarDTO:
+    async def __call__(self, data: UpdateAvatarData) -> dto.AvatarDTO | None:
         avatar = await self._uow.avatar_repo.get_avatar_by_user_id(
             avatar_user_id=AvatarUserId(value=data.avatar_user_id)
         )
+
+        if not avatar:
+            return avatar  # type: ignore
+
         avatar_type: AvatarType | Empty = (
             AvatarType(value=data.avatar_type)
             if data.avatar_type is not Empty.UNSET

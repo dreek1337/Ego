@@ -1,42 +1,120 @@
+from typing import Union
+
 from fastapi import (
-    # status,
+    status,
     Depends,
     APIRouter
 )
 
-from src.application.user.service.user_service import UserService
-from src.presentation.api.controllers.request import GetUserRequest
-from src.presentation.api.controllers.request.user_requests import CreateUserRequest
+from src.domain.user import exceptions as exc
+from src.domain.user.exceptions import UserIsDeleted
 from src.presentation.api.di import get_service_stub
+from src.presentation.api.controllers import request as req
+from src.presentation.api.controllers import response as resp
+from src.application.user.service.user_service import UserService
+from src.application import (
+    UserIsNotExist,
+    UserIdIsAlreadyExist
+)
+
 
 users_router = APIRouter(
-    tags=['health_check'],
+    tags=['users'],
     prefix="/users"
 )
 
 
 @users_router.get(
-    path='/info/{user_id}'
+    path='/info/{user_id}',
+    responses={
+        status.HTTP_200_OK: {'model': resp.UserDataResponse},
+        status.HTTP_404_NOT_FOUND: {'model': resp.ErrorResult[UserIsNotExist]}
+    },
+    response_model=resp.UserDataResponse,
+    status_code=status.HTTP_200_OK
 )
 async def get_user(
-        user_id: GetUserRequest = Depends(),
+        request_data: req.GetUserRequest = Depends(),
         user_service: UserService = Depends(get_service_stub)
 ):
-    user = await user_service.get_user(data=user_id)
-
-    return user
+    """
+    Получение данных о пользователе с помощью его id
+    """
+    return await user_service.get_user(data=request_data)
 
 
 @users_router.post(
-    path='/create_user'
+    path='/create_user',
+    responses={
+        status.HTTP_201_CREATED: {'model': resp.UserDataResponse},
+        status.HTTP_400_BAD_REQUEST: {
+            'model': resp.ErrorResult[
+                Union[
+                    exc.InvalidGender,
+                    exc.InvalidBirthdayDate
+                ]
+            ]
+        },
+        status.HTTP_409_CONFLICT: {
+            'model': resp.ErrorResult[UserIdIsAlreadyExist]
+        }
+    },
+    response_model=resp.UserDataResponse,
+    status_code=status.HTTP_201_CREATED
 )
 async def create_user(
-        user_data: CreateUserRequest,
+        user_data: req.CreateUserRequest,
         user_service: UserService = Depends(get_service_stub)
 ):
     """
     Создание пользователя
     """
-    user = await user_service.create_user(data=user_data)
+    return await user_service.create_user(data=user_data)
 
-    return user
+
+@users_router.patch(
+    path='/update_user_info',
+    responses={
+        status.HTTP_200_OK: {'model': resp.UserDataResponse},
+        status.HTTP_400_BAD_REQUEST: {
+            'model': resp.ErrorResult[
+                Union[
+                    exc.InvalidGender,
+                    exc.InvalidBirthdayDate
+                ]
+            ]
+        },
+        status.HTTP_409_CONFLICT: {
+            "model": resp.ErrorResult[UserIsDeleted]
+        }
+    },
+    response_model=resp.UserDataResponse
+)
+async def update_user_info(
+        update_data: req.UpdateUserRequest,
+        user_service: UserService = Depends(get_service_stub)
+):
+    """
+    Обновление данных пользователя
+    """
+    return await user_service.update_user(data=update_data)
+
+
+@users_router.delete(
+    path='/delete_user',
+    responses={
+        status.HTTP_200_OK: {'model': resp.DeletedUserResponse},
+        status.HTTP_404_NOT_FOUND: {"model": resp.ErrorResult[UserIsNotExist]},
+        status.HTTP_409_CONFLICT: {
+            "model": resp.ErrorResult[UserIsDeleted]
+        }
+    }
+)
+async def delete_user(
+        request_data: req.DeleteUserRequest,
+        user_service: UserService = Depends(get_service_stub)
+):
+    """
+    Удаление пользователя
+    """
+    return await user_service.delete_user(data=request_data)
