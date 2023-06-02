@@ -34,7 +34,11 @@ async def exception_handler(request: Request, err: Exception) -> ORJSONResponse:
             ErrorResult(message=err.message, data=err).dict(),
             status_code=status.HTTP_400_BAD_REQUEST
         )
-    elif isinstance(err, (UserIdIsAlreadyExist, UserIsDeleted)):
+    elif isinstance(
+            err,
+            (UserIsDeleted,
+             UserIdIsAlreadyExist)
+    ):
         return ORJSONResponse(
             ErrorResult(message=err.message, data=err).dict(),
             status_code=status.HTTP_409_CONFLICT

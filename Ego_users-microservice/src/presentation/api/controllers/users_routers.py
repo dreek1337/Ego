@@ -88,6 +88,7 @@ async def create_user(
             "model": resp.ErrorResult[UserIsDeleted]
         }
     },
+    status_code=status.HTTP_200_OK,
     response_model=resp.UserDataResponse
 )
 async def update_user_info(
@@ -108,7 +109,9 @@ async def update_user_info(
         status.HTTP_409_CONFLICT: {
             "model": resp.ErrorResult[UserIsDeleted]
         }
-    }
+    },
+    status_code=status.HTTP_200_OK,
+    response_model=resp.DeletedUserResponse
 )
 async def delete_user(
         request_data: req.DeleteUserRequest,
