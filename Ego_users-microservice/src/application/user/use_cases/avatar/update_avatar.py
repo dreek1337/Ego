@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from src.application.user import dto
 from src.application.user.uow import UserUoW
 from src.domain.common import (
@@ -19,9 +17,8 @@ from src.application.common import (
 
 class UpdateAvatarData(UseCaseData):
     avatar_user_id: int
-    avatar_id: UUID
-    avatar_type: ValidAvatarType | Empty
-    avatar_content: bytes | Empty
+    avatar_type: ValidAvatarType | Empty = Empty.UNSET
+    avatar_content: bytes | Empty = Empty.UNSET
 
     class Config:
         frozen = True
