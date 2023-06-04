@@ -43,6 +43,7 @@ async def set_avatar(
     """
     Установка аватарки у пользователя
     """
+    # Сделать так, что бы все это происходило в юзкейсе
     file = avatar_data.file.read()
 
     data = SetAvatarData(

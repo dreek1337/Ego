@@ -1,5 +1,7 @@
-from fastapi import status
-from fastapi import FastAPI
+from fastapi import (
+    status,
+    FastAPI
+)
 from starlette.requests import Request
 from fastapi.responses import ORJSONResponse
 from pydantic.error_wrappers import ValidationError
@@ -21,7 +23,6 @@ def setup_exception_handlers(app: FastAPI) -> None:
 
 
 async def exception_handler(request: Request, err: Exception) -> ORJSONResponse:
-    print()
     if isinstance(
             err,
             (UserIsNotExist,
