@@ -1,5 +1,5 @@
 from sqlalchemy.exc import DBAPIError
-from asyncpg import UniqueViolationError  # type: ignore
+from asyncpg import UniqueViolationError, ForeignKeyViolationError  # type: ignore
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.application import Mapper
@@ -10,7 +10,7 @@ from src.domain import (
 )
 from src.application.user.exceptions import (
     UserIdIsAlreadyExist,
-    AvatarIdIsAlreadyExist
+    AvatarIdIsAlreadyExist, UserIsNotExist
 )
 
 
@@ -30,7 +30,7 @@ class SQLAlchemyRepo:
     @staticmethod
     def _parse_error(err: DBAPIError, data: AvatarEntity | UserAggregate) -> None:
         """
-        определение ошибки
+        Определение ошибки
         """
         error = err.__cause__.__cause__.__class__  # type: ignore
 
@@ -43,6 +43,9 @@ class SQLAlchemyRepo:
                 raise AvatarIdIsAlreadyExist(
                     avatar_id=data.avatar_id.to_uuid
                 )
+        elif error == ForeignKeyViolationError:
+            if type(data) == AvatarEntity:
+                raise UserIsNotExist(user_id=data.avatar_user_id.to_int)
         else:
             file_name = __name__
             raise RepoError(file_name=file_name, content=err.args)

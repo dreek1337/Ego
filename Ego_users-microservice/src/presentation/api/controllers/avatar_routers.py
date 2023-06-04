@@ -8,11 +8,13 @@ from fastapi import (
 )
 
 from src.presentation.api.di import get_service_stub
+from src.presentation.api.controllers import response as resp
 from src.application.user.service.user_service import UserService
 from src.presentation.api.controllers.request.avatar_requests import DeleteAvatarRequest
 from src.application import (
     SetAvatarData,
-    AvatarIsNotExist
+    UserIsNotExist,
+    AvatarIsNotExist,
 )
 from src.presentation.api.controllers.response import (
     SetAvatarResponse,
@@ -29,6 +31,7 @@ avatar_routers = APIRouter(
     path='/set_avatar',
     responses={
         status.HTTP_200_OK: {'model': SetAvatarResponse},
+        status.HTTP_404_NOT_FOUND: {"model": resp.ErrorResult[UserIsNotExist]}
     },
     response_model=SetAvatarResponse
 )

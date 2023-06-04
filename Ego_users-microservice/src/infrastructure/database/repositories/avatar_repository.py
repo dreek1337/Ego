@@ -47,15 +47,14 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
         """
         Установка аватарки пользователю
         """
-        print()
         query = (
             delete(Avatars)
             .where(Avatars.avatar_user_id == avatar.avatar_user_id.to_int)
         )
         await self._session.execute(query)
-        print()
+
         avatar_model = self._mapper.load(from_model=avatar, to_model=Avatars)
-        print()
+
         self._session.add(avatar_model)
 
         try:
