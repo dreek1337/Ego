@@ -18,13 +18,13 @@ from src.application import (
 )
 
 
-users_router = APIRouter(
+user_routers = APIRouter(
     tags=['users'],
-    prefix="/users"
+    prefix='/users'
 )
 
 
-@users_router.get(
+@user_routers.get(
     path='/info/{user_id}',
     responses={
         status.HTTP_200_OK: {'model': resp.UserDataResponse},
@@ -35,15 +35,15 @@ users_router = APIRouter(
 )
 async def get_user(
         request_data: req.GetUserRequest = Depends(),
-        user_service: UserService = Depends(get_service_stub)
+        service: UserService = Depends(get_service_stub)
 ):
     """
     Получение данных о пользователе с помощью его id
     """
-    return await user_service.get_user(data=request_data)
+    return await service.get_user(data=request_data)
 
 
-@users_router.post(
+@user_routers.post(
     path='/create_user',
     responses={
         status.HTTP_201_CREATED: {'model': resp.UserDataResponse},
@@ -64,15 +64,15 @@ async def get_user(
 )
 async def create_user(
         user_data: req.CreateUserRequest,
-        user_service: UserService = Depends(get_service_stub)
+        service: UserService = Depends(get_service_stub)
 ):
     """
     Создание пользователя
     """
-    return await user_service.create_user(data=user_data)
+    return await service.create_user(data=user_data)
 
 
-@users_router.patch(
+@user_routers.patch(
     path='/update_user_info',
     responses={
         status.HTTP_200_OK: {'model': resp.UserDataResponse},
@@ -93,15 +93,15 @@ async def create_user(
 )
 async def update_user_info(
         update_data: req.UpdateUserRequest,
-        user_service: UserService = Depends(get_service_stub)
+        service: UserService = Depends(get_service_stub)
 ):
     """
     Обновление данных пользователя
     """
-    return await user_service.update_user(data=update_data)
+    return await service.update_user(data=update_data)
 
 
-@users_router.delete(
+@user_routers.delete(
     path='/delete_user',
     responses={
         status.HTTP_200_OK: {'model': resp.DeletedUserResponse},
@@ -115,9 +115,9 @@ async def update_user_info(
 )
 async def delete_user(
         request_data: req.DeleteUserRequest,
-        user_service: UserService = Depends(get_service_stub)
+        service: UserService = Depends(get_service_stub)
 ):
     """
     Удаление пользователя
     """
-    return await user_service.delete_user(data=request_data)
+    return await service.delete_user(data=request_data)

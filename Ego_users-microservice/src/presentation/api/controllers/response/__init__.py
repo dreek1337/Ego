@@ -4,3 +4,7 @@ from src.presentation.api.controllers.response.user_responses import (
     UserDataResponse,
     DeletedUserResponse
 )
+from src.presentation.api.controllers.response.avatar_responses import (
+    SetAvatarResponse,
+    DeletedAvatarResponse
+)

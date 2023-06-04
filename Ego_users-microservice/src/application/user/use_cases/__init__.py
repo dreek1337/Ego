@@ -2,9 +2,7 @@ from src.application.user.use_cases.avatar import (
     SetAvatar,
     SetAvatarData,
     DeleteAvatar,
-    DeleteAvatarData,
-    UpdateAvatar,
-    UpdateAvatarData
+    DeleteAvatarData
 )
 from src.application.user.use_cases.user import (
     GetUser,

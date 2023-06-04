@@ -1,4 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import (
+    field,
+    dataclass
+)
 
 from src.domain.common import AbstractBaseException
 
@@ -9,10 +12,8 @@ class AppException(AbstractBaseException):
 
 @dataclass
 class UnexpectedError(AbstractBaseException):
-    text: str
-
-    def message(self) -> str:
-        return self.text
+    file_name: str | None = field(default=None)
+    content: tuple | None = field(default=None)
 
 
 @dataclass
@@ -23,3 +24,8 @@ class CommitError(UnexpectedError):
 @dataclass
 class RollbackError(UnexpectedError):
     """Ошибка роллбека для бд"""
+
+
+@dataclass
+class RepoError(UnexpectedError):
+    """Неизвестная ошибка репозитория"""

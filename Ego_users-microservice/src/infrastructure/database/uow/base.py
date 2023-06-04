@@ -18,7 +18,7 @@ class SQLAlchemyBaseUoW:
         try:
             await self._session.commit()
         except SQLAlchemyError as err:
-            raise CommitError(text=err.args[0])
+            raise CommitError(content=err.args[0])
 
     async def rollback(self) -> None:
         """
@@ -27,4 +27,4 @@ class SQLAlchemyBaseUoW:
         try:
             await self._session.rollback()
         except SQLAlchemyError as err:
-            raise RollbackError(text=err.args[0])
+            raise RollbackError(content=err.args[0])

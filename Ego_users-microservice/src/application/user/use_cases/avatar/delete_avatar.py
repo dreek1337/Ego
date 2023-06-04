@@ -28,16 +28,20 @@ class DeleteAvatar(BaseUseCase):
         self._mapper = mapper
         self._uow = uow
 
-    async def __call__(self, data: DeleteAvatarData) -> dto.DeletedAvatarDTO | None:
+    async def __call__(self, data: DeleteAvatarData) -> dto.DeletedAvatarDTO:
         avatar = await self._uow.avatar_repo.get_avatar_by_user_id(
             avatar_user_id=AvatarUserId(value=data.avatar_user_id)
         )
 
-        if not avatar:
-            return avatar  # type: ignore
+        if avatar:
+            avatar.delete()
 
-        avatar.delete()
-        await self._uow.avatar_repo.delete_avatar(avatar_id=avatar.avatar_id)
+        await self._uow.avatar_repo.delete_avatar(
+            avatar_id=
+            avatar.avatar_id
+            if avatar
+            else None
+        )
         await self._uow.commit()
 
         deleted_avatar_dto = self._mapper.load(

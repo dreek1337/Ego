@@ -8,7 +8,6 @@ from pydantic import (
 from src.domain import AvatarEntity
 from src.application.user import dto
 from src.application.user.uow import UserUoW
-from src.domain.common import ValidAvatarType
 from src.domain.user.value_objects import (
     AvatarId,
     AvatarType,
@@ -24,7 +23,7 @@ from src.application.common import (
 class SetAvatarData(UseCaseData):
     avatar_user_id: int
     avatar_id: UUID4 = Field(uuid.uuid4(), description="Айди аватара")
-    avatar_type: ValidAvatarType
+    avatar_type: str
     avatar_content: bytes
 
     class Config:

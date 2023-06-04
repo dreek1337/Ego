@@ -26,9 +26,5 @@ class AvatarRepo(ABC):
         """Сохранение файла"""
 
     @abstractmethod
-    async def update_avatar(self, avatar: AvatarEntity) -> None:
-        """Обнавление файла"""
-
-    @abstractmethod
-    async def delete_avatar(self, avatar_id: AvatarId) -> None:
+    async def delete_avatar(self, avatar_id: AvatarId | None) -> None:
         """Удаление файла"""

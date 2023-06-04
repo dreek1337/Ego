@@ -79,6 +79,7 @@ def convert_db_model_to_deleted_avatar_dto(avatar: Avatars) -> DeletedAvatarDTO:
     """
     Преобразование из модели орм в ДТО
     """
+    print()
     deleted_avatar_dto = DeletedAvatarDTO.from_orm(avatar)
 
     return deleted_avatar_dto

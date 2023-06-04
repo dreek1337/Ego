@@ -47,6 +47,7 @@ class MapperImpl(app.Mapper):
         for convert in self._convert_mappers:
             if convert.check(from_model=type(from_model), to_model=to_model):
                 return convert
+        print()
         # Сделать ошибку, что подходящего Convert нет
         raise Exception
 

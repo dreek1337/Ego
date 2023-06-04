@@ -22,5 +22,5 @@ class AvatarType(ValueObject[str]):
         """
         Проверка на валидные типы файла
         """
-        if self.value not in ValidAvatarType:
+        if self.value not in ValidAvatarType.__members__.values():
             raise InvalidAvatarType(file_type=self.value)

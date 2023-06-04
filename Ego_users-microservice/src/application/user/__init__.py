@@ -1,12 +1,15 @@
 from src.application.user.use_cases import (
     GetUserData,
+    SetAvatarData,
     UpdateUserData,
     DeleteUserData,
     CreateUserData,
+    DeleteAvatarData,
 )
 from src.application.user.exceptions import (
     UserIsNotExist,
-    UserIdIsAlreadyExist
+    AvatarIsNotExist,
+    UserIdIsAlreadyExist,
 )
 from src.application.user.dto import (
     UserDTO,

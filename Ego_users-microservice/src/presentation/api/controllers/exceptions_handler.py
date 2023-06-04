@@ -2,11 +2,12 @@ from fastapi import status
 from fastapi import FastAPI
 from starlette.requests import Request
 from fastapi.responses import ORJSONResponse
+from pydantic.error_wrappers import ValidationError
 
 from src.presentation.api.controllers.response import ErrorResult
 from src.application import (
     UserIsNotExist,
-    UserIdIsAlreadyExist
+    UserIdIsAlreadyExist, AvatarIsNotExist
 )
 from src.domain.user.exceptions import (
     InvalidGender,
@@ -20,9 +21,14 @@ def setup_exception_handlers(app: FastAPI) -> None:
 
 
 async def exception_handler(request: Request, err: Exception) -> ORJSONResponse:
-    if isinstance(err, (UserIsNotExist,)):
+    print()
+    if isinstance(
+            err,
+            (UserIsNotExist,
+             AvatarIsNotExist)
+    ):
         return ORJSONResponse(
-            ErrorResult(message=err.message, data=err).dict(),
+            ErrorResult(message=err.message, data=err),
             status_code=status.HTTP_404_NOT_FOUND
         )
     elif isinstance(
@@ -31,7 +37,7 @@ async def exception_handler(request: Request, err: Exception) -> ORJSONResponse:
              InvalidBirthdayDate)
     ):
         return ORJSONResponse(
-            ErrorResult(message=err.message, data=err).dict(),
+            ErrorResult(message=err.message, data=err),
             status_code=status.HTTP_400_BAD_REQUEST
         )
     elif isinstance(
@@ -40,14 +46,35 @@ async def exception_handler(request: Request, err: Exception) -> ORJSONResponse:
              UserIdIsAlreadyExist)
     ):
         return ORJSONResponse(
-            ErrorResult(message=err.message, data=err).dict(),
+            ErrorResult(message=err.message, data=err),
             status_code=status.HTTP_409_CONFLICT
         )
     else:
-        return ORJSONResponse(
-            ErrorResult(
-                message="Unknown server error has occurred",
-                data=err
-            ).dict(),
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        )
+        err = parse_error(err=err)
+        try:
+            return ORJSONResponse(
+                ErrorResult(
+                    message="Unknown server error has occurred",
+                    data=err
+                ),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+        except Exception as err:
+            return ORJSONResponse(
+                ErrorResult(
+                    message="Unknown server error, didn't parsed",
+                    data=f"Use debug, to check what happened! {err}"
+                ),
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+
+def parse_error(err: Exception | ValidationError):
+    if err.__class__.__context__.__objclass__ == BaseException:  # type: ignore
+        err = err.args  # type: ignore
+    try:
+        err = err.json()  # type: ignore
+    except AttributeError:
+        pass
+
+    return err

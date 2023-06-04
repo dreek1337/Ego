@@ -1,3 +1,4 @@
+from uuid import UUID
 from dataclasses import dataclass
 
 from src.application.common.exceptions import AppException
@@ -21,3 +22,21 @@ class UserIdIsAlreadyExist(AppException):
     def message(self) -> str:
         """Сообщение об ошибке"""
         return f'A user with the "{self.user_id}" user_id already exists'
+
+
+@dataclass
+class AvatarIdIsAlreadyExist(AppException):
+    avatar_id: UUID
+
+    @property
+    def message(self) -> str:
+        """Сообщение об ошибке"""
+        return f'Avatar with the "{self.avatar_id}" avatar_id already exists'
+
+
+@dataclass
+class AvatarIsNotExist(AppException):
+    @property
+    def message(self) -> str:
+        """Сообщение об ошибке"""
+        return 'Avatar is not exists'

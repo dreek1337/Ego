@@ -9,6 +9,7 @@ from src.application.common.interfaces import (
     UnitOfWork
 )
 from src.application.common.exceptions import (
+    RepoError,
     CommitError,
     RollbackError
 )

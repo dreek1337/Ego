@@ -7,6 +7,7 @@ from sqlalchemy import (
 
 from src.application.user import dto
 from src.domain import SubscriptionEntity
+from src.infrastructure.database.error_interceptor import error_interceptor
 from src.infrastructure.utils import add_filters
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
 from src.domain.user.value_objects import (
@@ -29,6 +30,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
     """
     Реализация ридера для подписок
     """
+    @error_interceptor(file_name=__name__)
     async def get_subscriptions_by_id(
             self,
             *,
@@ -68,6 +70,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
 
         return subscriptions_dto
 
+    @error_interceptor(file_name=__name__)
     async def get_subscribers_by_id(
             self,
             *,
@@ -107,6 +110,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
 
         return subscriptions_dto
 
+    @error_interceptor(file_name=__name__)
     async def get_count_subscriptions(self, subscriber_id: int) -> int:
         """
         Получить кол-во подписок пользователя
@@ -120,6 +124,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
 
         return count_of_subscriptions or 0
 
+    @error_interceptor(file_name=__name__)
     async def get_count_subscribers(self, subscription_id: int) -> int:
         """
         Получить кол-во подписчиков пользователя
@@ -138,6 +143,7 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
     """
     Реализация репозитория для подписок
     """
+    @error_interceptor(file_name=__name__)
     async def get_subscription_by_id(
             self,
             *,
@@ -168,6 +174,7 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
 
         return subscription_entity
 
+    @error_interceptor(file_name=__name__)
     async def subscribe(self, subscription: SubscriptionEntity) -> None:
         """
         Подписаться на пользователя
@@ -184,6 +191,7 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
         except IntegrityError:
             pass  # Добавить обрабокту ошибок
 
+    @error_interceptor(file_name=__name__)
     async def unsubscribe(self, subscription: SubscriptionEntity) -> None:
         """
         Отписаться от пользователя

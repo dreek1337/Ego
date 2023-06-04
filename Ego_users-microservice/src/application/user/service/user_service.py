@@ -80,18 +80,6 @@ class UserService(Service):
             mapper=self._mapper
         )(data=data)
 
-    async def update_avatar(
-            self,
-            data: use_cases.UpdateAvatarData
-    ) -> dto.AvatarDTO | None:
-        """
-        Обновить аватарку пользователя
-        """
-        return await use_cases.UpdateAvatar(
-            uow=self._uow,
-            mapper=self._mapper
-        )(data=data)
-
     async def delete_avatar(
             self,
             data: use_cases.DeleteAvatarData

@@ -4,10 +4,7 @@ from dataclasses import (
 )
 
 from src.domain.user.exceptions import AvatarIsDeleted
-from src.domain.common import (
-    Empty,
-    Entity
-)
+from src.domain.common import Entity
 from src.domain.user.value_objects import (
     AvatarId,
     AvatarType,
@@ -46,22 +43,6 @@ class AvatarEntity(Entity):
         )
 
         return avatar
-
-    def update_avatar(
-            self,
-            *,
-            avatar_type: AvatarType | Empty = Empty.UNSET,
-            avatar_content: bytes | Empty = Empty.UNSET
-        ) -> None:
-        """
-        Обнавление фотографии
-        """
-        self._check_on_delete()
-
-        if not avatar_type == Empty.UNSET:
-            self.avatar_type = avatar_type  # type: ignore
-        if not avatar_content == Empty.UNSET:
-            self.avatar_content = avatar_content  # type: ignore
 
     def delete(self) -> None:
         """
