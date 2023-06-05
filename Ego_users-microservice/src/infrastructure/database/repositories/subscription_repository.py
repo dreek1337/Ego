@@ -55,7 +55,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
                 cte_query.subscription_id,
                 Users.first_name,
                 Users.last_name,
-                Avatars.avatar_content
+                Avatars
             )
             .join(Users)
             .join(Users.avatar, isouter=True)
@@ -95,7 +95,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
                 cte_query.subscriber_id,
                 Users.first_name,
                 Users.last_name,
-                Avatars.avatar_content
+                Avatars
             )
             .join(Users)
             .join(Users.avatar, isouter=True)

@@ -1,4 +1,5 @@
 from src.application.user import dto
+from src.application.common import CloudStorageBase
 from src.application.user.uow import UserUoW
 from src.application.common import (
     Mapper,
@@ -15,10 +16,12 @@ class UserService(Service):
             self,
             *,
             uow: UserUoW,
-            mapper: Mapper
+            mapper: Mapper,
+            cloud_storage: CloudStorageBase
     ) -> None:
         self._uow = uow
         self._mapper = mapper
+        self._cloud_storage = cloud_storage
 
     async def get_user(
             self,
@@ -78,7 +81,7 @@ class UserService(Service):
         return await use_cases.SetAvatar(
             uow=self._uow,
             mapper=self._mapper
-        )(data=data)
+        )(data=data)  # type: ignore
 
     async def delete_avatar(
             self,

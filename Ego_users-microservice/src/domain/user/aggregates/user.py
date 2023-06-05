@@ -3,8 +3,6 @@ from dataclasses import (
     dataclass
 )
 
-
-from src.domain.user.entities import AvatarEntity
 from src.domain.user.exceptions import UserIsDeleted
 from src.domain.common import (
     Empty,
@@ -29,7 +27,7 @@ class UserAggregate(Aggregate):
     birthday: UserBirthday
     count_of_subscribers: int = field(default=0)
     count_of_subscriptions: int = field(default=0)
-    avatar: AvatarEntity | None = field(default=None)
+    avatar_path: str | None = field(default=None)
     deleted: bool = field(default=False)
 
     @classmethod
@@ -89,12 +87,12 @@ class UserAggregate(Aggregate):
         """
         self.count_of_subscriptions = count_of_subscriptions
 
-    def set_avatar(self, avatar: AvatarEntity | None) -> None:
+    def set_avatar(self, avatar_path: str | None) -> None:
         """
         Установка аватара
         """
-        if avatar:
-            self.avatar = avatar
+        if avatar_path:
+            self.avatar_path = avatar_path
 
     def delete_user(self) -> None:
         """

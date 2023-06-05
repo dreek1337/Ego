@@ -5,7 +5,7 @@ from src.domain.common import ValueObject
 
 
 @dataclass(frozen=True)
-class AvatarId(ValueObject[UUID]):
+class AvatarName(ValueObject[UUID]):
     value: UUID
 
     @property

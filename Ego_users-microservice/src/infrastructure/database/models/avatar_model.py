@@ -24,7 +24,6 @@ class Avatars(Base):
         autoincrement=False
     )
     avatar_type: Mapped[str] = mapped_column(sa.String(10))
-    avatar_content: Mapped[bytes] = mapped_column(sa.LargeBinary, nullable=True)
     avatar_user_id: Mapped[int] = mapped_column(
         sa.ForeignKey('users.user_id'),
         index=True

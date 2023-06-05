@@ -61,4 +61,4 @@ def get_service(
     """
     Поулчение Пользовательского сервиса со всеми зависимостями
     """
-    return UserService(uow=uow, mapper=mapper)
+    return UserService(uow=uow, mapper=mapper)  # type: ignore

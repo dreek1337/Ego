@@ -38,7 +38,7 @@ class DeleteAvatar(BaseUseCase):
 
         await self._uow.avatar_repo.delete_avatar(
             avatar_id=
-            avatar.avatar_id
+            avatar.avatar_name
             if avatar
             else None
         )

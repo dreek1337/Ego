@@ -6,6 +6,7 @@ from src.application.common.use_cases import (
 )
 from src.application.common.interfaces import (
     Mapper,
+    CloudStorageBase,
     UnitOfWork
 )
 from src.application.common.exceptions import (

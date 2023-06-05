@@ -4,7 +4,6 @@ from src.domain.user import value_objects as vo
 from src.infrastructure.database.models import Users
 from src.application import (
     UserDTO,
-    AvatarDTO,
     DeletedUserDTO
 )
 
@@ -23,12 +22,7 @@ def convert_user_aggregate_to_dto(user: UserAggregate) -> UserDTO:
         last_name=user.last_name,
         gender=user.gender.get_value,
         birthday=user.birthday.get_value,
-        avatar=AvatarDTO(
-            avatar_user_id=user.user_id.to_int,
-            avatar_id=user.avatar.avatar_id.to_uuid,
-            avatar_type=user.avatar.avatar_type.get_value,
-            avatar_content=user.avatar.avatar_content,
-        ) if user.avatar else None,
+        avatar_path=user.avatar_path if user.avatar_path else None,
         count_of_subscriptions=user.count_of_subscriptions,
         count_of_subscribers=user.count_of_subscribers,
         deleted=user.deleted

@@ -1,5 +1,5 @@
 from src.domain.user.value_objects.avatar import (
-    AvatarId,
+    AvatarName,
     AvatarType,
     AvatarUserId
 )

@@ -10,7 +10,7 @@ from src.infrastructure.database.models import Avatars
 from src.infrastructure.database.error_interceptor import error_interceptor
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
 from src.domain.user.value_objects import (
-    AvatarId,
+    AvatarName,
     AvatarUserId
 )
 
@@ -63,7 +63,7 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
             self._parse_error(err=err, data=avatar)
 
     @error_interceptor(file_name=__name__)
-    async def delete_avatar(self, avatar_id: AvatarId | None) -> None:
+    async def delete_avatar(self, avatar_id: AvatarName | None) -> None:
         """
         Удаление аватарки по айди
         """

@@ -45,7 +45,8 @@ class GetUser(BaseUseCase):
             subscriber_id=user.user_id.to_int
         )
 
-        user.set_avatar(avatar=avatar)
+        avatar_path = avatar.get_avatar() if avatar else None
+        user.set_avatar(avatar_path=avatar_path)
         user.set_count_of_subscribers(count_of_subscribers=subscribers_cnt)
         user.set_count_of_subscriptions(count_of_subscriptions=subscriptions_cnt)
 
