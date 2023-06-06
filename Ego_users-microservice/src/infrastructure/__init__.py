@@ -1,1 +1,2 @@
 from src.infrastructure.database import engine_config
+from src.infrastructure.simple_storage_service import cloud_config

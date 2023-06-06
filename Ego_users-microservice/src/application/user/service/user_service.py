@@ -80,8 +80,9 @@ class UserService(Service):
         """
         return await use_cases.SetAvatar(
             uow=self._uow,
-            mapper=self._mapper
-        )(data=data)  # type: ignore
+            mapper=self._mapper,
+            cloud_storage=self._cloud_storage
+        )(data=data)
 
     async def delete_avatar(
             self,

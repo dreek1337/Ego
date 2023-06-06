@@ -45,20 +45,13 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
     @error_interceptor(file_name=__name__)
     async def set_avatar(self, avatar: AvatarEntity) -> None:
         """
-        Установка аватарки пользователю
+        Сохранение данных об аватарке или их обнавление
         """
-        query = (
-            delete(Avatars)
-            .where(Avatars.avatar_user_id == avatar.avatar_user_id.to_int)
-        )
-        await self._session.execute(query)
-
         avatar_model = self._mapper.load(from_model=avatar, to_model=Avatars)
 
-        self._session.add(avatar_model)
-
         try:
-            await self._session.flush((avatar_model,))
+            await self._session.merge(avatar_model)
+            # Изменить логику сохранения и изменения аватарки
         except IntegrityError as err:
             self._parse_error(err=err, data=avatar)
 

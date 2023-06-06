@@ -1,5 +1,6 @@
 from src.application.user import dto
 from src.application.user.uow import UserUoW
+from src.application.user.constant import AvatarCloudEnum
 from src.domain.user.value_objects import (
     UserId,
     AvatarUserId
@@ -45,7 +46,11 @@ class GetUser(BaseUseCase):
             subscriber_id=user.user_id.to_int
         )
 
-        avatar_path = avatar.get_avatar() if avatar else None
+        avatar_path = (
+            f'{AvatarCloudEnum.FOLDER.value}/{avatar.get_full_avatar_name()}'
+            if avatar
+            else None
+        )
         user.set_avatar(avatar_path=avatar_path)
         user.set_count_of_subscribers(count_of_subscribers=subscribers_cnt)
         user.set_count_of_subscriptions(count_of_subscriptions=subscriptions_cnt)

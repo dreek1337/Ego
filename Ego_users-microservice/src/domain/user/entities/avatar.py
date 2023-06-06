@@ -41,11 +41,11 @@ class AvatarEntity(Entity):
 
         return avatar
 
-    def get_avatar(self) -> str:
+    def get_full_avatar_name(self) -> str:
         """
         Поулчение имя файла
         """
-        return f'avatars/{self.avatar_name}.{self.avatar_type.get_value}'
+        return f'{self.avatar_name.to_uuid}.{self.avatar_type.get_value}'
 
     def delete(self) -> None:
         """

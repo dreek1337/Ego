@@ -22,5 +22,5 @@ class MinioConfig(BaseSettings):
 
         del values['host']
         del values['port']
-        print()
+
         return values

@@ -47,9 +47,10 @@ services:
       - minio_config:/root/.minio
     env_file:
       - .env
-    command: server --address ${MINIO_HOST}:${MINIO_PORT}
+    command: server --address 0.0.0.0:${MINIO_PORT} --console-address :${MINIO_PORT_2} /data
     ports:
         - ${MINIO_HOST}:${MINIO_PORT}:${MINIO_PORT}
+        - ${MINIO_PORT_2}:${MINIO_PORT_2}
 
 volumes:
   minio_data:
