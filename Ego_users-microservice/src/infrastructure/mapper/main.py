@@ -48,6 +48,7 @@ class MapperImpl(app.Mapper):
         for convert in self._convert_mappers:
             if convert.check(from_model=type(from_model), to_model=to_model):
                 return convert
+        print()
         raise UnsupportedConvertor()
 
 
@@ -131,6 +132,11 @@ def create_mapper() -> MapperImpl:
                 from_model=models.Subscriptions,
                 to_model=domain.SubscriptionEntity,
                 loader=cf.convert_subscription_db_model_to_subscription_entity
+            ),
+            Convert(
+                from_model=domain.SubscriptionEntity,
+                to_model=models.Subscriptions,
+                loader=cf.convert_subscription_entity_to_db_model
             )
         ]
     ))

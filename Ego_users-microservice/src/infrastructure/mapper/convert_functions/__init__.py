@@ -1,7 +1,8 @@
 from src.infrastructure.mapper.convert_functions.subscription import (
     convert_subscription_entity_to_dto,
     convert_subscriptions_db_model_to_subscription_dto,
-    convert_subscription_db_model_to_subscription_entity
+    convert_subscription_db_model_to_subscription_entity,
+    convert_subscription_entity_to_db_model
 )
 from src.infrastructure.mapper.convert_functions.user import (
     convert_db_model_to_user_dto,

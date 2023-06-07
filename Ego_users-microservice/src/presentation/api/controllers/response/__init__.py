@@ -8,3 +8,7 @@ from src.presentation.api.controllers.response.avatar_responses import (
     SetAvatarResponse,
     DeletedAvatarResponse
 )
+from src.presentation.api.controllers.response.subscription_response import (
+    SubscribeResponse,
+    UnsubscribeResponse
+)

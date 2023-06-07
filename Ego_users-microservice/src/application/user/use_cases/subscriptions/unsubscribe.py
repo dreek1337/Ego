@@ -42,7 +42,7 @@ class Unsubscribe(BaseUseCase):
         await self._uow.commit()
 
         delete_subscription_dto = self._mapper.load(
-            from_model=data,
+            from_model=subscription,
             to_model=dto.SubscribeActionDTO
         )
 

@@ -9,8 +9,12 @@ from src.application.user.use_cases import (
 from src.application.user.exceptions import (
     UserIsNotExist,
     AvatarIsNotExist,
+    SubscribeOnYourself,
     UserIdIsAlreadyExist,
-    UnsupportedConvertor
+    UnsupportedConvertor,
+    SubscribeIsNotExists,
+    SubscribeIsAlreadyExists,
+    UserForSubscribeIsNotExists
 )
 from src.application.user.dto import (
     UserDTO,

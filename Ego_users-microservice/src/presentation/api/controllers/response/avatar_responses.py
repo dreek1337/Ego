@@ -5,8 +5,8 @@ from src.application import (
 
 
 class SetAvatarResponse(AvatarDTO):
-    """Модель отпарвки данных об аватарке"""
+    """Модель ответа отпарвки данных об аватарке"""
 
 
 class DeletedAvatarResponse(DeletedAvatarDTO):
-    """Модель удаления аватарки"""
+    """Модель ответа удаления аватарки"""

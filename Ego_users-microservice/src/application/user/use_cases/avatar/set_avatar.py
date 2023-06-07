@@ -7,18 +7,19 @@ from pydantic import (
 
 from src.domain import AvatarEntity
 from src.application.user import dto
-from src.application.common import CloudStorageBase
 from src.application.user.uow import UserUoW
+from src.application.common import CloudStorageBase
 from src.domain.user.exceptions import UserIsDeleted
-from src.domain.user.value_objects import (
-    AvatarId,
-    AvatarType,
-    AvatarUserId, UserId
-)
+from src.application.user.exceptions import UserIsNotExist
 from src.application.common import (
     Mapper,
     BaseUseCase,
     UseCaseData
+)
+from src.domain.user.value_objects import (
+    AvatarId,
+    AvatarType,
+    AvatarUserId, UserId
 )
 
 
@@ -48,11 +49,13 @@ class SetAvatar(BaseUseCase):
         self._cloud_storage = cloud_storage
 
     async def __call__(self, data: SetAvatarData) -> dto.AvatarDTO:
-        user_deleted_status = await self._uow.user_repo.get_user_by_id(
+        user = await self._uow.user_repo.get_user_by_id(
             user_id=UserId(value=data.avatar_user_id)
         )
 
-        if user_deleted_status:
+        if user:
+            raise UserIsNotExist(user_id=data.avatar_user_id)
+        if user.deleted:
             raise UserIsDeleted(user_id=data.avatar_user_id)
 
         avatar = AvatarEntity.create_avatar(

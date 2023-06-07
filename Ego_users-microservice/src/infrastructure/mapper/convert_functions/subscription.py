@@ -28,9 +28,9 @@ def convert_subscriptions_db_model_to_subscription_dto(
         subscriptions: Result
 ) -> list[SubscriptionDTO]:
     """
-    Преобразования ORM моделей в ДТО
+    Преобразование ORM моделей в ДТО
     """
-
+    print()
     subscription_dto = [
         SubscriptionDTO(
             subscription_id=subscription.subscriber_id,
@@ -50,7 +50,7 @@ def convert_subscription_db_model_to_subscription_entity(
         subscription: Subscriptions
 ) -> SubscriptionEntity:
     """
-    Преобразования ORM модели в Энтити
+    Преобразование ORM модели в Энтити
     """
     subscription_entity = SubscriptionEntity(
         subscription_user_id=vo.SubscriptionId(value=subscription.subscription_id),
@@ -58,3 +58,17 @@ def convert_subscription_db_model_to_subscription_entity(
     )
 
     return subscription_entity
+
+
+def convert_subscription_entity_to_db_model(
+        subscription: SubscriptionEntity
+) -> Subscriptions:
+    """
+    Преобразование энтити модель орм
+    """
+    subscription_orm_model = Subscriptions(
+        subscription_id=subscription.subscription_user_id.to_int,
+        subscriber_id=subscription.subscriber_user_id.to_int
+    )
+
+    return subscription_orm_model

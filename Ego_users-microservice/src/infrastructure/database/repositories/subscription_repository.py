@@ -7,9 +7,10 @@ from sqlalchemy import (
 
 from src.application.user import dto
 from src.domain import SubscriptionEntity
-from src.infrastructure.database.error_interceptor import error_interceptor
+from src.application import SubscribeIsNotExists
 from src.infrastructure.utils import add_filters
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
+from src.infrastructure.database.error_interceptor import error_interceptor
 from src.domain.user.value_objects import (
     SubscriberId,
     SubscriptionId,
@@ -22,6 +23,7 @@ from src.infrastructure.database.models import (
 from src.application import (
     SubscriptionRepo,
     SubscriptionReader,
+    SubscribeOnYourself,
     GetSubscriptionsFilters
 )
 
@@ -63,7 +65,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
         )
 
         subscriptions = await self._session.execute(query)
-
+        print()
         subscriptions_dto = self._mapper.load(
             from_model=subscriptions,
             to_model=list[dto.SubscriptionDTO]
@@ -166,12 +168,13 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
 
         subscription = await self._session.execute(query)
 
-        if not subscription:
-            # raise SubscriptionIsNotExist(subscription_id.to_int, subscriber_id.to_int)
-            pass
+        result = subscription.scalar()
+
+        if not result:
+            raise SubscribeIsNotExists()
 
         subscription_entity = self._mapper.load(
-            from_model=subscription,
+            from_model=result,
             to_model=SubscriptionEntity
         )
 
@@ -187,12 +190,15 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
             to_model=Subscriptions
         )
 
+        if subscription_model.subscription_id == subscription_model.subscriber_id:
+            raise SubscribeOnYourself()
+
         self._session.add(subscription_model)
 
         try:
             await self._session.flush((subscription_model,))
-        except IntegrityError:
-            pass  # Добавить обрабокту ошибок
+        except IntegrityError as err:
+            self._parse_error(err=err, data=subscription)
 
     @error_interceptor(file_name=__name__)
     async def unsubscribe(self, subscription: SubscriptionEntity) -> None:
@@ -203,14 +209,10 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
             delete(Subscriptions)
             .where(
                 Subscriptions.subscription_id == (
-                    subscription
-                    .subscription_user_id
-                    .to_int
+                    subscription.subscription_user_id.to_int
                 ),
                 Subscriptions.subscriber_id == (
-                    subscription
-                    .subscriber_user_id
-                    .to_int
+                    subscription.subscriber_user_id.to_int
                 )
             )
         )

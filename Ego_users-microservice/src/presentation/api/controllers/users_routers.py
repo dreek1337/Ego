@@ -34,7 +34,7 @@ user_routers = APIRouter(
     status_code=status.HTTP_200_OK
 )
 async def get_user(
-        request_data: req.GetUserRequest = Depends(),
+        request_data: req.GetUserRequest,
         service: UserService = Depends(get_service_stub)
 ):
     """

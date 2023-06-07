@@ -48,3 +48,35 @@ class UnsupportedConvertor(AppException):
     def message(self) -> str:
         """Сообщение об ошибке"""
         return 'ToModel or FromModel is unsupported!'
+
+
+@dataclass
+class SubscribeOnYourself(AppException):
+    @property
+    def message(self) -> str:
+        """Сообщение об ошибке"""
+        return 'You can\'t subscribe on yourself!'
+
+
+@dataclass
+class SubscribeIsAlreadyExists(AppException):
+    @property
+    def message(self) -> str:
+        """Сообщение об ошибке"""
+        return 'Subscribe is already exists!'
+
+
+@dataclass
+class SubscribeIsNotExists(AppException):
+    @property
+    def message(self) -> str:
+        """Сообщение об ошибке"""
+        return 'Subscribe is not exists!'
+
+
+@dataclass
+class UserForSubscribeIsNotExists(AppException):
+    @property
+    def message(self) -> str:
+        """Сообщение об ошибке"""
+        return 'User for subscribe is not exists!'

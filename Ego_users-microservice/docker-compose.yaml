@@ -2,13 +2,6 @@ version: '3'
 
 services:
 
-  nginx:
-    image: nginx:1.24.0-alpine
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    ports:
-      - "80:80"
-
   database:
     image: postgres:14-alpine
     restart: always

@@ -10,7 +10,11 @@ from src.presentation.api.controllers.response import ErrorResult
 from src.application import (
     UserIsNotExist,
     AvatarIsNotExist,
-    UserIdIsAlreadyExist
+    SubscribeOnYourself,
+    SubscribeIsNotExists,
+    UserIdIsAlreadyExist,
+    SubscribeIsAlreadyExists,
+    UserForSubscribeIsNotExists
 )
 from src.domain.user.exceptions import (
     InvalidGender,
@@ -25,19 +29,14 @@ def setup_exception_handlers(app: FastAPI) -> None:
 
 
 async def exception_handler(request: Request, err: Exception) -> ORJSONResponse:
+    """
+    Обработка ошибок по типу
+    """
     if isinstance(
-            err,
-            (UserIsNotExist,
-             AvatarIsNotExist)
-    ):
-        return ORJSONResponse(
-            ErrorResult(message=err.message, data=err),
-            status_code=status.HTTP_404_NOT_FOUND
-        )
-    elif isinstance(
             err,
             (InvalidGender,
              InvalidAvatarType,
+             SubscribeOnYourself,
              InvalidBirthdayDate)
     ):
         return ORJSONResponse(
@@ -46,8 +45,20 @@ async def exception_handler(request: Request, err: Exception) -> ORJSONResponse:
         )
     elif isinstance(
             err,
+            (UserIsNotExist,
+             AvatarIsNotExist,
+             SubscribeIsNotExists,
+             UserForSubscribeIsNotExists)
+    ):
+        return ORJSONResponse(
+            ErrorResult(message=err.message, data=err),
+            status_code=status.HTTP_404_NOT_FOUND
+        )
+    elif isinstance(
+            err,
             (UserIsDeleted,
-             UserIdIsAlreadyExist)
+             UserIdIsAlreadyExist,
+             SubscribeIsAlreadyExists)
     ):
         return ORJSONResponse(
             ErrorResult(message=err.message, data=err),

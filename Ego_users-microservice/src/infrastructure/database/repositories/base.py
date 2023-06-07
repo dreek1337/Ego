@@ -6,11 +6,15 @@ from src.application import Mapper
 from src.application.common import RepoError
 from src.domain import (
     AvatarEntity,
-    UserAggregate
+    UserAggregate,
+    SubscriptionEntity
 )
 from src.application.user.exceptions import (
+    UserIsNotExist,
     UserIdIsAlreadyExist,
-    AvatarIdIsAlreadyExist, UserIsNotExist
+    AvatarIdIsAlreadyExist,
+    SubscribeIsAlreadyExists,
+    UserForSubscribeIsNotExists
 )
 
 
@@ -28,7 +32,10 @@ class SQLAlchemyRepo:
         self._mapper = mapper
 
     @staticmethod
-    def _parse_error(err: DBAPIError, data: AvatarEntity | UserAggregate) -> None:
+    def _parse_error(
+            err: DBAPIError,
+            data: AvatarEntity | UserAggregate | SubscriptionEntity
+    ) -> None:
         """
         Определение ошибки
         """
@@ -43,9 +50,13 @@ class SQLAlchemyRepo:
                 raise AvatarIdIsAlreadyExist(
                     avatar_id=data.avatar_id.to_uuid
                 )
+            elif type(data) == SubscriptionEntity:
+                raise SubscribeIsAlreadyExists()
         elif error == ForeignKeyViolationError:
             if type(data) == AvatarEntity:
                 raise UserIsNotExist(user_id=data.avatar_user_id.to_int)
+            if type(data) == SubscriptionEntity:
+                raise UserForSubscribeIsNotExists()
         else:
             file_name = __name__
             raise RepoError(file_name=file_name, content=err.args)

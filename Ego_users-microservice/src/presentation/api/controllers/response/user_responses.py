@@ -5,8 +5,8 @@ from src.application import (
 
 
 class UserDataResponse(UserDTO):
-    """Модель получения пользоватлея"""
+    """Модель ответа получения пользоватлея"""
 
 
 class DeletedUserResponse(DeleteUserData):
-    """Модель данных, удаленного пользователя"""
+    """Модель ответа данных, удаленного пользователя"""
