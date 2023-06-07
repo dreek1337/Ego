@@ -55,7 +55,8 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
                 cte_query.subscription_id,
                 Users.first_name,
                 Users.last_name,
-                Avatars
+                Avatars.avatar_user_id,
+                Avatars.avatar_type
             )
             .join(Users)
             .join(Users.avatar, isouter=True)
@@ -95,12 +96,13 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
                 cte_query.subscriber_id,
                 Users.first_name,
                 Users.last_name,
-                Avatars
+                Avatars.avatar_user_id,
+                Avatars.avatar_type
             )
             .join(Users)
             .join(Users.avatar, isouter=True)
         )
-
+        print()
         subscribers = await self._session.execute(query)
 
         subscriptions_dto = self._mapper.load(

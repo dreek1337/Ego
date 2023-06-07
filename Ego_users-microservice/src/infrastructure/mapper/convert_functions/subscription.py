@@ -2,6 +2,7 @@ from sqlalchemy import Result
 
 from src.domain import SubscriptionEntity
 from src.domain.user import value_objects as vo
+from src.application.user.constant import AvatarCloudEnum
 from src.infrastructure.database.models.subscriptions_model import Subscriptions
 from src.application.user.dto import (
     SubscriptionDTO,
@@ -29,12 +30,15 @@ def convert_subscriptions_db_model_to_subscription_dto(
     """
     Преобразования ORM моделей в ДТО
     """
+
     subscription_dto = [
         SubscriptionDTO(
             subscription_id=subscription.subscriber_id,
             first_name=subscription.first_name,
             last_name=subscription.first_name,
-            avatar=subscription.avatar_content if subscription.avatar_content else None
+            avatar=f'{AvatarCloudEnum.FOLDER.value}/{subscription.avatar_user_id}.{subscription.avatar_type}'
+            if subscription.avatar_user_id and subscription.avatar_type
+            else None
         )
         for subscription in subscriptions
     ]
