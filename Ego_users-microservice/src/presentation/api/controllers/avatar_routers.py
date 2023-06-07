@@ -59,7 +59,7 @@ async def set_avatar(
         avatar_content=file,
         avatar_user_id=avatar_user_id,
         avatar_type=file_type if file_type else 'invalid_type'
-    )
+    )  # type: ignore
 
     return await service.set_avatar(data=data)
 

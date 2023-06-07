@@ -9,4 +9,3 @@ repos:
     rev: 'v0.0.269'
     hooks:
     -   id: ruff
-        exclude: __init__.py
