@@ -40,3 +40,11 @@ class AvatarIsNotExist(AppException):
     def message(self) -> str:
         """Сообщение об ошибке"""
         return 'Avatar is not exists'
+
+
+@dataclass
+class UnsupportedConvertor(AppException):
+    @property
+    def message(self) -> str:
+        """Сообщение об ошибке"""
+        return 'ToModel or FromModel is unsupported!'

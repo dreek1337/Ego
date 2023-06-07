@@ -5,7 +5,7 @@ from abc import (
 
 from src.domain import AvatarEntity
 from src.domain.user.value_objects import (
-    AvatarName,
+    AvatarId,
     AvatarUserId
 )
 
@@ -26,5 +26,5 @@ class AvatarRepo(ABC):
         """Сохранение файла"""
 
     @abstractmethod
-    async def delete_avatar(self, avatar_id: AvatarName | None) -> None:
+    async def delete_avatar(self, avatar_id: AvatarId | None) -> None:
         """Удаление файла"""

@@ -9,12 +9,14 @@ from pydantic.error_wrappers import ValidationError
 from src.presentation.api.controllers.response import ErrorResult
 from src.application import (
     UserIsNotExist,
-    UserIdIsAlreadyExist, AvatarIsNotExist
+    AvatarIsNotExist,
+    UserIdIsAlreadyExist
 )
 from src.domain.user.exceptions import (
     InvalidGender,
     UserIsDeleted,
-    InvalidBirthdayDate,
+    InvalidAvatarType,
+    InvalidBirthdayDate
 )
 
 
@@ -35,6 +37,7 @@ async def exception_handler(request: Request, err: Exception) -> ORJSONResponse:
     elif isinstance(
             err,
             (InvalidGender,
+             InvalidAvatarType,
              InvalidBirthdayDate)
     ):
         return ORJSONResponse(

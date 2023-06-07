@@ -41,7 +41,7 @@ class SQLAlchemyRepo:
                 )
             elif type(data) == AvatarEntity:
                 raise AvatarIdIsAlreadyExist(
-                    avatar_id=data.avatar_name.to_uuid
+                    avatar_id=data.avatar_id.to_uuid
                 )
         elif error == ForeignKeyViolationError:
             if type(data) == AvatarEntity:

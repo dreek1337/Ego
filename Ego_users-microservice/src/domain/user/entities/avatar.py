@@ -6,7 +6,7 @@ from dataclasses import (
 from src.domain.user.exceptions import AvatarIsDeleted
 from src.domain.common import Entity
 from src.domain.user.value_objects import (
-    AvatarName,
+    AvatarId,
     AvatarType,
     AvatarUserId
 )
@@ -17,7 +17,7 @@ class AvatarEntity(Entity):
     """
     Информация о файле
     """
-    avatar_name: AvatarName
+    avatar_id: AvatarId
     avatar_type: AvatarType
     avatar_user_id: AvatarUserId
     deleted: bool = field(default=False)
@@ -27,7 +27,7 @@ class AvatarEntity(Entity):
             cls,
             *,
             avatar_user_id: AvatarUserId,
-            avatar_name: AvatarName,
+            avatar_name: AvatarId,
             avatar_type: AvatarType
     ) -> 'AvatarEntity':
         """
@@ -35,7 +35,7 @@ class AvatarEntity(Entity):
         """
         avatar = AvatarEntity(
             avatar_user_id=avatar_user_id,
-            avatar_name=avatar_name,
+            avatar_id=avatar_name,
             avatar_type=avatar_type
         )
 
@@ -45,7 +45,7 @@ class AvatarEntity(Entity):
         """
         Поулчение имя файла
         """
-        return f'{self.avatar_name.to_uuid}.{self.avatar_type.get_value}'
+        return f'{self.avatar_id.to_uuid}.{self.avatar_type.get_value}'
 
     def delete(self) -> None:
         """

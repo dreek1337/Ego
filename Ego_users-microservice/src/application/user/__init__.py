@@ -10,6 +10,7 @@ from src.application.user.exceptions import (
     UserIsNotExist,
     AvatarIsNotExist,
     UserIdIsAlreadyExist,
+    UnsupportedConvertor
 )
 from src.application.user.dto import (
     UserDTO,

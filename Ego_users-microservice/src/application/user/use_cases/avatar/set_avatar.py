@@ -9,10 +9,11 @@ from src.domain import AvatarEntity
 from src.application.user import dto
 from src.application.common import CloudStorageBase
 from src.application.user.uow import UserUoW
+from src.domain.user.exceptions import UserIsDeleted
 from src.domain.user.value_objects import (
-    AvatarName,
+    AvatarId,
     AvatarType,
-    AvatarUserId
+    AvatarUserId, UserId
 )
 from src.application.common import (
     Mapper,
@@ -25,7 +26,7 @@ class SetAvatarData(UseCaseData):
     avatar_type: str
     avatar_user_id: int
     avatar_content: bytes
-    avatar_name: UUID4 = Field(uuid.uuid4(), description="Айди аватара")
+    avatar_id: UUID4 = Field(uuid.uuid4(), description="Айди аватара")
 
     class Config:
         frozen = True
@@ -47,9 +48,16 @@ class SetAvatar(BaseUseCase):
         self._cloud_storage = cloud_storage
 
     async def __call__(self, data: SetAvatarData) -> dto.AvatarDTO:
+        user_deleted_status = await self._uow.user_repo.get_user_by_id(
+            user_id=UserId(value=data.avatar_user_id)
+        )
+
+        if user_deleted_status:
+            raise UserIsDeleted(user_id=data.avatar_user_id)
+
         avatar = AvatarEntity.create_avatar(
             avatar_user_id=AvatarUserId(value=data.avatar_user_id),
-            avatar_name=AvatarName(value=data.avatar_name),
+            avatar_name=AvatarId(value=data.avatar_id),
             avatar_type=AvatarType(value=data.avatar_type)
         )
 

@@ -8,6 +8,7 @@ from sqlalchemy import Result
 from src import domain
 from src import application as app
 from src.infrastructure.database import models
+from src.application import UnsupportedConvertor
 from src.infrastructure.mapper.convert import Convert
 from src.infrastructure.mapper import convert_functions as cf
 
@@ -47,9 +48,7 @@ class MapperImpl(app.Mapper):
         for convert in self._convert_mappers:
             if convert.check(from_model=type(from_model), to_model=to_model):
                 return convert
-        print()
-        # Сделать ошибку, что подходящего Convert нет
-        raise Exception
+        raise UnsupportedConvertor()
 
 
 def create_mapper() -> MapperImpl:

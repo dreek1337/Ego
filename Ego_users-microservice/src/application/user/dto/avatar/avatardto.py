@@ -10,7 +10,7 @@ class AvatarDTO(DTO):
     """
     Информация о файле
     """
-    avatar_name: UUID4 = Field(..., description='Айди файла')
+    avatar_id: UUID4 = Field(..., description='Айди файла')
     avatar_type: str = Field(..., description='Формат файла')
     avatar_user_id: int = Field(..., description='Айди пользователя')
 

@@ -1,16 +1,19 @@
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy import (
     select,
     delete
 )
+from sqlalchemy.exc import IntegrityError
 
 from src.domain import AvatarEntity
-from src.application import AvatarRepo, AvatarIsNotExist
 from src.infrastructure.database.models import Avatars
-from src.infrastructure.database.error_interceptor import error_interceptor
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
+from src.infrastructure.database.error_interceptor import error_interceptor
+from src.application import (
+    AvatarRepo,
+    AvatarIsNotExist
+)
 from src.domain.user.value_objects import (
-    AvatarName,
+    AvatarId,
     AvatarUserId
 )
 
@@ -48,15 +51,22 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
         Сохранение данных об аватарке или их обнавление
         """
         avatar_model = self._mapper.load(from_model=avatar, to_model=Avatars)
+        query = (
+            delete(Avatars)
+            .where(Avatars.avatar_user_id == avatar.avatar_user_id.to_int)
+        )
+
+        await self._session.execute(query)
+
+        self._session.add(avatar_model)
 
         try:
-            await self._session.merge(avatar_model)
-            # Изменить логику сохранения и изменения аватарки
+            await self._session.flush((avatar_model,))
         except IntegrityError as err:
             self._parse_error(err=err, data=avatar)
 
     @error_interceptor(file_name=__name__)
-    async def delete_avatar(self, avatar_id: AvatarName | None) -> None:
+    async def delete_avatar(self, avatar_id: AvatarId | None) -> None:
         """
         Удаление аватарки по айди
         """

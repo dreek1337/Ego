@@ -12,10 +12,6 @@ def convert_user_aggregate_to_dto(user: UserAggregate) -> UserDTO:
     """
     Преобразование из Агрегата в ДТО
     """
-    if user.deleted:
-        # Придумать для этого ошибку
-        raise Exception
-
     user_dto = UserDTO(
         user_id=user.user_id.to_int,
         first_name=user.first_name,
@@ -35,10 +31,6 @@ def convert_deleted_user_aggregate_to_dto(user: UserAggregate) -> DeletedUserDTO
     """
     Преобразование из Агрегата в ДТО
     """
-    if not user.deleted:
-        # Придумать для этого ошибку
-        raise Exception
-
     deleted_user_dto = DeletedUserDTO(
         user_id=user.user_id.to_int,
         first_name=user.first_name,
@@ -89,10 +81,6 @@ def convert_db_model_to_user_dto(user: Users) -> UserDTO:
     """
     Преобразование из модели орм в ДТО
     """
-    if user.deleted:
-        # Придумать для этого ошибку
-        raise Exception
-
     user_dto = UserDTO.from_orm(user)
 
     return user_dto
@@ -102,10 +90,6 @@ def convert_db_model_to_deleted_user_dto(user: Users) -> DeletedUserDTO:
     """
     Преобразование из модели орм в ДТО
     """
-    if not user.deleted:
-        # Придумать для этого ошибку
-        raise Exception
-
     deleted_user_dto = DeletedUserDTO.from_orm(user)
 
     return deleted_user_dto
