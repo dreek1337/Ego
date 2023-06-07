@@ -1,1 +1,2 @@
 line-length = 88
+extend-exclude = ["__init__.py"]

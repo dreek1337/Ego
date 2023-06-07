@@ -85,6 +85,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
             select(Subscriptions.subscriber_id).label('subscription_id')
             .where(Subscriptions.subscription_id == subscription_id)
         )
+
         cte_query = add_filters(
             query=cte_query,
             filters=filters,
