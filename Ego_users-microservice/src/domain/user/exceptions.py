@@ -23,6 +23,7 @@ class AvatarIsDeleted(AbstractBaseException):
 
 @dataclass
 class InvalidAvatarType(AbstractBaseException):
+    """Ошибка о невалидном типе аватара"""
     file_type: str
 
     @property
@@ -32,6 +33,7 @@ class InvalidAvatarType(AbstractBaseException):
 
 @dataclass
 class InvalidGender(AbstractBaseException):
+    """Ошибка о невалидном типе пола"""
     gender_type: str
 
     @property
@@ -41,6 +43,7 @@ class InvalidGender(AbstractBaseException):
 
 @dataclass
 class InvalidBirthdayDate(AbstractBaseException):
+    """Ошибка о неправильной дате рождения"""
     birthday_date: date
 
     @property
