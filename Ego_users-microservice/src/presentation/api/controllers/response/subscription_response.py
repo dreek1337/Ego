@@ -1,4 +1,8 @@
-from src.application import SubscribeActionDTO
+from src.application import (
+    SubscribersDTO,
+    SubscriptionsDTO,
+    SubscribeActionDTO
+)
 
 
 class SubscribeResponse(SubscribeActionDTO):
@@ -7,3 +11,11 @@ class SubscribeResponse(SubscribeActionDTO):
 
 class UnsubscribeResponse(SubscribeActionDTO):
     """Модель ответа отписки"""
+
+
+class SubscriptionsResponse(SubscriptionsDTO):
+    """Модель ответа получения подписок"""
+
+
+class SubscribersResponse(SubscribersDTO):
+    """Модель ответа получения подписчиков"""

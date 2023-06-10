@@ -28,7 +28,9 @@ user_routers = APIRouter(
     path='/info/{user_id}',
     responses={
         status.HTTP_200_OK: {'model': resp.UserDataResponse},
-        status.HTTP_404_NOT_FOUND: {'model': resp.ErrorResult[UserIsNotExist]}
+        status.HTTP_404_NOT_FOUND: {
+            'model': resp.ErrorResult[UserIsNotExist]
+        }
     },
     response_model=resp.UserDataResponse,
     status_code=status.HTTP_200_OK
@@ -105,9 +107,11 @@ async def update_user_info(
     path='/delete_user',
     responses={
         status.HTTP_200_OK: {'model': resp.DeletedUserResponse},
-        status.HTTP_404_NOT_FOUND: {"model": resp.ErrorResult[UserIsNotExist]},
+        status.HTTP_404_NOT_FOUND: {
+            'model': resp.ErrorResult[UserIsNotExist]
+        },
         status.HTTP_409_CONFLICT: {
-            "model": resp.ErrorResult[UserIsDeleted]
+            'model': resp.ErrorResult[UserIsDeleted]
         }
     },
     status_code=status.HTTP_200_OK,

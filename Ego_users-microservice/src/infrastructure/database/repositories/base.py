@@ -43,13 +43,9 @@ class SQLAlchemyRepo:
 
         if error == UniqueViolationError:
             if type(data) == UserAggregate:
-                raise UserIdIsAlreadyExist(
-                    user_id=data.user_id.to_int
-                )
+                raise UserIdIsAlreadyExist(user_id=data.user_id.to_int)
             elif type(data) == AvatarEntity:
-                raise AvatarIdIsAlreadyExist(
-                    avatar_id=data.avatar_id.to_uuid
-                )
+                raise AvatarIdIsAlreadyExist(avatar_id=data.avatar_id.to_uuid)
             elif type(data) == SubscriptionEntity:
                 raise SubscribeIsAlreadyExists()
         elif error == ForeignKeyViolationError:

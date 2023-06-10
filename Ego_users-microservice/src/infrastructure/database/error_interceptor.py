@@ -16,7 +16,6 @@ def error_interceptor(file_name: str) -> Callable:
             try:
                 return await func(*args, **kwargs)
             except SQLAlchemyError as err:
-                print()
                 raise RepoError(file_name=file_name, content=err.args) from err
 
         return wrapper

@@ -9,10 +9,11 @@ from src.application.user.interfaces import (
     GetSubscriptionsOrder,
     GetSubscriptionsFilters
 )
+from src.domain.user.value_objects import UserId
 
 
 class GetSubscriptionsData(UseCaseData):
-    subscriber_id: int
+    user_id: int
     offset: int | Empty = Empty.UNSET
     limit: int | Empty = Empty.UNSET
     order: GetSubscriptionsOrder = GetSubscriptionsOrder.ASC
@@ -33,8 +34,10 @@ class GetSubscriptions(BaseUseCase):
         self._uow = uow
 
     async def __call__(self, data: GetSubscriptionsData) -> dto.SubscriptionsDTO:
+        await self._uow.user_repo.get_user_by_id(user_id=UserId(value=data.user_id))
+
         subscriptions = await self._uow.subscription_reader.get_subscriptions_by_id(
-            subscriber_id=data.subscriber_id,
+            subscriber_id=data.user_id,
             filters=GetSubscriptionsFilters(
                 offset=data.offset,
                 limit=data.limit,

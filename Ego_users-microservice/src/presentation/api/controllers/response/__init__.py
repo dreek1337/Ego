@@ -10,5 +10,6 @@ from src.presentation.api.controllers.response.avatar_responses import (
 )
 from src.presentation.api.controllers.response.subscription_response import (
     SubscribeResponse,
+    SubscribersResponse,
     UnsubscribeResponse
 )

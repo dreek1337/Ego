@@ -40,7 +40,9 @@ avatar_routers = APIRouter(
                 ]
             ]
         },
-        status.HTTP_404_NOT_FOUND: {"model": resp.ErrorResult[UserIsNotExist]}
+        status.HTTP_404_NOT_FOUND: {
+            'model': resp.ErrorResult[UserIsNotExist]
+        }
     },
     response_model=SetAvatarResponse
 )

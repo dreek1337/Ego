@@ -1,4 +1,6 @@
-from sqlalchemy import Result
+from typing import Any
+
+from sqlalchemy import ChunkedIteratorResult
 
 from src.domain import SubscriptionEntity
 from src.domain.user import value_objects as vo
@@ -25,20 +27,20 @@ def convert_subscription_entity_to_dto(
 
 
 def convert_subscriptions_db_model_to_subscription_dto(
-        subscriptions: Result
+        subscriptions: ChunkedIteratorResult[tuple[Any, Subscriptions]]
 ) -> list[SubscriptionDTO]:
     """
     Преобразование ORM моделей в ДТО
     """
-    print()
     subscription_dto = [
         SubscriptionDTO(
-            subscription_id=subscription.subscriber_id,
-            first_name=subscription.first_name,
-            last_name=subscription.first_name,
-            avatar=f'{AvatarCloudEnum.FOLDER.value}/{subscription.avatar_user_id}.{subscription.avatar_type}'
-            if subscription.avatar_user_id and subscription.avatar_type
-            else None
+            user_id=subscription[0],
+            first_name=subscription[1],
+            last_name=subscription[2],
+            avatar=f'{AvatarCloudEnum.FOLDER.value}/{subscription[0]}.{subscription[3]}'
+            if subscription[3]
+            else None,
+            deleted=subscription[4]
         )
         for subscription in subscriptions
     ]

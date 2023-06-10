@@ -3,7 +3,7 @@ from typing import (
     TypeVar
 )
 
-from sqlalchemy import Result
+from sqlalchemy import ChunkedIteratorResult
 
 from src import domain
 from src import application as app
@@ -48,7 +48,6 @@ class MapperImpl(app.Mapper):
         for convert in self._convert_mappers:
             if convert.check(from_model=type(from_model), to_model=to_model):
                 return convert
-        print()
         raise UnsupportedConvertor()
 
 
@@ -124,7 +123,7 @@ def create_mapper() -> MapperImpl:
                 loader=cf.convert_subscription_entity_to_dto
             ),
             Convert(
-                from_model=Result,
+                from_model=ChunkedIteratorResult,
                 to_model=list[app.SubscriptionDTO],
                 loader=cf.convert_subscriptions_db_model_to_subscription_dto
             ),

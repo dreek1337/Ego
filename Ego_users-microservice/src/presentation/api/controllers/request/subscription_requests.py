@@ -1,6 +1,8 @@
 from src.application.user.use_cases import (
     SubscribeData,
-    UnsubscribeData
+    UnsubscribeData,
+    GetSubscribersData,
+    GetSubscriptionsData
 )
 
 
@@ -10,3 +12,11 @@ class SubscribeRequest(SubscribeData):
 
 class UnubscribeRequest(UnsubscribeData):
     """Модель для отписки"""
+
+
+class GetSubscriptionsRequest(GetSubscriptionsData):
+    """Модель для получения подписок"""
+
+
+class GetSubscribersRequest(GetSubscribersData):
+    """Модель для получения подписчиков"""

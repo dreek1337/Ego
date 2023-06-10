@@ -19,8 +19,10 @@ from src.application.user.exceptions import (
 from src.application.user.dto import (
     UserDTO,
     AvatarDTO,
+    SubscribersDTO,
     DeletedUserDTO,
     SubscriptionDTO,
+    SubscriptionsDTO,
     DeletedAvatarDTO,
     SubscribeActionDTO,
 )

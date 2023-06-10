@@ -1,3 +1,5 @@
+from typing import Any
+
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import (
     func,
@@ -7,8 +9,9 @@ from sqlalchemy import (
 
 from src.application.user import dto
 from src.domain import SubscriptionEntity
-from src.application import SubscribeIsNotExists
-from src.infrastructure.utils import add_filters
+from src.application import SubscribeIsNotExists, GetSubscriptionsOrder
+
+from src.domain.common import Empty
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
 from src.infrastructure.database.error_interceptor import error_interceptor
 from src.domain.user.value_objects import (
@@ -43,32 +46,18 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
         Получение списка всех подписок пользователя
         """
         cte_query = (
-            select(Subscriptions.subscription_id).label('subscription_id')
+            select(Subscriptions.subscription_id)
             .where(Subscriptions.subscriber_id == subscriber_id)
-        )
-        cte_query = add_filters(
-            query=cte_query,
-            filters=filters,
-            column_for_order=cte_query.subscription_id
+            .order_by(
+                Subscriptions.subscription_id.desc()
+                if filters.order == GetSubscriptionsOrder.DESC
+                else Subscriptions.subscription_id.asc()
+            )
         ).cte()
 
-        query = (
-            select(
-                cte_query.subscription_id,
-                Users.first_name,
-                Users.last_name,
-                Avatars.avatar_user_id,
-                Avatars.avatar_type
-            )
-            .join(Users)
-            .join(Users.avatar, isouter=True)
-        )
-
-        subscriptions = await self._session.execute(query)
-        print()
-        subscriptions_dto = self._mapper.load(
-            from_model=subscriptions,
-            to_model=list[dto.SubscriptionDTO]
+        subscriptions_dto = await self._create_subscription_request(
+            cte_query=cte_query,
+            filters=filters
         )
 
         return subscriptions_dto
@@ -84,33 +73,18 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
         Получения списка всех подписчиков пользователя
         """
         cte_query = (
-            select(Subscriptions.subscriber_id).label('subscription_id')
+            select(Subscriptions.subscriber_id)
             .where(Subscriptions.subscription_id == subscription_id)
-        )
-
-        cte_query = add_filters(
-            query=cte_query,
-            filters=filters,
-            column_for_order=cte_query.subscription_id
+            .order_by(
+                Subscriptions.subscription_id.desc()
+                if filters.order == GetSubscriptionsOrder.DESC
+                else Subscriptions.subscription_id.asc()
+            )
         ).cte()
 
-        query = (
-            select(
-                cte_query.subscriber_id,
-                Users.first_name,
-                Users.last_name,
-                Avatars.avatar_user_id,
-                Avatars.avatar_type
-            )
-            .join(Users)
-            .join(Users.avatar, isouter=True)
-        )
-        print()
-        subscribers = await self._session.execute(query)
-
-        subscriptions_dto = self._mapper.load(
-            from_model=subscribers,
-            to_model=list[dto.SubscriptionDTO]
+        subscriptions_dto = await self._create_subscription_request(
+            cte_query=cte_query,
+            filters=filters
         )
 
         return subscriptions_dto
@@ -142,6 +116,41 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
         count_of_subscribers = await self._session.scalar(query)
 
         return count_of_subscribers or 0
+
+    @error_interceptor(file_name=__name__)
+    async def _create_subscription_request(
+            self,
+            *,
+            cte_query: Any,
+            filters: GetSubscriptionsFilters
+    ):
+        """
+        Основной запрос для подтягивания подписчиков и подписок
+        """
+        query = (
+            select(
+                cte_query,
+                Users.first_name,
+                Users.last_name,
+                Avatars.avatar_type,
+                Users.deleted
+            )
+            .select_from(cte_query)
+            .join(Users)
+            .join(Users.avatar, isouter=True)
+        )
+
+        if filters.limit is not Empty.UNSET:
+            query = query.limit(filters.limit)
+        if filters.offset is not Empty.UNSET:
+            query = query.offset(filters.offset)
+
+        subscriptions = await self._session.execute(query)
+
+        return self._mapper.load(
+            from_model=subscriptions,
+            to_model=list[dto.SubscriptionDTO]
+        )
 
 
 class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):

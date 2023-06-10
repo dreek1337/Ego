@@ -79,18 +79,24 @@ class UserAggregate(Aggregate):
         """
         Подсчет кол-ва подписчиков у пользователя
         """
+        self._check_on_delete()
+
         self.count_of_subscribers = count_of_subscribers
 
     def set_count_of_subscriptions(self, count_of_subscriptions: int) -> None:
         """
         Подсчет кол-ва подписок у пользователя
         """
+        self._check_on_delete()
+
         self.count_of_subscriptions = count_of_subscriptions
 
     def set_avatar(self, avatar_path: str | None) -> None:
         """
         Установка аватара
         """
+        self._check_on_delete()
+
         if avatar_path:
             self.avatar_path = avatar_path
 
@@ -98,8 +104,7 @@ class UserAggregate(Aggregate):
         """
         Удаление пользователя
         """
-        if self.deleted:
-            raise UserIsDeleted(user_id=self.user_id.to_int)
+        self._check_on_delete()
 
         self.deleted = True
 

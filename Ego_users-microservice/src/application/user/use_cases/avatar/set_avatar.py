@@ -53,7 +53,7 @@ class SetAvatar(BaseUseCase):
             user_id=UserId(value=data.avatar_user_id)
         )
 
-        if user:
+        if not user:
             raise UserIsNotExist(user_id=data.avatar_user_id)
         if user.deleted:
             raise UserIsDeleted(user_id=data.avatar_user_id)
