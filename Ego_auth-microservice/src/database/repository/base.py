@@ -1,9 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.common import RepositoryBase
 
-
-class UserRepositoryBase(RepositoryBase):
+class UserRepositoryBase:
     """
     Бызовый класс для репозитория пользователя
     """

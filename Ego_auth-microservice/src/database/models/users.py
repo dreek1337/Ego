@@ -17,7 +17,13 @@ class Users(Base):
         sa.BigInteger,
         primary_key=True
     )
-    username: Mapped[str] = mapped_column(sa.String(64))
-    password: Mapped[str] = mapped_column(sa.String(55))
-    email: Mapped[str] = mapped_column(sa.String())
-    deleted: Mapped[bool] = mapped_column(sa.Boolean)
+    username: Mapped[str] = mapped_column(
+        sa.String(64),
+        unique=True
+    )
+    password: Mapped[str] = mapped_column(sa.String())
+    user_email: Mapped[str] = mapped_column(sa.String())
+    deleted: Mapped[bool] = mapped_column(
+        sa.Boolean,
+        default=False
+    )
