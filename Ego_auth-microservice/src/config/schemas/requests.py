@@ -33,3 +33,9 @@ class UpdateUserData(BaseDataModel):
     password: str | Empty = Field(Empty.UNSET.value)
     user_email: str | Empty = Field(Empty.UNSET.value)
     deleted: bool | Empty = Field(Empty.UNSET.value)
+
+
+class LoginSchema(BaseDataModel):
+    """Данные для логина"""
+    username: str
+    password: str
