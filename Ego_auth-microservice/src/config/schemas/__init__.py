@@ -1,2 +1,2 @@
-from src.config.schemas.requests import *
-from src.config.schemas.responses import *
+from src.config.schemas.user_models import *
+from src.config.schemas.token_models import *

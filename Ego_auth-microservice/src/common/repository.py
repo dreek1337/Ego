@@ -2,26 +2,23 @@ from abc import (
     ABC,
     abstractmethod
 )
-from typing import (
-    Any,
-    TypeVar,
-    Generic
+
+from src.config import (
+    UserModel,
+    CreateUserData
 )
 
-DataToUse = TypeVar('DataToUse', bound=Any)
-ResultData = TypeVar('ResultData', bound=Any)
 
-
-class RepositoryBase(ABC, Generic[ResultData]):
+class RepositoryBase(ABC):
     """Базовый класс для репозитория"""
     @abstractmethod
-    async def get_user_by_id(self, data: DataToUse) -> ResultData:
+    async def get_user_by_username(self, username: str) -> UserModel:
         """Получение пользователя по айли"""
 
     @abstractmethod
-    async def create_user(self, data: DataToUse) -> int:
+    async def create_user(self, data: CreateUserData) -> None:
         """Создание пользователя"""
 
     @abstractmethod
-    async def update_user(self, data: DataToUse) -> None:
+    async def update_user(self, data: UserModel) -> None:
         """Обнавление данных пользователя"""

@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.database.uow.base import SQLAlchemyBaseUoW
-from src.database.repository import UserRepositoryImpl
+from src.infra.database.uow.base import SQLAlchemyBaseUoW
+from src.infra import UserRepositoryImpl
 
 
 class SQLAlchemyUoW(SQLAlchemyBaseUoW):
