@@ -1,5 +1,3 @@
-from datetime import date
-
 from pydantic import (
     Field,
     EmailStr
@@ -34,19 +32,22 @@ class UserModel(UserIdData, LoginSchema):
     """
     Схема плученных данных пользователя
     """
+    salt: str = Field(..., description='Соль для пароля')
     user_email: EmailStr = Field(..., description='Почта пользователя')
-    deleted: bool = Field(..., description='Статус удаления пользователя')
 
 
 class CreateUserData(LoginSchema):
     """
     Схема для создания пользователя
     """
-    first_name: str = Field(..., description='Имя пользователя')
-    last_name: str = Field(..., description='Фамилия пользователя')
-    gender: str = Field(..., description='Пол пользователя')
-    birthday: date = Field(..., description='Дата рождения пользователя')
     user_email: str = Field(..., description='Почта пользователя')
+
+
+class UserSaveDataInDB(CreateUserData):
+    """
+    Данные с солью для базы данных
+    """
+    salt: str = Field(..., description='Соль для пароля')
 
 
 class UpdateUserData(BaseDataModel):
@@ -55,4 +56,3 @@ class UpdateUserData(BaseDataModel):
     """
     password: str | Empty = Field(Empty.UNSET.value)
     user_email: str | Empty = Field(Empty.UNSET.value)
-    deleted: bool | Empty = Field(Empty.UNSET.value)

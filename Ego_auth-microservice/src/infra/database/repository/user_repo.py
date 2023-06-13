@@ -5,7 +5,7 @@ from src.common import RepositoryBase
 from src.infra.database.repository.base import UserRepositoryBase
 from src.config import (
     UserModel,
-    CreateUserData
+    UserSaveDataInDB
 )
 
 
@@ -31,7 +31,7 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
 
         return UserModel.from_orm(result)
 
-    async def create_user(self, data: CreateUserData) -> None:
+    async def create_user(self, data: UserSaveDataInDB) -> None:
         """
         Создание пользователя и возвращение его айди
         """

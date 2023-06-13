@@ -21,9 +21,6 @@ class Users(Base):
         sa.String(64),
         unique=True
     )
+    salt: Mapped[str] = mapped_column(sa.String())
     password: Mapped[str] = mapped_column(sa.String())
     user_email: Mapped[str] = mapped_column(sa.String())
-    deleted: Mapped[bool] = mapped_column(
-        sa.Boolean,
-        default=False
-    )

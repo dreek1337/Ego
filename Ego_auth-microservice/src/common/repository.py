@@ -5,7 +5,7 @@ from abc import (
 
 from src.config import (
     UserModel,
-    CreateUserData
+    UserSaveDataInDB
 )
 
 
@@ -16,7 +16,7 @@ class RepositoryBase(ABC):
         """Получение пользователя по айли"""
 
     @abstractmethod
-    async def create_user(self, data: CreateUserData) -> None:
+    async def create_user(self, data: UserSaveDataInDB) -> None:
         """Создание пользователя"""
 
     @abstractmethod
