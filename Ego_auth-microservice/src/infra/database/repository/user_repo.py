@@ -13,9 +13,27 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
     """
     Реализация репозитория для работы с моделю пользователя
     """
+    async def get_user_by_id(self, user_id: int) -> UserModel:
+        """
+        Получение пользователя по айли
+        """
+        query = (
+            select(Users)
+            .where(Users.user_id == user_id)
+        )
+
+        user = await self._session.execute(query)
+
+        result = user.scalar()
+
+        if not result:
+            raise Exception
+
+        return UserModel.from_orm(result)
+
     async def get_user_by_username(self, username: str) -> UserModel:
         """
-        Получение пользователя по айди
+        Получение пользователя по никнейму
         """
         query = (
             select(Users)
@@ -38,7 +56,8 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
         user = Users(
             usermame=data.username,
             password=data.password,
-            user_email=data.user_email
+            user_email=data.user_email,
+            salt=data.salt
         )
         self._session.add(user)
 
@@ -51,7 +70,12 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
         """
         Обнавление данных пользователя
         """
-        user = Users(**data.dict())
+        user = Users(
+            usermame=data.username,
+            password=data.password,
+            user_email=data.user_email,
+            salt=data.salt
+        )
 
         await self._session.merge(user)
 

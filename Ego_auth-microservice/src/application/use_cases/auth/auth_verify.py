@@ -4,19 +4,18 @@ from src.common import (
     AccessTokenManager,
     BaseUseCase
 )
-from src.config import AccessToken
 
 
-class RefreshAccessTokenUseCase(BaseUseCase):
+class VerifyAccessTokenUseCase(BaseUseCase):
     """
     Обнавление jwt токена
     """
     def __init__(self, token_manager: AccessTokenManager) -> None:
         self._token_manager = token_manager
 
-    async def __call__(self, authorize: AuthJWT) -> AccessToken:
-        new_access_token = self._token_manager.refresh_access_token(
+    async def __call__(self, authorize: AuthJWT) -> int:
+        access_token_data = self._token_manager.verify_access_token(
             authorize=authorize
         )
 
-        return new_access_token
+        return access_token_data

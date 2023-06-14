@@ -1,0 +1,1 @@
+from src.infra.auth.password_manager.manager.password_manager import PasswordManagerImpl

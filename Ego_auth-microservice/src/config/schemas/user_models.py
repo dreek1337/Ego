@@ -55,4 +55,4 @@ class UpdateUserData(BaseDataModel):
     Данные для обнавления пароля и почты
     """
     password: str | Empty = Field(Empty.UNSET.value)
-    user_email: str | Empty = Field(Empty.UNSET.value)
+    user_email: EmailStr | Empty = Field(Empty.UNSET.value)

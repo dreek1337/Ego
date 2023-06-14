@@ -1,9 +1,5 @@
-from src.common import BaseUseCase
+from src.common import BaseUseCase, PasswordManager
 from src.application.uow import AuthUoW
-from src.infra import (
-    generate_salt,
-    get_password_hash
-)
 from src.config import (
     UsernameData,
     CreateUserData,
@@ -12,12 +8,21 @@ from src.config import (
 
 
 class RegistrationUserUseCase(BaseUseCase):
-    def __init__(self, uow: AuthUoW):
+    """
+    Регистрация пользователя
+    """
+    def __init__(
+            self,
+            *,
+            uow: AuthUoW,
+            password_manager: PasswordManager
+    ) -> None:
         self._uow = uow
+        self._password_manager = password_manager
 
     async def __call__(self, data: CreateUserData) -> UsernameData:
-        salt = generate_salt()
-        hashed_password = get_password_hash(
+        salt = self._password_manager.generate_salt()
+        hashed_password = self._password_manager.get_password_hash(
             password=data.password + salt
         )
 

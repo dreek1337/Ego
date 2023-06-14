@@ -1,13 +1,6 @@
-from pydantic import (
-    Field,
-    BaseSettings
-)
+from pydantic import Field
 
-
-class BaseConfigSettings(BaseSettings):
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
+from src.config.settings.base import BaseConfigSettings
 
 
 class DatabaseConfig(BaseConfigSettings):
