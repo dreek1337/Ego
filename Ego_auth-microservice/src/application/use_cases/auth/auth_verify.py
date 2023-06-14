@@ -2,11 +2,11 @@ from fastapi_jwt_auth import AuthJWT  # type: ignore
 
 from src.common import (
     AccessTokenManager,
-    BaseUseCase
+    UseCase
 )
 
 
-class VerifyAccessTokenUseCase(BaseUseCase):
+class VerifyAccessTokenUseCase(UseCase):
     """
     Обнавление jwt токена
     """

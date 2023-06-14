@@ -1,5 +1,5 @@
 from abc import ABC
 
 
-class BaseUseCase(ABC):
+class UseCase(ABC):
     """Базовй класс Юзкейса"""

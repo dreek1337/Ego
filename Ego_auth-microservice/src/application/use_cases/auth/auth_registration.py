@@ -1,5 +1,5 @@
-from src.common import BaseUseCase, PasswordManager
-from src.application.uow import AuthUoW
+from src.common import UseCase, PasswordManager
+from src.application.auth_uow import AuthUoW
 from src.config import (
     UsernameData,
     CreateUserData,
@@ -7,7 +7,7 @@ from src.config import (
 )
 
 
-class RegistrationUserUseCase(BaseUseCase):
+class RegistrationUserUseCase(UseCase):
     """
     Регистрация пользователя
     """

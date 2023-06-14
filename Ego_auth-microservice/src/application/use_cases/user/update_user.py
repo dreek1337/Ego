@@ -1,9 +1,9 @@
 from fastapi_jwt_auth import AuthJWT  # type: ignore
 
-from src.application.uow import AuthUoW
+from src.application.auth_uow import AuthUoW
 from src.common import (
     Empty,
-    BaseUseCase,
+    UseCase,
     AccessTokenManager, PasswordManager
 )
 from src.config import (
@@ -12,7 +12,7 @@ from src.config import (
 )
 
 
-class UpdateUserUseCase(BaseUseCase):
+class UpdateUserUseCase(UseCase):
     """
     Обнавление данных пользователя для входа
     """

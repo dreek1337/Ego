@@ -1,10 +1,10 @@
 from fastapi_jwt_auth import AuthJWT  # type: ignore
 
-from src.application.uow import AuthUoW
+from src.application.auth_uow import AuthUoW
 from src.application.exceptions import UserDataIsNotCorrect
 from src.common import (
     AccessTokenManager,
-    BaseUseCase, PasswordManager
+    UseCase, PasswordManager
 )
 from src.config import (
     TokensData,
@@ -13,7 +13,7 @@ from src.config import (
 )
 
 
-class UserLoginUseCase(BaseUseCase):
+class UserLoginUseCase(UseCase):
     """
     Логика входа в сервис
     """

@@ -1,3 +1,5 @@
+from typing import AsyncGenerator
+
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
     async_sessionmaker,
@@ -7,7 +9,7 @@ from sqlalchemy.ext.asyncio import (
 from src.config import EngineConfig
 
 
-def create_sa_session(
+def create_session_factory(
         engine_config: EngineConfig
 ) -> async_sessionmaker[AsyncSession]:
     """
@@ -22,3 +24,13 @@ def create_sa_session(
     )
 
     return session_factory
+
+
+async def create_sa_session(
+        session_factory: async_sessionmaker[AsyncSession]
+) -> AsyncGenerator[AsyncSession, None]:
+    """
+    Получение сессии для работы с бд
+    """
+    async with session_factory() as session:
+        yield session

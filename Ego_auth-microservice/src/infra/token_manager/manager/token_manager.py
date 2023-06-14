@@ -10,7 +10,7 @@ from src.config import (
 )
 
 
-class AccessAccessTokenManagerImpl(AccessTokenManager):
+class AccessTokenManagerImpl(AccessTokenManager):
     """
     Реализация класса для работы с токеном
     """
