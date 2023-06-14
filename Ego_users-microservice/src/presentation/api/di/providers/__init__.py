@@ -1,6 +1,5 @@
 from src.presentation.api.di.providers.providers import (
     get_service,
-    get_cloud_storage,
     InfrastructureProvider
 )
 from src.presentation.api.di.providers.stubs import (

@@ -8,7 +8,6 @@ from src.infrastructure import (
 )
 from src.presentation.api.di.providers import (
     get_service,
-    get_cloud_storage,
     get_cloud_storage_stub,
     InfrastructureProvider
 )
@@ -20,10 +19,10 @@ from src.presentation.api.di.providers import (
 
 mapper_instance = create_mapper()
 pool = create_session_factory(engine_config=engine_config)
-cloud_instance = get_cloud_storage(cloud_config=cloud_config)
 infra_instance = InfrastructureProvider(
     pool=pool,
-    mapper=mapper_instance
+    mapper=mapper_instance,
+    cloud_config=cloud_config
 )
 
 
@@ -32,5 +31,5 @@ def setup_di(
 ) -> None:
     app.dependency_overrides[get_uow_stub] = infra_instance.get_uow
     app.dependency_overrides[get_mapper_stub] = lambda: mapper_instance
-    app.dependency_overrides[get_cloud_storage_stub] = lambda: cloud_instance
+    app.dependency_overrides[get_cloud_storage_stub] = infra_instance.get_cloud_storage
     app.dependency_overrides[get_service_stub] = get_service

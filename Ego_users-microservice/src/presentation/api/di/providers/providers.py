@@ -26,10 +26,12 @@ class InfrastructureProvider:
             self,
             *,
             mapper: MapperImpl,
+            cloud_config: MinioConfig,
             pool: async_sessionmaker[AsyncSession]
     ) -> None:
         self._pool = pool
         self._mapper = mapper
+        self._cloud_config = cloud_config
 
     async def get_uow(self) -> AsyncGenerator[SQLAlchemyUoW, None]:
         """
@@ -58,18 +60,15 @@ class InfrastructureProvider:
 
             yield uow
 
+    def get_cloud_storage(self) -> CloudStorageImpl:
+        """
+        Получение асинхронное подключение к minio
+        """
+        cloud_storage = CloudStorageImpl(
+            cloud_config=self._cloud_config
+        )
 
-def get_cloud_storage(
-        cloud_config: MinioConfig
-) -> CloudStorageImpl:
-    """
-    Получение асинхронное подключение к minio
-    """
-    cloud_storage = CloudStorageImpl(
-        cloud_config=cloud_config
-    )
-
-    return cloud_storage
+        return cloud_storage
 
 
 def get_service(
