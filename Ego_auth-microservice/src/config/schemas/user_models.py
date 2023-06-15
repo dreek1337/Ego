@@ -4,7 +4,7 @@ from pydantic import (
 )
 
 from src.common import Empty
-from src.config import BaseDataModel
+from src.config.schemas.base import BaseDataModel
 
 
 class UserIdData(BaseDataModel):
@@ -40,7 +40,7 @@ class CreateUserData(LoginSchema):
     """
     Схема для создания пользователя
     """
-    user_email: str = Field(..., description='Почта пользователя')
+    user_email: EmailStr = Field(..., description='Почта пользователя')
 
 
 class UserSaveDataInDB(CreateUserData):

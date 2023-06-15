@@ -6,7 +6,7 @@ from src.common import (
     UseCase,
     AccessTokenManager, PasswordManager
 )
-from src.config import (
+from src.config.schemas.user_models import (
     UsernameData,
     UpdateUserData
 )

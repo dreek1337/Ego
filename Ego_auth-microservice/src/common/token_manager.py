@@ -5,8 +5,8 @@ from abc import (
 
 from fastapi_jwt_auth import AuthJWT  # type: ignore
 
-from src.config import (
-    UserIdData,
+from src.config.schemas.user_models import UserIdData
+from src.config.schemas.token_models import (
     TokensData,
     AccessToken
 )

@@ -3,7 +3,7 @@ from sqlalchemy import select
 from src.infra.database.models import Users
 from src.common import RepositoryBase
 from src.infra.database.repository.base import UserRepositoryBase
-from src.config import (
+from src.config.schemas.user_models import (
     UserModel,
     UserSaveDataInDB
 )
@@ -54,7 +54,7 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
         Создание пользователя и возвращение его айди
         """
         user = Users(
-            usermame=data.username,
+            username=data.username,
             password=data.password,
             user_email=data.user_email,
             salt=data.salt
@@ -71,7 +71,7 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
         Обнавление данных пользователя
         """
         user = Users(
-            usermame=data.username,
+            username=data.username,
             password=data.password,
             user_email=data.user_email,
             salt=data.salt

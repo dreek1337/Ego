@@ -2,9 +2,9 @@ from fastapi_jwt_auth import AuthJWT  # type: ignore
 
 from src.common import AccessTokenManager
 
-from src.config import (
-    UserIdData,
-    jwt_config,
+from src.config import jwt_config
+from src.config.schemas.user_models import UserIdData
+from src.config.schemas.token_models import (
     TokensData,
     AccessToken
 )
@@ -31,7 +31,7 @@ class AccessTokenManagerImpl(AccessTokenManager):
             refresh_token=refresh_token,
             access_token_expires=(
                 jwt_config
-                .authjwt_access_token_expires
+                .authjwt_access_token_expires  # type: ignore
                 .seconds
             )  # type: ignore
         )

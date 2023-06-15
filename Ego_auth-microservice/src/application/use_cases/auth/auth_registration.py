@@ -1,6 +1,6 @@
 from src.common import UseCase, PasswordManager
 from src.application.auth_uow import AuthUoW
-from src.config import (
+from src.config.schemas.user_models import (
     UsernameData,
     CreateUserData,
     UserSaveDataInDB

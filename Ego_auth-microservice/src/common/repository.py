@@ -3,7 +3,7 @@ from abc import (
     abstractmethod
 )
 
-from src.config import (
+from src.config.schemas.user_models import (
     UserModel,
     UserSaveDataInDB
 )

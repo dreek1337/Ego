@@ -14,8 +14,8 @@ class VerifyAccessTokenUseCase(UseCase):
         self._token_manager = token_manager
 
     async def __call__(self, authorize: AuthJWT) -> int:
-        access_token_data = self._token_manager.verify_access_token(
+        access_token_subject = self._token_manager.verify_access_token(
             authorize=authorize
         )
 
-        return access_token_data
+        return access_token_subject

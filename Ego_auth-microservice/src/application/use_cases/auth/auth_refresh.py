@@ -4,7 +4,7 @@ from src.common import (
     AccessTokenManager,
     UseCase
 )
-from src.config import AccessToken
+from src.config.schemas.token_models import AccessToken
 
 
 class RefreshAccessTokenUseCase(UseCase):

@@ -1,8 +1,9 @@
 from fastapi_jwt_auth import AuthJWT  # type: ignore
 
-from src import config
 from src.application import use_cases
 from src.application.auth_uow import AuthUoW
+from src.config.schemas import user_models as um
+from src.config.schemas import token_models as tm
 from src.common import (
     Service,
     PasswordManager,
@@ -28,9 +29,9 @@ class AuthService(Service):
     async def login_user(
             self,
             *,
-            data: config.LoginSchema,
+            data: um.LoginSchema,
             authorize: AuthJWT
-    ) -> config.TokensData:
+    ) -> tm.TokensData:
         """
         Проверка данных пользователя и выдача токенов
         """
@@ -40,7 +41,10 @@ class AuthService(Service):
             password_manager=self._password_manager
         )(data=data, authorize=authorize)
 
-    async def verify_token(self, authorize: AuthJWT) -> int:
+    async def verify_token(
+            self,
+            authorize: AuthJWT
+    ) -> int:
         """
         Проверка токена и выдача payload
         """
@@ -48,7 +52,10 @@ class AuthService(Service):
             token_manager=self._token_manager
         )(authorize=authorize)
 
-    async def refresh_token(self, authorize: AuthJWT) -> config.AccessToken:
+    async def refresh_token(
+            self,
+            authorize: AuthJWT
+    ) -> tm.AccessToken:
         """
         Обновление и выдача jwt
         """
@@ -58,8 +65,8 @@ class AuthService(Service):
 
     async def registration_user(
             self,
-            data: config.CreateUserData
-    ) -> config.UsernameData:
+            data: um.CreateUserData
+    ) -> um.UsernameData:
         """
         Регистрация пользователя
         """
@@ -72,8 +79,8 @@ class AuthService(Service):
             self,
             *,
             authorize: AuthJWT,
-            data: config.UpdateUserData
-    ) -> config.UsernameData:
+            data: um.UpdateUserData
+    ) -> um.UsernameData:
         """
         Обнавление данных пользователя
         """

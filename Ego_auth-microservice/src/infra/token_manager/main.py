@@ -1,11 +1,14 @@
 from fastapi_jwt_auth import AuthJWT  # type: ignore
 
-from src.config import JWTSettings
+from src.config import JWTSettings, jwt_config
 
 
-@AuthJWT.load_config
-def get_jwt_auth(config: JWTSettings) -> JWTSettings:
+def create_jwt_auth_factory(authorize: AuthJWT) -> AuthJWT:
     """
-    Разобратсья как рабоатет и переделать в класс все что ниже
+    Функция для создания класса, работающего с jwt
     """
-    return config
+    @authorize.load_config
+    def get_jwt_auth() -> JWTSettings:
+        return jwt_config  # type: ignore
+
+    return authorize

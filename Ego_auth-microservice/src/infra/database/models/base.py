@@ -16,5 +16,6 @@ class Base(DeclarativeBase):
     )
     updated_at: Mapped[datetime] = mapped_column(
         sa.DateTime,
+        nullable=True,
         onupdate=sa.func.now()
     )

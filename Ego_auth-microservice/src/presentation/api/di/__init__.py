@@ -1,20 +1,20 @@
 from fastapi import FastAPI
+from fastapi_jwt_auth import AuthJWT  # type: ignore
 
 from src.presentation.api.di import providers as prov
 from src.config import (
     pwd_config,
-    jwt_config,
     engine_config
 )
 from src.infra import (
-    get_jwt_auth,
+    create_jwt_auth_factory,
     create_pwd_context,
     create_session_factory,
     AccessTokenManagerImpl
 )
 
+auth = create_jwt_auth_factory(authorize=AuthJWT)   # type: ignore
 token_manager_instance = AccessTokenManagerImpl()
-jwt_auth_instance = get_jwt_auth(config=jwt_config)
 pool = create_session_factory(engine_config=engine_config)  # type: ignore
 pwd_context = create_pwd_context(config=pwd_config)
 infra_instance = prov.InfraProvider(
@@ -28,6 +28,6 @@ def di_builder(
 ) -> None:
     app.dependency_overrides[prov.get_uow_stub] = infra_instance.get_uow
     app.dependency_overrides[prov.get_service_stub] = prov.get_service
-    app.dependency_overrides[prov.get_auth_jwt_stub] = lambda: jwt_auth_instance
+    app.dependency_overrides[prov.get_auth_jwt_stub] = auth
     app.dependency_overrides[prov.get_token_manager_stub] = lambda: token_manager_instance
     app.dependency_overrides[prov.get_password_manager_stub] = infra_instance.get_password_manager
