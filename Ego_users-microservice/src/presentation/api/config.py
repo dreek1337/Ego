@@ -11,7 +11,6 @@ class APIConfig(BaseSettings):
     host: str = Field(..., env="SITE_HOST")
     port: int = Field(..., env="SITE_PORT")
     loop: str = Field("asyncio")
-    reload_delay: float = Field(0.25, env="SITE_RELOAD_DELAY")
 
     class Config:
         env_file = ".env"
