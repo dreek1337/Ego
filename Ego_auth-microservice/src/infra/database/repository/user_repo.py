@@ -1,18 +1,38 @@
-from sqlalchemy import select
+from typing import (
+    Any,
+    TypeVar
+)
 
-from src.infra.database.models import Users
+from sqlalchemy import select
+from asyncpg import UniqueViolationError  # type: ignore
+from sqlalchemy.exc import (
+    DBAPIError,
+    IntegrityError
+)
+
 from src.common import RepositoryBase
+from src.infra.database.models import Users
 from src.infra.database.repository.base import UserRepositoryBase
+from src.infra.database.exception_incepter import error_interceptor
 from src.config.schemas.user_models import (
     UserModel,
     UserSaveDataInDB
 )
+from src.application.exceptions import (
+    RepoError,
+    UserIdIsNotExists,
+    UserDataIsNotCorrect,
+    UsernameIsAlreadyExists
+)
+
+DataModel = TypeVar('DataModel', bound=Any)
 
 
 class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
     """
     Реализация репозитория для работы с моделю пользователя
     """
+    @error_interceptor
     async def get_user_by_id(self, user_id: int) -> UserModel:
         """
         Получение пользователя по айли
@@ -27,10 +47,11 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
         result = user.scalar()
 
         if not result:
-            raise Exception
+            raise UserIdIsNotExists(user_id=user_id)
 
         return UserModel.from_orm(result)
 
+    @error_interceptor
     async def get_user_by_username(self, username: str) -> UserModel:
         """
         Получение пользователя по никнейму
@@ -45,10 +66,11 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
         result = user.scalar()
 
         if not result:
-            raise Exception
+            raise UserDataIsNotCorrect()
 
         return UserModel.from_orm(result)
 
+    @error_interceptor
     async def create_user(self, data: UserSaveDataInDB) -> None:
         """
         Создание пользователя и возвращение его айди
@@ -63,9 +85,10 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
 
         try:
             await self._session.flush((user,))
-        except Exception as err:
+        except IntegrityError as err:
             self._parse_error(err=err, data=data)
 
+    @error_interceptor
     async def update_user(self, data: UserModel) -> None:
         """
         Обнавление данных пользователя
@@ -79,5 +102,17 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
 
         await self._session.merge(user)
 
-    def _parse_error(self, err, data) -> None:
-        pass
+    @staticmethod
+    def _parse_error(
+            err: DBAPIError,
+            data: DataModel
+    ) -> None:
+        """
+        Определение ошибки
+        """
+        error = err.__cause__.__cause__.__class__  # type: ignore
+
+        if error == UniqueViolationError:
+            raise UsernameIsAlreadyExists(username=data.username)
+        else:
+            raise RepoError() from err

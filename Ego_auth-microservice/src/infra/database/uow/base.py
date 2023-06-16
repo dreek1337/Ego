@@ -1,4 +1,10 @@
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.application.exceptions import (
+    CommitError,
+    RollbackError
+)
 
 
 class SQLAlchemyBaseUoW:
@@ -11,9 +17,8 @@ class SQLAlchemyBaseUoW:
         """
         try:
             await self._session.commit()
-        except Exception:
-            # raise CommitError()
-            pass
+        except SQLAlchemyError as err:
+            raise CommitError() from err
 
     async def rollback(self) -> None:
         """
@@ -21,6 +26,5 @@ class SQLAlchemyBaseUoW:
         """
         try:
             await self._session.rollback()
-        except Exception:
-            # raise RollbackError()
-            pass
+        except SQLAlchemyError as err:
+            raise RollbackError() from err
