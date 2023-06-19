@@ -1,7 +1,4 @@
-from dataclasses import (
-    field,
-    dataclass
-)
+from dataclasses import dataclass
 
 from src.domain.common import AbstractBaseException
 
@@ -12,8 +9,7 @@ class AppException(AbstractBaseException):
 
 @dataclass
 class UnexpectedError(AbstractBaseException):
-    file_name: str | None = field(default=None)
-    content: tuple | None = field(default=None)
+    """Базовая ошибка для работы с бд"""
 
 
 @dataclass

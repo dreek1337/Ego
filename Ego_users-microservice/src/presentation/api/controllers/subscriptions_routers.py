@@ -35,7 +35,7 @@ subscription_routers = APIRouter(
             'model': resp.ErrorResult[app.SubscribeOnYourself]
         },
         status.HTTP_404_NOT_FOUND: {
-            'model': resp.ErrorResult[app.UserForSubscribeIsNotExists]
+            'model': resp.ErrorResult[app.UserIsNotExist]
         },
         status.HTTP_409_CONFLICT: {
             'model': resp.ErrorResult[app.SubscribeIsAlreadyExists]

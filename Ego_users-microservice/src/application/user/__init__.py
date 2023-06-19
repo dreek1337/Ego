@@ -13,8 +13,7 @@ from src.application.user.exceptions import (
     UserIdIsAlreadyExist,
     UnsupportedConvertor,
     SubscribeIsNotExists,
-    SubscribeIsAlreadyExists,
-    UserForSubscribeIsNotExists
+    SubscribeIsAlreadyExists
 )
 from src.application.user.dto import (
     UserDTO,

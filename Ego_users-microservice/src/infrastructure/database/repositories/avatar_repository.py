@@ -1,14 +1,23 @@
+from asyncpg import UniqueViolationError, ForeignKeyViolationError  # type: ignore
 from sqlalchemy import (
     select,
     delete
 )
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import (
+    DBAPIError,
+    IntegrityError
+)
 
 from src.domain import AvatarEntity
 from src.infrastructure.database.models import Avatars
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
 from src.infrastructure.database.error_interceptor import error_interceptor
+from src.application.user.exceptions import (
+    UserIsNotExist,
+    AvatarIdIsAlreadyExist
+)
 from src.application import (
+    RepoError,
     AvatarRepo,
     AvatarIsNotExist
 )
@@ -79,3 +88,20 @@ class AvatarRepoImpl(SQLAlchemyRepo, AvatarRepo):
         )
 
         await self._session.execute(query)
+
+    @staticmethod
+    def _parse_error(
+            err: DBAPIError,
+            data: AvatarEntity
+    ) -> None:
+        """
+        Определение ошибки
+        """
+        error = err.__cause__.__cause__.__class__  # type: ignore
+
+        if error == UniqueViolationError:
+            raise AvatarIdIsAlreadyExist(avatar_id=data.avatar_id.to_uuid)
+        elif error == ForeignKeyViolationError:
+            raise UserIsNotExist(user_id=data.avatar_user_id.to_int)
+        else:
+            raise RepoError() from err

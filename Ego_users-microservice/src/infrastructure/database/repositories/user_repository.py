@@ -1,13 +1,20 @@
 from sqlalchemy import select
-from sqlalchemy.exc import IntegrityError
+from asyncpg import UniqueViolationError  # type: ignore
+from sqlalchemy.exc import (
+    DBAPIError,
+    IntegrityError
+)
 
 from src.domain import UserAggregate
-from src.application import UserRepo
+from src.application import UserRepo, RepoError
 from src.domain.user.value_objects import UserId
 from src.infrastructure.database.models import Users
-from src.application.user.exceptions import UserIsNotExist
-from src.infrastructure.database.error_interceptor import error_interceptor
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
+from src.infrastructure.database.error_interceptor import error_interceptor
+from src.application.user.exceptions import (
+    UserIsNotExist,
+    UserIdIsAlreadyExist
+)
 
 
 class UserRepoImpl(SQLAlchemyRepo, UserRepo):
@@ -57,3 +64,18 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
             await self._session.flush((user_model,))
         except IntegrityError as err:
             self._parse_error(err=err, data=user)
+
+    @staticmethod
+    def _parse_error(
+            err: DBAPIError,
+            data: UserAggregate
+    ) -> None:
+        """
+        Определение ошибки
+        """
+        error = err.__cause__.__cause__.__class__  # type: ignore
+
+        if error == UniqueViolationError:
+            raise UserIdIsAlreadyExist(user_id=data.user_id.to_int)
+        else:
+            raise RepoError() from err

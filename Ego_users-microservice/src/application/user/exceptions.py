@@ -72,11 +72,3 @@ class SubscribeIsNotExists(AppException):
     def message(self) -> str:
         """Сообщение об ошибке"""
         return 'Subscribe is not exists!'
-
-
-@dataclass
-class UserForSubscribeIsNotExists(AppException):
-    @property
-    def message(self) -> str:
-        """Сообщение об ошибке"""
-        return 'User for subscribe is not exists!'

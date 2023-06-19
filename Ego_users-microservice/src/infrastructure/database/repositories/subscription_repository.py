@@ -1,17 +1,17 @@
 from typing import Any
 
-from sqlalchemy.exc import IntegrityError
+from asyncpg import UniqueViolationError, ForeignKeyViolationError  # type: ignore
+from sqlalchemy.exc import IntegrityError, DBAPIError
 from sqlalchemy import (
     func,
     delete,
     select
 )
 
+from src import application as app
 from src.application.user import dto
-from src.domain import SubscriptionEntity
-from src.application import SubscribeIsNotExists, GetSubscriptionsOrder
-
 from src.domain.common import Empty
+from src.domain import SubscriptionEntity
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
 from src.infrastructure.database.error_interceptor import error_interceptor
 from src.domain.user.value_objects import (
@@ -23,15 +23,9 @@ from src.infrastructure.database.models import (
     Avatars,
     Subscriptions
 )
-from src.application import (
-    SubscriptionRepo,
-    SubscriptionReader,
-    SubscribeOnYourself,
-    GetSubscriptionsFilters
-)
 
 
-class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
+class SubscriptionReaderImpl(SQLAlchemyRepo, app.SubscriptionReader):
     """
     Реализация ридера для подписок
     """
@@ -40,7 +34,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
             self,
             *,
             subscriber_id: int,
-            filters: GetSubscriptionsFilters
+            filters: app.GetSubscriptionsFilters
     ) -> list[dto.SubscriptionDTO]:
         """
         Получение списка всех подписок пользователя
@@ -50,7 +44,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
             .where(Subscriptions.subscriber_id == subscriber_id)
             .order_by(
                 Subscriptions.subscription_id.desc()
-                if filters.order == GetSubscriptionsOrder.DESC
+                if filters.order == app.GetSubscriptionsOrder.DESC
                 else Subscriptions.subscription_id.asc()
             )
         ).cte()
@@ -67,7 +61,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
             self,
             *,
             subscription_id: int,
-            filters: GetSubscriptionsFilters
+            filters: app.GetSubscriptionsFilters
     ) -> list[dto.SubscriptionDTO]:
         """
         Получения списка всех подписчиков пользователя
@@ -77,7 +71,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
             .where(Subscriptions.subscription_id == subscription_id)
             .order_by(
                 Subscriptions.subscription_id.desc()
-                if filters.order == GetSubscriptionsOrder.DESC
+                if filters.order == app.GetSubscriptionsOrder.DESC
                 else Subscriptions.subscription_id.asc()
             )
         ).cte()
@@ -122,7 +116,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
             self,
             *,
             cte_query: Any,
-            filters: GetSubscriptionsFilters
+            filters: app.GetSubscriptionsFilters
     ):
         """
         Основной запрос для подтягивания подписчиков и подписок
@@ -153,7 +147,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, SubscriptionReader):
         )
 
 
-class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
+class SubscriptionRepoImpl(SQLAlchemyRepo, app.SubscriptionRepo):
     """
     Реализация репозитория для подписок
     """
@@ -180,7 +174,7 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
         result = subscription.scalar()
 
         if not result:
-            raise SubscribeIsNotExists()
+            raise app.SubscribeIsNotExists()
 
         subscription_entity = self._mapper.load(
             from_model=result,
@@ -200,7 +194,7 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
         )
 
         if subscription_model.subscription_id == subscription_model.subscriber_id:
-            raise SubscribeOnYourself()
+            raise app.SubscribeOnYourself()
 
         self._session.add(subscription_model)
 
@@ -227,3 +221,20 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, SubscriptionRepo):
         )
 
         await self._session.execute(query)
+
+    @staticmethod
+    def _parse_error(
+            err: DBAPIError,
+            data: SubscriptionEntity
+    ) -> None:
+        """
+        Определение ошибки
+        """
+        error = err.__cause__.__cause__.__class__  # type: ignore
+
+        if error == UniqueViolationError:
+            raise app.SubscribeIsAlreadyExists()
+        elif error == ForeignKeyViolationError:
+            raise app.UserIsNotExist(user_id=data.subscription_user_id.to_int)
+        else:
+            raise app.RepoError() from err
