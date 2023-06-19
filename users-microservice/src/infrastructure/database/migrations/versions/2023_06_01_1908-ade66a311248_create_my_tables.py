@@ -1,7 +1,7 @@
 """create my_tables
 
 Revision ID: ade66a311248
-Revises: 
+Revises:
 Create Date: 2023-06-01 19:08:27.537623
 
 """
