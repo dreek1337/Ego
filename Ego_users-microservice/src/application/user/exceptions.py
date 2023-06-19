@@ -10,7 +10,9 @@ class UserIsNotExist(AppException):
 
     @property
     def message(self) -> str:
-        """Сообщение об ошибке"""
+        """
+        Сообщение об ошибке
+        """
         return f'A user with the "{self.user_id}" user_id is not exists'
 
 
@@ -20,7 +22,9 @@ class UserIdIsAlreadyExist(AppException):
 
     @property
     def message(self) -> str:
-        """Сообщение об ошибке"""
+        """
+        Сообщение об ошибке
+        """
         return f'A user with the "{self.user_id}" user_id already exists'
 
 
@@ -30,7 +34,9 @@ class AvatarIdIsAlreadyExist(AppException):
 
     @property
     def message(self) -> str:
-        """Сообщение об ошибке"""
+        """
+        Сообщение об ошибке
+        """
         return f'Avatar with the "{self.avatar_id}" avatar_id already exists'
 
 
@@ -38,7 +44,9 @@ class AvatarIdIsAlreadyExist(AppException):
 class AvatarIsNotExist(AppException):
     @property
     def message(self) -> str:
-        """Сообщение об ошибке"""
+        """
+        Сообщение об ошибке
+        """
         return 'Avatar is not exists'
 
 
@@ -46,7 +54,9 @@ class AvatarIsNotExist(AppException):
 class UnsupportedConvertor(AppException):
     @property
     def message(self) -> str:
-        """Сообщение об ошибке"""
+        """
+        Сообщение об ошибке
+        """
         return 'ToModel or FromModel is unsupported!'
 
 
@@ -54,7 +64,9 @@ class UnsupportedConvertor(AppException):
 class SubscribeOnYourself(AppException):
     @property
     def message(self) -> str:
-        """Сообщение об ошибке"""
+        """
+        Сообщение об ошибке
+        """
         return 'You can\'t subscribe on yourself!'
 
 
@@ -62,7 +74,9 @@ class SubscribeOnYourself(AppException):
 class SubscribeIsAlreadyExists(AppException):
     @property
     def message(self) -> str:
-        """Сообщение об ошибке"""
+        """
+        Сообщение об ошибке
+        """
         return 'Subscribe is already exists!'
 
 
@@ -70,5 +84,7 @@ class SubscribeIsAlreadyExists(AppException):
 class SubscribeIsNotExists(AppException):
     @property
     def message(self) -> str:
-        """Сообщение об ошибке"""
+        """
+        Сообщение об ошибке
+        """
         return 'Subscribe is not exists!'

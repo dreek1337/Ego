@@ -6,7 +6,9 @@ from src.domain.common import AbstractBaseException
 
 @dataclass
 class UserIsDeleted(AbstractBaseException):
-    """Ошибка об том, что пользователь удален"""
+    """
+    Ошибка об том, что пользователь удален
+    """
     user_id: int
 
     @property
@@ -15,7 +17,9 @@ class UserIsDeleted(AbstractBaseException):
 
 
 class AvatarIsDeleted(AbstractBaseException):
-    """Ошибка об том, что аватар удален"""
+    """
+    Ошибка об том, что аватар удален
+    """
     @property
     def message(self) -> str:
         return 'User hasn\'t avatar'
@@ -23,7 +27,9 @@ class AvatarIsDeleted(AbstractBaseException):
 
 @dataclass
 class InvalidAvatarType(AbstractBaseException):
-    """Ошибка о невалидном типе аватара"""
+    """
+    Ошибка о невалидном типе аватара
+    """
     file_type: str
 
     @property
@@ -33,7 +39,9 @@ class InvalidAvatarType(AbstractBaseException):
 
 @dataclass
 class InvalidGender(AbstractBaseException):
-    """Ошибка о невалидном типе пола"""
+    """
+    Ошибка о невалидном типе пола
+    """
     gender_type: str
 
     @property
@@ -43,7 +51,9 @@ class InvalidGender(AbstractBaseException):
 
 @dataclass
 class InvalidBirthdayDate(AbstractBaseException):
-    """Ошибка о неправильной дате рождения"""
+    """
+    Ошибка о неправильной дате рождения
+    """
     birthday_date: date
 
     @property
