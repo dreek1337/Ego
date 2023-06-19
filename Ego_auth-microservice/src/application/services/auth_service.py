@@ -65,15 +65,18 @@ class AuthService(Service):
 
     async def registration_user(
             self,
+            *,
+            authorize: AuthJWT,
             data: um.CreateUserData
-    ) -> um.UsernameData:
+    ) -> tm.TokensData:
         """
         Регистрация пользователя
         """
         return await use_cases.RegistrationUserUseCase(
             uow=self._uow,
+            token_manager=self._token_manager,
             password_manager=self._password_manager
-        )(data=data)
+        )(data=data, authorize=authorize)
 
     async def update_user_data(
             self,

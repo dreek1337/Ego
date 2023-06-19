@@ -1,9 +1,7 @@
-from src.config.schemas.user_models import UsernameData
-from src.config.schemas.token_models import TokensData, AccessToken
-
-
-class RegistrationResponse(UsernameData):
-    """Ответ сервера на регистрацию"""
+from src.config.schemas.token_models import (
+    TokensData,
+    AccessToken
+)
 
 
 class TokensResponse(TokensData):

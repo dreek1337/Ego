@@ -8,6 +8,7 @@ from fastapi_jwt_auth import AuthJWT  # type: ignore
 
 
 from src.application import AuthService
+from .responses.exception_responses import ErrorResult
 from ..di.providers import (
     get_service_stub,
     get_auth_jwt_stub
@@ -18,8 +19,12 @@ from .requests.auth_requests import (
 )
 from .responses.auth_response import (
     TokensResponse,
-    RegistrationResponse,
     RefreshTokenResponse
+)
+from src.application.exceptions import (
+    UserIdIsNotExists,
+    UserDataIsNotCorrect,
+    UsernameIsAlreadyExist
 )
 
 auth_routers = APIRouter(
@@ -31,24 +36,31 @@ auth_routers = APIRouter(
 @auth_routers.post(
     path='/registration',
     responses={
-      status.HTTP_200_OK: {'model': RegistrationResponse}
+        status.HTTP_200_OK: {'model': TokensResponse},
+        status.HTTP_409_CONFLICT: {
+            'model': ErrorResult[UsernameIsAlreadyExist]
+        }
     },
-    response_model=RegistrationResponse
+    response_model=TokensResponse
 )
 async def user_registration(
         data: RegistrationRequest,
+        authorize: AuthJWT = Depends(get_auth_jwt_stub),
         service: AuthService = Depends(get_service_stub)
 ):
     """
     Регистрация пользователя
     """
-    return await service.registration_user(data=data)
+    return await service.registration_user(data=data, authorize=authorize)
 
 
 @auth_routers.post(
     path='/login',
     responses={
-      status.HTTP_200_OK: {'model': TokensResponse}
+        status.HTTP_200_OK: {'model': TokensResponse},
+        status.HTTP_404_NOT_FOUND: {
+            'model': ErrorResult[UserDataIsNotCorrect]
+        }
     },
     response_model=TokensResponse
 )
@@ -66,7 +78,10 @@ async def user_login(
 @auth_routers.get(
     path='/verify',
     responses={
-        status.HTTP_200_OK: {'model': None}
+        status.HTTP_200_OK: {'model': None},
+        status.HTTP_404_NOT_FOUND: {
+            'model': ErrorResult[UserIdIsNotExists]
+        }
     },
     response_model=None
 )

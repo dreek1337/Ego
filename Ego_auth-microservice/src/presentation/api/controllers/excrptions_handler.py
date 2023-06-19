@@ -11,19 +11,33 @@ from src.common.exceptions import BaseJWTException
 from .responses.exception_responses import ErrorResult
 from src.application.exceptions import (
     UserIdIsNotExists,
-    UsernameIsAlreadyExists
+    UsernameIsAlreadyExist,
+    UserDataIsNotCorrect
 )
 
 
 def setup_exception_handlers(app: FastAPI) -> None:
-    app.add_exception_handler(UserIdIsNotExists, user_id_is_not_exists_handler)
-    app.add_exception_handler(UsernameIsAlreadyExists, username_already_exists_handler)
     app.add_exception_handler(AuthJWTException, handle_jwt_error)
+    app.add_exception_handler(UserIdIsNotExists, user_id_is_not_exists_handler)
+    app.add_exception_handler(UsernameIsAlreadyExist, username_already_exist_handler)
+    app.add_exception_handler(UserDataIsNotCorrect, user_data_is_not_correct_handler)
+    app.add_exception_handler(Exception, unsupported_handler)
 
 
-async def username_already_exists_handler(
+async def user_data_is_not_correct_handler(
         request: Request,
-        err: UsernameIsAlreadyExists
+        err: UserDataIsNotCorrect
+) -> ORJSONResponse:
+    return await handle_app_error(
+        err=err,
+        request=request,
+        status_code=status.HTTP_404_NOT_FOUND
+    )
+
+
+async def username_already_exist_handler(
+        request: Request,
+        err: UsernameIsAlreadyExist
 ) -> ORJSONResponse:
     return await handle_app_error(
         err=err,
@@ -40,6 +54,16 @@ async def user_id_is_not_exists_handler(
         err=err,
         request=request,
         status_code=status.HTTP_404_NOT_FOUND
+    )
+
+
+async def unsupported_handler(
+        request: Request,
+        err: Exception
+) -> ORJSONResponse:
+    return ORJSONResponse(
+        ErrorResult(message="Unknown server error has occurred", data="Use Debug!"),
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
     )
 
 

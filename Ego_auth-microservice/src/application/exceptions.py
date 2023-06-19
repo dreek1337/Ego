@@ -49,7 +49,7 @@ class RepoError(BaseAppException):
 
 
 @dataclass
-class UsernameIsAlreadyExists(BaseAppException):
+class UsernameIsAlreadyExist(BaseAppException):
     """Ошибка о том, что имя пользователя уже занято"""
     username: str
 

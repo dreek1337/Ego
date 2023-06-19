@@ -11,9 +11,9 @@ from sqlalchemy.exc import (
 )
 
 from src.common import RepositoryBase
-from src.infra.database.models import Users
-from src.infra.database.repository.base import UserRepositoryBase
-from src.infra.database.exception_incepter import error_interceptor
+from ..models import Users
+from .base import UserRepositoryBase
+from ..exception_incepter import error_interceptor
 from src.config.schemas.user_models import (
     UserModel,
     UserSaveDataInDB
@@ -22,7 +22,7 @@ from src.application.exceptions import (
     RepoError,
     UserIdIsNotExists,
     UserDataIsNotCorrect,
-    UsernameIsAlreadyExists
+    UsernameIsAlreadyExist
 )
 
 DataModel = TypeVar('DataModel', bound=Any)
@@ -113,6 +113,6 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
         error = err.__cause__.__cause__.__class__  # type: ignore
 
         if error == UniqueViolationError:
-            raise UsernameIsAlreadyExists(username=data.username)
+            raise UsernameIsAlreadyExist(username=data.username)
         else:
             raise RepoError() from err

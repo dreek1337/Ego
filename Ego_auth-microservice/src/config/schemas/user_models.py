@@ -1,6 +1,6 @@
 from pydantic import (
     Field,
-    EmailStr
+    EmailStr, validator
 )
 
 from src.common import Empty
@@ -42,12 +42,22 @@ class CreateUserData(LoginSchema):
     """
     user_email: EmailStr = Field(..., description='Почта пользователя')
 
+    @validator('password')
+    def check_password(cls, password):
+        if len(password) > 32:
+            raise ValueError('string is too long')
+        if len(password) < 8:
+            raise ValueError('string is too small')
 
-class UserSaveDataInDB(CreateUserData):
+        return password
+
+
+class UserSaveDataInDB(LoginSchema):
     """
     Данные с солью для базы данных
     """
     salt: str = Field(..., description='Соль для пароля')
+    user_email: EmailStr = Field(..., description='Почта пользователя')
 
 
 class UpdateUserData(BaseDataModel):
@@ -56,3 +66,15 @@ class UpdateUserData(BaseDataModel):
     """
     password: str | Empty = Field(Empty.UNSET.value)
     user_email: EmailStr | Empty = Field(Empty.UNSET.value)
+
+    @validator('password')
+    def check_password(cls, password):
+        if password == Empty.UNSET.value:
+            return password
+
+        if len(password) > 32:
+            raise ValueError('string is too long')
+        if len(password) < 8:
+            raise ValueError('string is too small')
+
+        return password
