@@ -4,9 +4,9 @@ from src.application.common import UnitOfWork
 from src.application.user.interfaces import (
     UserRepo,
     AvatarRepo,
-    SubscriptionRepo
+    SubscriptionRepo,
+    SubscriptionReader
 )
-from src.application.user.interfaces import SubscriptionReader
 
 
 class UserUoW(UnitOfWork, ABC):
