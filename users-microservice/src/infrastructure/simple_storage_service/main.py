@@ -2,7 +2,7 @@ from aiobotocore.session import get_session, ClientCreatorContext  # type: ignor
 
 from src.application.user.constant import AvatarCloudEnum
 from src.infrastructure.simple_storage_service.config import MinioConfig
-from src.infrastructure.simple_storage_service.error_inteceptor import error_interceptor
+from ..simple_storage_service.error_interceptor import error_interceptor
 from src.application import (
     SetAvatarData,
     CloudStorageBase
