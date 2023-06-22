@@ -8,7 +8,7 @@ from src.application.posts.interfaces import (
 from src.application.common import UnitOfWork
 
 
-class UserUoW(UnitOfWork, ABC):
+class PostUoW(UnitOfWork, ABC):
     def __init__(
             self,
             *,

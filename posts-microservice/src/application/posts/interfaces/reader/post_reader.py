@@ -31,11 +31,19 @@ class PostReader(ABC):
     async def get_posts_by_creator_id(
             self,
             *,
-            subscription_id: int,
+            creator_id: int,
             filters: GetPostsFilters
     ) -> list[PostsDTO]:
-        """Получения списка всех подписчиков пользователя"""
+        """Получения списка всех постов пользователя"""
 
     @abstractmethod
-    async def get_count_posts(self, subscriber_id: int) -> int:
-        """Получить кол-во подписок пользователя"""
+    async def get_count_posts(self, post_id: int) -> int:
+        """Получить кол-во постов пользователя"""
+
+    @abstractmethod
+    async def full_text_posts_search(
+            self,
+            query_string: str,
+            filters: GetPostsFilters
+    ) -> list[PostsDTO]:
+        """Полнотекстовый поиск постов"""

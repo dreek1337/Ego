@@ -5,7 +5,6 @@ from abc import (
 
 from src.domain import (
     PostId,
-    CreatorId,
     PostAggregate
 )
 
@@ -22,14 +21,7 @@ class PostRepo(ABC):
         """Получение поста с помощью id"""
 
     @abstractmethod
-    async def get_posts_by_creator_id(
-            self,
-            creator_id: CreatorId
-    ) -> PostAggregate | None:
-        """Получение постов с помощью id"""
-
-    @abstractmethod
-    async def create_post(self, post: PostAggregate) -> None:
+    async def create_post(self, data: PostAggregate) -> None:
         """Создание поста"""
 
     @abstractmethod
@@ -39,11 +31,3 @@ class PostRepo(ABC):
     @abstractmethod
     async def delete_post(self, post_id: PostId) -> None:
         """Удаление поста"""
-
-    @abstractmethod
-    async def like_post(self, post_id: PostId) -> None:
-        """Лайк поста"""
-
-    @abstractmethod
-    async def dislike_post(self, post_id: PostId) -> None:
-        """Дизлайк поста"""

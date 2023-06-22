@@ -1,14 +1,5 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC
 
 
 class UnitOfWork(ABC):
-    @abstractmethod
-    async def commit(self) -> None:
-        """Сохранение изменений в бд"""
-
-    @abstractmethod
-    async def rollback(self) -> None:
-        """Откат изменений в бд"""
+    """Базовый класс uow"""

@@ -13,8 +13,6 @@ class PostAggregate(Aggregate):
     post_id: PostId
     creator_id: CreatorId
     text_content: str
-    likes: int = field(default=0)
-    dislikes: int = field(default=0)
     created_at: datetime = field(default=datetime.now())
 
     @classmethod
