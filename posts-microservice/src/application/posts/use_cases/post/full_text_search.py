@@ -1,20 +1,19 @@
 from src.domain import Empty
-from src.application.posts.dto import PostDTO
 from src.application.posts.uow import PostUoW
+from src.application.posts.dto import PostsDTO
+from src.application.common import (
+    UseCase,
+    UseCaseData
+)
 from src.application.posts.interfaces import (
     GetPostsOrder,
     GetPostsFilters
-)
-from src.application.common import (
-    Mapper,
-    UseCase,
-    UseCaseData
 )
 
 
 class FullTextSearchPostsData(UseCaseData):
     """
-    Данные для получения постов
+    Данные для получения постов по ключевым словам
     """
     query_string: str
     offset: int | Empty = Empty.UNSET
@@ -27,18 +26,16 @@ class FullTextSearchPostsData(UseCaseData):
 
 class FullTextSearchPostsUseCase(UseCase):
     """
-    UseCase для создания поста
+    UseCase для получения постов по ключевым словам
     """
     def __init__(
             self,
             *,
             uow: PostUoW,
-            mapper: Mapper
     ) -> None:
         self._uow = uow
-        self._mapper = mapper
 
-    async def __call__(self, data: FullTextSearchPostsData) -> list[PostDTO]:
+    async def __call__(self, data: FullTextSearchPostsData) -> PostsDTO:
         posts_data = await self._uow.post_reader.full_text_posts_search(
             query_string=data.query_string,
             filters=GetPostsFilters(
@@ -48,6 +45,8 @@ class FullTextSearchPostsUseCase(UseCase):
             )
         )
 
-        post_dto = self._mapper.load(from_model=posts_data, to_model=list[PostDTO])
-
-        return post_dto
+        return PostsDTO(
+            posts=posts_data,
+            offset=data.offset,
+            limit=data.limit
+        )

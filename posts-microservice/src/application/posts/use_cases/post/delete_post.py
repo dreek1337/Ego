@@ -4,7 +4,6 @@ from src.domain import PostId
 from src.application.posts.uow import PostUoW
 from src.application.posts.dto import DeletePostDTO
 from src.application.common import (
-    Mapper,
     UseCase,
     UseCaseData
 )
@@ -28,10 +27,8 @@ class DeletePostUseCase(UseCase):
             self,
             *,
             uow: PostUoW,
-            mapper: Mapper
     ) -> None:
         self._uow = uow
-        self._mapper = mapper
 
     async def __call__(self, data: DeletePostData) -> DeletePostDTO:
         await self._uow.post_repo.delete_post(

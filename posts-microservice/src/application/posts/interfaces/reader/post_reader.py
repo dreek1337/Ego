@@ -9,7 +9,7 @@ from enum import Enum
 from pydantic import BaseModel
 
 from src.domain.common.constants import Empty
-from src.application.posts.dto import PostsDTO
+from src.application.posts.dto import PostDTO
 
 
 class GetPostsOrder(str, Enum):
@@ -33,7 +33,7 @@ class PostReader(ABC):
             *,
             creator_id: int,
             filters: GetPostsFilters
-    ) -> list[PostsDTO]:
+    ) -> list[PostDTO]:
         """Получения списка всех постов пользователя"""
 
     @abstractmethod
@@ -45,5 +45,5 @@ class PostReader(ABC):
             self,
             query_string: str,
             filters: GetPostsFilters
-    ) -> list[PostsDTO]:
+    ) -> list[PostDTO]:
         """Полнотекстовый поиск постов"""

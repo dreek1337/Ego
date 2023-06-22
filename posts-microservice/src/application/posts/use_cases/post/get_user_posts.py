@@ -1,14 +1,13 @@
 from src.domain import Empty
-from src.application.posts.dto import PostDTO
 from src.application.posts.uow import PostUoW
+from src.application.posts.dto import PostsDTO
+from src.application.common import (
+    UseCase,
+    UseCaseData
+)
 from src.application.posts.interfaces import (
     GetPostsOrder,
     GetPostsFilters
-)
-from src.application.common import (
-    Mapper,
-    UseCase,
-    UseCaseData
 )
 
 
@@ -25,7 +24,7 @@ class GetPostsData(UseCaseData):
         frozen = True
 
 
-class CreatePostUseCase(UseCase):
+class GetPostsUseCase(UseCase):
     """
     UseCase для создания поста
     """
@@ -33,12 +32,10 @@ class CreatePostUseCase(UseCase):
             self,
             *,
             uow: PostUoW,
-            mapper: Mapper
     ) -> None:
         self._uow = uow
-        self._mapper = mapper
 
-    async def __call__(self, data: GetPostsData) -> list[PostDTO]:
+    async def __call__(self, data: GetPostsData) -> PostsDTO:
         posts_data = await self._uow.post_reader.get_posts_by_creator_id(
             creator_id=data.creator_id,
             filters=GetPostsFilters(
@@ -48,6 +45,8 @@ class CreatePostUseCase(UseCase):
             )
         )
 
-        post_dto = self._mapper.load(from_model=posts_data, to_model=list[PostDTO])
-
-        return post_dto
+        return PostsDTO(
+            posts=posts_data,
+            offset=data.offset,
+            limit=data.limit
+        )
