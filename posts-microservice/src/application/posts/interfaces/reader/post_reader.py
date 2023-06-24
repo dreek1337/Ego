@@ -33,12 +33,8 @@ class PostReader(ABC):
             *,
             creator_id: int,
             filters: GetPostsFilters
-    ) -> list[PostDTO]:
+    ) -> list[PostDTO] | None:
         """Получения списка всех постов пользователя"""
-
-    @abstractmethod
-    async def get_count_posts(self, post_id: int) -> int:
-        """Получить кол-во постов пользователя"""
 
     @abstractmethod
     async def full_text_posts_search(

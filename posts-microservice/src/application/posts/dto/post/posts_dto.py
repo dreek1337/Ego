@@ -7,7 +7,7 @@ class PostsDTO(DTO):
     """
     Модель подписок
     """
-    posts: list[PostDTO]
+    posts: list[PostDTO] | None
     offset: int | Empty = Empty.UNSET
     limit: int | Empty = Empty.UNSET
 

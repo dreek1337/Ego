@@ -11,7 +11,7 @@ from src.domain import (
 
 class PostRepo(ABC):
     """
-    Репозиторий файла
+    Репозиторий постов
     """
     @abstractmethod
     async def get_post_by_id(

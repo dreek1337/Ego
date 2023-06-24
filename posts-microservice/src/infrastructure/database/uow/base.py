@@ -1,0 +1,2 @@
+class ElasticsearchUoWBase:
+    """Базовый класс"""
