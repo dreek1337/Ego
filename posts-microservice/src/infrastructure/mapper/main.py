@@ -3,6 +3,7 @@ from typing import (
     TypeVar
 )
 
+
 from src import application as app
 from src.application import UnsupportedConvertor
 from src.infrastructure.mapper.convert import Convert
@@ -50,8 +51,15 @@ def create_mapper() -> MapperImpl:
     """
     Инициализация маппера
     """
-    mapper = MapperImpl(convert_mappers=(
-            ...  # type: ignore
+    mapper = MapperImpl(
+        convert_mappers=(
+            [
+                Convert(
+                    from_model=Convert,
+                    to_model=Convert,
+                    loader=Convert  # type: ignore
+                )
+            ]
         )
     )
 

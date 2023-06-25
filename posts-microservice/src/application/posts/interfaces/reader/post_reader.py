@@ -41,5 +41,5 @@ class PostReader(ABC):
             self,
             query_string: str,
             filters: GetPostsFilters
-    ) -> list[PostDTO]:
+    ) -> list[PostDTO] | None:
         """Полнотекстовый поиск постов"""

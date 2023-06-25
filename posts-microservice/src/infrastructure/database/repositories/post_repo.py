@@ -53,8 +53,10 @@ class PostReaderImpl(PostRepoBase, PostReader):
             self,
             query_string: str,
             filters: GetPostsFilters
-    ) -> list[PostDTO]:
-        """Полнотекстовый поиск постов"""
+    ) -> list[PostDTO] | None:
+        """
+        Полнотекстовый поиск постов
+        """
         query = {
             "query": {
                 "match_phrase": {
@@ -88,7 +90,7 @@ class PostRepoImpl(PostRepoBase, PostRepo):
             post_id: PostId
     ) -> PostAggregate:
         """Получение поста с помощью id"""
-        return None  #type: ignore
+        return None  # type: ignore
 
     async def create_post(self, data: PostAggregate) -> None:
         """Создание поста"""
