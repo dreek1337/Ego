@@ -6,9 +6,9 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker
 )
 
-from src.infrastructure.mapper.main import MapperImpl
+from src.infrastructure.mapper import MapperImpl
+from src.infrastructure.database import SQLAlchemyUoW
 from src.infrastructure.database import repositories as repo
-from src.infrastructure.database.uow.uow import SQLAlchemyUoW
 from src.application.user.service.user_service import UserService
 from src.infrastructure.simple_storage_service import (
     MinioConfig,
