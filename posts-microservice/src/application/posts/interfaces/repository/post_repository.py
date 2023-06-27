@@ -21,11 +21,11 @@ class PostRepo(ABC):
         """Получение поста с помощью id"""
 
     @abstractmethod
-    async def create_post(self, data: PostAggregate) -> None:
+    async def create_post(self, data: PostAggregate) -> PostAggregate:
         """Создание поста"""
 
     @abstractmethod
-    async def update_post(self, post: PostAggregate) -> None:
+    async def update_post(self, post: PostAggregate) -> PostAggregate:
         """Обновление поста"""
 
     @abstractmethod

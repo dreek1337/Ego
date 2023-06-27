@@ -3,10 +3,12 @@ from typing import (
     TypeVar
 )
 
-
+from src import domain
 from src import application as app
+from src.application.posts import dto
 from src.application import UnsupportedConvertor
 from src.infrastructure.mapper.convert import Convert
+from src.infrastructure.mapper import convert_functions as cf
 
 FromModel = TypeVar("FromModel", bound=Any)
 ToModel = TypeVar("ToModel", bound=Any)
@@ -55,10 +57,20 @@ def create_mapper() -> MapperImpl:
         convert_mappers=(
             [
                 Convert(
-                    from_model=Convert,
-                    to_model=Convert,
-                    loader=Convert  # type: ignore
-                )
+                    from_model=domain.PostAggregate,
+                    to_model=dto.PostDTO,
+                    loader=cf.convert_from_entity_to_dto
+                ),
+                Convert(
+                    from_model=dict[str, Any],
+                    to_model=domain.PostAggregate,
+                    loader=cf.convert_from_elastic_model_to_entity
+                ),
+                Convert(
+                    from_model=list[dict[str, Any]],
+                    to_model=list[dto.PostDTO],
+                    loader=cf.convert_from_elastic_models_to_dto
+                ),
             ]
         )
     )

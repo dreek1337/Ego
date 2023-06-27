@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from src.domain import PostId
 from src.application.posts.uow import PostUoW
 from src.application.posts.dto import DeletePostDTO
@@ -13,7 +11,7 @@ class DeletePostData(UseCaseData):
     """
     Данные для удаления поста
     """
-    post_id: UUID
+    post_id: str
 
     class Config:
         frozen = True

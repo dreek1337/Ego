@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from src.domain import PostId
 from src.application.posts.dto import PostDTO
 from src.application.posts.uow import PostUoW
@@ -14,7 +12,7 @@ class UpdatePostData(UseCaseData):
     """
     Данные для изменение поста
     """
-    post_id: UUID
+    post_id: str
     text_content: str
 
     class Config:
@@ -41,8 +39,8 @@ class UpdatePostUseCase(UseCase):
 
         post.update_post(text_content=data.text_content)
 
-        await self._uow.post_repo.update_post(post=post)
+        updated_post = await self._uow.post_repo.update_post(post=post)
 
-        post_dto = self._mapper.load(from_model=post, to_model=PostDTO)
+        post_dto = self._mapper.load(from_model=updated_post, to_model=PostDTO)
 
         return post_dto

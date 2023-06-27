@@ -1,14 +1,14 @@
-from uuid import UUID
 from dataclasses import dataclass
 
 from src.domain.common import ValueObject
 
 
 @dataclass(frozen=True)
-class PostId(ValueObject[UUID]):
-    value: UUID
+class PostId(ValueObject[str]):
+    value: str
 
-    def get_value(self) -> UUID:
+    @property
+    def get_value(self) -> str:
         """
         Получение значения
         """

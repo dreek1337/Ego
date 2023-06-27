@@ -10,8 +10,8 @@ services:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
       - elasticsearch:/usr/share/elasticsearch/data:Z
     ports:
-      - ${ELASTIC_PORT:-}:${ELASTIC_PORT:-}
-      - ${ELASTIC_TCP_PORT:-}:${ELASTIC_TCP_PORT:-}
+      - 9200:9200
+      - 9300:9300
     environment:
       node.name: elasticsearch
       ES_JAVA_OPTS: -Xms512m -Xmx512m
@@ -31,7 +31,7 @@ services:
     volumes:
       - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,Z
     ports:
-      - ${KIBANA_PORT:-}:${KIBANA_PORT:-}
+      - 5601:5601
     environment:
       KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
     networks:

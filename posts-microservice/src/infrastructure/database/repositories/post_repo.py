@@ -1,3 +1,4 @@
+from src.application import ElasticIndexes
 from src.application.posts.dto import PostDTO
 from src.infrastructure.database.repositories.base import PostRepoBase
 from src.domain import (
@@ -34,7 +35,7 @@ class PostReaderImpl(PostRepoBase, PostReader):
             },
             "sort": [
                 {
-                    "post_date": {
+                    "creator_id": {
                         "order": filters.order
                     }
                 }
@@ -43,9 +44,17 @@ class PostReaderImpl(PostRepoBase, PostReader):
             "size": filters.limit
         }
 
-        posts = await self._connection.search(index='post-ms', body=query)
+        posts = await self._connection.search(
+            index=ElasticIndexes.POST_MS.value,
+            body=query
+        )
+        print()
+        list_of_posts = posts.get('hits').get('hits')
 
-        dto_posts = self._mapper.load(from_model=posts, to_model=list[PostDTO])
+        if list_of_posts:
+            return None
+
+        dto_posts = self._mapper.load(from_model=list_of_posts, to_model=list[PostDTO])
 
         return dto_posts
 
@@ -65,7 +74,7 @@ class PostReaderImpl(PostRepoBase, PostReader):
             },
             "sort": [
                 {
-                    "post_date": {
+                    "creator_id": {
                         "order": filters.order
                     }
                 }
@@ -74,9 +83,17 @@ class PostReaderImpl(PostRepoBase, PostReader):
             "size": filters.limit
         }
 
-        posts = await self._connection.search(index='post-ms', body=query)
+        posts = await self._connection.search(
+            index=ElasticIndexes.POST_MS.value,
+            body=query
+        )
 
-        dto_posts = self._mapper.load(from_model=posts, to_model=list[PostDTO])
+        list_of_posts = posts.get('hits').get('hits')
+
+        if list_of_posts:
+            return None
+
+        dto_posts = self._mapper.load(from_model=list_of_posts, to_model=list[PostDTO])
 
         return dto_posts
 
@@ -89,14 +106,71 @@ class PostRepoImpl(PostRepoBase, PostRepo):
             self,
             post_id: PostId
     ) -> PostAggregate:
-        """Получение поста с помощью id"""
-        return None  # type: ignore
+        """
+        Получение поста с помощью id
+        """
+        post = await self._connection.get(
+            index=ElasticIndexes.POST_MS.value,
+            id=post_id.get_value
+        )
 
-    async def create_post(self, data: PostAggregate) -> None:
-        """Создание поста"""
+        post_aggregate = self._mapper.load(from_model=post, to_model=PostAggregate)
 
-    async def update_post(self, post: PostAggregate) -> None:
-        """Обновление поста"""
+        return post_aggregate
+
+    async def create_post(self, data: PostAggregate) -> PostAggregate:
+        """
+        Создание поста
+        """
+        document = {
+            'creator_id': data.creator_id.get_value,
+            'text_content': data.text_content,
+            'created_at': data.created_at
+        }
+
+        created_data = await self._connection.index(
+            index=ElasticIndexes.POST_MS.value,
+            document=document
+        )
+
+        if created_data.get('result') != 'created':
+            raise Exception
+
+        data.post_id = created_data.get('_id')
+
+        return data
+
+    async def update_post(self, post: PostAggregate) -> PostAggregate:
+        """
+        Обновление поста
+        """
+        document = {
+            "doc": {
+                'text_content': post.text_content,
+            }
+        }
+
+        updated_data = await self._connection.update(
+            index=ElasticIndexes.POST_MS.value,
+            id=post.post_id.get_value,  # type: ignore
+            body=document
+        )
+
+        if not updated_data.get('found'):
+            raise Exception
+
+        post.post_id = updated_data.get('_id')
+
+        return post
 
     async def delete_post(self, post_id: PostId) -> None:
-        """Удаление поста"""
+        """
+        Удаление поста
+        """
+        deleted_data = await self._connection.delete(
+            index=ElasticIndexes.POST_MS.value,
+            id=post_id.get_value
+        )
+
+        if deleted_data.get('result') != 'deleted':
+            raise Exception

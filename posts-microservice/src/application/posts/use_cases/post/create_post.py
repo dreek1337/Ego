@@ -1,10 +1,3 @@
-from uuid import (
-    UUID,
-    uuid4
-)
-
-from pydantic import Field
-
 from src.application.posts.dto import PostDTO
 from src.application.posts.uow import PostUoW
 from src.application.common import (
@@ -13,7 +6,6 @@ from src.application.common import (
     UseCaseData
 )
 from src.domain import (
-    PostId,
     CreatorId,
     PostAggregate
 )
@@ -23,7 +15,6 @@ class CreatePostData(UseCaseData):
     """
     Данные для создания поста
     """
-    post_id: UUID = Field(default_factory=uuid4)
     creator_id: int
     text_content: str
 
@@ -46,13 +37,12 @@ class CreatePostUseCase(UseCase):
 
     async def __call__(self, data: CreatePostData) -> PostDTO:
         post_data = PostAggregate.create_post(
-            post_id=PostId(value=data.post_id),
             creator_id=CreatorId(value=data.creator_id),
             text_content=data.text_content
         )
 
-        await self._uow.post_repo.create_post(data=post_data)
+        post = await self._uow.post_repo.create_post(data=post_data)
 
-        post_dto = self._mapper.load(from_model=post_data, to_model=PostDTO)
+        post_dto = self._mapper.load(from_model=post, to_model=PostDTO)
 
         return post_dto

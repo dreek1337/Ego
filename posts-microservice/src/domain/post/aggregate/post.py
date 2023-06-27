@@ -10,16 +10,15 @@ from src.domain.post.value_objects import (
 
 @dataclass
 class PostAggregate(Aggregate):
-    post_id: PostId
     creator_id: CreatorId
     text_content: str
+    post_id: PostId | None = field(default=None)
     created_at: datetime = field(default=datetime.now())
 
     @classmethod
     def create_post(
             cls,
             *,
-            post_id: PostId,
             creator_id: CreatorId,
             text_content: str
     ) -> 'PostAggregate':
@@ -27,7 +26,6 @@ class PostAggregate(Aggregate):
         Создание поста
         """
         return PostAggregate(
-            post_id=post_id,
             creator_id=creator_id,
             text_content=text_content
         )

@@ -7,6 +7,7 @@ from src.domain.common import ValueObject
 class CreatorId(ValueObject[int]):
     value: int
 
+    @property
     def get_value(self) -> int:
         """
         Получение значения
