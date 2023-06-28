@@ -5,7 +5,7 @@ services:
     profiles:
       - setup
     build:
-      context: ek_stack/setup/
+      context: elastic_stack/setup/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     init: true
@@ -29,7 +29,7 @@ services:
 
   elasticsearch:
     build:
-      context: ek_stack/elasticsearch/
+      context: elastic_stack/elasticsearch/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
@@ -51,7 +51,7 @@ services:
 
   kibana:
     build:
-      context: ek_stack/kibana/
+      context: elastic_stack/kibana/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:

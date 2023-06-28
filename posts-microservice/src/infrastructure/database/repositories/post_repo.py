@@ -1,6 +1,7 @@
 from src.application import ElasticIndexes
 from src.application.posts.dto import PostDTO
 from src.infrastructure.database.repositories.base import PostRepoBase
+from src.infrastructure.database.error_interceptor import error_interceptor
 from src.domain import (
     PostId,
     PostAggregate
@@ -16,6 +17,7 @@ class PostReaderImpl(PostRepoBase, PostReader):
     """
     Реализация ридера
     """
+    @error_interceptor
     async def get_posts_by_creator_id(
             self,
             *,
@@ -58,6 +60,7 @@ class PostReaderImpl(PostRepoBase, PostReader):
 
         return dto_posts
 
+    @error_interceptor
     async def full_text_posts_search(
             self,
             query_string: str,
@@ -102,6 +105,8 @@ class PostRepoImpl(PostRepoBase, PostRepo):
     """
     Реализация репозитория
     """
+
+    @error_interceptor
     async def get_post_by_id(
             self,
             post_id: PostId
@@ -118,6 +123,7 @@ class PostRepoImpl(PostRepoBase, PostRepo):
 
         return post_aggregate
 
+    @error_interceptor
     async def create_post(self, data: PostAggregate) -> PostAggregate:
         """
         Создание поста
@@ -140,6 +146,7 @@ class PostRepoImpl(PostRepoBase, PostRepo):
 
         return data
 
+    @error_interceptor
     async def update_post(self, post: PostAggregate) -> PostAggregate:
         """
         Обновление поста
@@ -163,6 +170,7 @@ class PostRepoImpl(PostRepoBase, PostRepo):
 
         return post
 
+    @error_interceptor
     async def delete_post(self, post_id: PostId) -> None:
         """
         Удаление поста
