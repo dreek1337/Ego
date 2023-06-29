@@ -8,14 +8,13 @@ from src.infrastructure import (
 )
 from src.presentation.api.di.providers import (
     get_service,
+    get_uow_stub,
+    get_mapper_stub,
+    get_service_stub,
     get_cloud_storage_stub,
     InfrastructureProvider
 )
-from src.presentation.api.di.providers import (
-    get_uow_stub,
-    get_mapper_stub,
-    get_service_stub
-)
+
 
 mapper_instance = create_mapper()
 pool = create_session_factory(engine_config=engine_config)
