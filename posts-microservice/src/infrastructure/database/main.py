@@ -1,12 +1,15 @@
+from typing import Callable
+
 from elasticsearch import AsyncElasticsearch  # type: ignore
 
 from src.infrastructure.database.config import ElasticEngine
 
 
-def elastic_factory(config: ElasticEngine) -> AsyncElasticsearch:
+def elastic_factory(config: ElasticEngine) -> Callable:
     """
     Поулчение асинхронного подключения к ЕС
     """
-    es = AsyncElasticsearch(**config.dict())
+    def create_engine() -> AsyncElasticsearch:
+        return AsyncElasticsearch(**config.dict())
 
-    return es
+    return create_engine

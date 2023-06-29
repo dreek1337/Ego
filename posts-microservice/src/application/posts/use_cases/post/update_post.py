@@ -1,6 +1,7 @@
 from src.domain import PostId
 from src.application.posts.dto import PostDTO
 from src.application.posts.uow import PostUoW
+from src.application.posts.exceptions import UserIsNotPostCreator
 from src.application.common import (
     Mapper,
     UseCase,
@@ -13,6 +14,7 @@ class UpdatePostData(UseCaseData):
     Данные для изменение поста
     """
     post_id: str
+    creator_id: int
     text_content: str
 
     class Config:
@@ -36,6 +38,9 @@ class UpdatePostUseCase(UseCase):
         post = await self._uow.post_repo.get_post_by_id(
             post_id=PostId(value=data.post_id)
         )
+
+        if post.creator_id.get_value != data.creator_id:
+            raise UserIsNotPostCreator()
 
         post.update_post(text_content=data.text_content)
 

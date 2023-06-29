@@ -1,9 +1,9 @@
-from elasticsearch import AsyncElasticsearch  # type: ignore
+from typing import Callable
 
 from src.application import Mapper
 
 
-class PostRepoBase:
+class ElasticPostRepoBase:
     """
     Базвоый класс репзитория
     """
@@ -11,7 +11,7 @@ class PostRepoBase:
             self,
             *,
             mapper: Mapper,
-            connection: AsyncElasticsearch
+            engine: Callable
     ) -> None:
-        self._connection = connection
+        self._engine = engine
         self._mapper = mapper

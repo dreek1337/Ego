@@ -3,6 +3,7 @@ from typing import Any
 from src.application.posts.dto import PostDTO
 from src.domain import (
     PostId,
+    CreatorId,
     PostAggregate
 )
 
@@ -31,9 +32,11 @@ def convert_from_elastic_model_to_entity(
     """
     post_aggregate = PostAggregate(
         post_id=PostId(value=elastic_data.get('_id')),  # type: ignore
-        creator_id=elastic_data.get('creator_id'),  # type: ignore
-        text_content=elastic_data.get('text_content'),  # type: ignore
-        created_at=elastic_data.get('created_at')  # type: ignore
+        creator_id=CreatorId(
+            value=elastic_data.get('_source').get('creator_id')  # type: ignore
+        ),
+        text_content=elastic_data.get('_source').get('text_content'),  # type: ignore
+        created_at=elastic_data.get('_source').get('created_at')  # type: ignore
     )
 
     return post_aggregate
@@ -48,9 +51,9 @@ def convert_from_elastic_models_to_dto(
     posts_dto = [
         PostDTO(
             post_id=post.get('_id'),    # type: ignore
-            creator_id=post.get('creator_id'),    # type: ignore
-            text_content=post.get('text_content'),    # type: ignore
-            created_at=post.get('created_at')    # type: ignore
+            creator_id=post.get('_source').get('creator_id'),    # type: ignore
+            text_content=post.get('_source').get('text_content'),    # type: ignore
+            created_at=post.get('_source').get('created_at')    # type: ignore
         )
         for post in elastic_posts
     ]

@@ -46,6 +46,7 @@ class MapperImpl(app.Mapper):
         for convert in self._convert_mappers:
             if convert.check(from_model=type(from_model), to_model=to_model):
                 return convert
+        print()
         raise UnsupportedConvertor()
 
 
@@ -62,12 +63,12 @@ def create_mapper() -> MapperImpl:
                     loader=cf.convert_from_entity_to_dto
                 ),
                 Convert(
-                    from_model=dict[str, Any],
+                    from_model=dict,
                     to_model=domain.PostAggregate,
                     loader=cf.convert_from_elastic_model_to_entity
                 ),
                 Convert(
-                    from_model=list[dict[str, Any]],
+                    from_model=list,
                     to_model=list[dto.PostDTO],
                     loader=cf.convert_from_elastic_models_to_dto
                 ),

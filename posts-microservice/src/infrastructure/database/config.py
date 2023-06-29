@@ -6,8 +6,8 @@ from pydantic import (
 
 
 class ElasticEngine(BaseSettings):
-    port: int = Field(..., env='ES_PORT')
-    host: str = Field(..., env='ES_HOST')
+    port: int = Field(..., env='ELASTIC_PORT')
+    host: str = Field(..., env='ELASTIC_HOST')
     password: str = Field(..., env='ELASTIC_PASSWORD')
     username: str = Field(..., env='ELASTIC_USERNAME')
 
