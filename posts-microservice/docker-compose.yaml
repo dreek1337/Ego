@@ -71,16 +71,29 @@ services:
   curator:
     build:
       context: curator/
-    init: true
+    command: --config ./.curator/curator.yml /.curator/create_post_index.yml
     volumes:
-      - .curator/config/curator.yml:/.curator/curator.yml:ro,Z
-      - .curator/config/delete_log_files_curator.yml:/.curator/create_post_index.yml:ro,Z
+      - ./curator/config/curator.yml:/.curator/curator.yml:ro,Z
+      - ./curator/config/create_post_index.yml:/.curator/create_post_index.yml:ro,Z
     environment:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
     networks:
       - elk
     depends_on:
       - elasticsearch
+
+  fastapi-app:
+    build: .
+    command: python run.py
+    ports:
+      - ${SITE_PORT}:${SITE_PORT}
+    depends_on:
+      - elasticsearch
+    restart: always
+    networks:
+      - elk
+    env_file:
+      - .env
 
 networks:
   elk:

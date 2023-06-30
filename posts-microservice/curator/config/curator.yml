@@ -1,6 +1,3 @@
-# Curator configuration
-# https://www.elastic.co/guide/en/elasticsearch/client/curator/current/configfile.html
-
 elasticsearch:
   client:
     hosts: [ http://elasticsearch:9200 ]
