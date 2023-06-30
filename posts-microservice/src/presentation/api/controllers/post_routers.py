@@ -51,7 +51,7 @@ async def full_text_posts_search(
 @post_router.post(
     path='/create_post',
     responses={
-        status.HTTP_200_OK: {'model': resp.PostResponse},
+        status.HTTP_201_CREATED: {'model': resp.PostResponse},
     },
     response_model=resp.PostResponse
 )
