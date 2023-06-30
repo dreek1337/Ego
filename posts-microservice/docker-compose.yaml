@@ -5,7 +5,7 @@ services:
     profiles:
       - setup
     build:
-      context: elastic_stack/setup/
+      context: setup/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     init: true
@@ -29,7 +29,7 @@ services:
 
   elasticsearch:
     build:
-      context: elastic_stack/elasticsearch/
+      context: elasticsearch/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
@@ -51,7 +51,7 @@ services:
 
   kibana:
     build:
-      context: elastic_stack/kibana/
+      context: kibana/
       args:
         ELASTIC_VERSION: ${ELASTIC_VERSION}
     volumes:
@@ -70,7 +70,7 @@ services:
 
   curator:
     build:
-      context: elastic_stack/curator/
+      context: curator/
     init: true
     volumes:
       - .curator/config/curator.yml:/.curator/curator.yml:ro,Z
