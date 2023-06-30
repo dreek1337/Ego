@@ -68,6 +68,20 @@ services:
     env_file:
       - .env
 
+  curator:
+    build:
+      context: elastic_stack/curator/
+    init: true
+    volumes:
+      - .curator/config/curator.yml:/.curator/curator.yml:ro,Z
+      - .curator/config/delete_log_files_curator.yml:/.curator/create_post_index.yml:ro,Z
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
 networks:
   elk:
     driver: bridge

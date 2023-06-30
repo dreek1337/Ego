@@ -1,0 +1,20 @@
+actions:
+  1:
+    action: create_index
+    description: >-
+      Create post index
+    options:
+    name: post-ms
+    extra_settings:
+      settings:
+        number_of_shards: 1
+        number_of_replicas: 0
+      mappings:
+        type1:
+          properties:
+            creator_id:
+              type: integer
+            text_content:
+              type: text
+            created_at:
+              type: date
