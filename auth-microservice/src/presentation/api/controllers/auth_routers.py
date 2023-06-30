@@ -36,7 +36,7 @@ auth_routers = APIRouter(
 @auth_routers.post(
     path='/registration',
     responses={
-        status.HTTP_200_OK: {'model': TokensResponse},
+        status.HTTP_201_CREATED: {'model': TokensResponse},
         status.HTTP_409_CONFLICT: {
             'model': ErrorResult[UsernameIsAlreadyExist]
         }
