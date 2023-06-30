@@ -32,7 +32,7 @@ avatar_routers = APIRouter(
 @avatar_routers.post(
     path='/set_avatar',
     responses={
-        status.HTTP_200_OK: {'model': SetAvatarResponse},
+        status.HTTP_201_CREATED: {'model': SetAvatarResponse},
         status.HTTP_400_BAD_REQUEST: {
             'model': resp.ErrorResult[
                 Union[
