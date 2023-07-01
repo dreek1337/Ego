@@ -146,7 +146,7 @@ class PostRepoImpl(ElasticPostRepoBase, PostRepo):
 
         return data
 
-    async def update_post(self, post: PostAggregate) -> PostAggregate:
+    async def update_post(self, post: PostAggregate) -> None:
         """
         Обновление поста
         """
@@ -156,15 +156,11 @@ class PostRepoImpl(ElasticPostRepoBase, PostRepo):
             }
         }
         async with self._engine() as connection:
-            updated_data = await connection.update(
+            await connection.update(
                 index=ElasticIndexes.POST_MS.value,
                 id=post.post_id.get_value,  # type: ignore
                 body=document
             )
-
-        post.post_id = updated_data.get('_id')
-
-        return post
 
     async def delete_post(self, post_id: PostId) -> None:
         """

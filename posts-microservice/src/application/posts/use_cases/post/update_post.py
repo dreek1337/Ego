@@ -44,8 +44,8 @@ class UpdatePostUseCase(UseCase):
 
         post.update_post(text_content=data.text_content)
 
-        updated_post = await self._uow.post_repo.update_post(post=post)
+        await self._uow.post_repo.update_post(post=post)
 
-        post_dto = self._mapper.load(from_model=updated_post, to_model=PostDTO)
+        post_dto = self._mapper.load(from_model=post, to_model=PostDTO)
 
         return post_dto

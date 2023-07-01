@@ -14,10 +14,7 @@ class PostRepo(ABC):
     Репозиторий постов
     """
     @abstractmethod
-    async def get_post_by_id(
-            self,
-            post_id: PostId
-    ) -> PostAggregate:
+    async def get_post_by_id(self, post_id: PostId) -> PostAggregate:
         """Получение поста с помощью id"""
 
     @abstractmethod
@@ -25,7 +22,7 @@ class PostRepo(ABC):
         """Создание поста"""
 
     @abstractmethod
-    async def update_post(self, post: PostAggregate) -> PostAggregate:
+    async def update_post(self, post: PostAggregate) -> None:
         """Обновление поста"""
 
     @abstractmethod
