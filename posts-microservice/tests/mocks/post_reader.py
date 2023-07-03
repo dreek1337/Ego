@@ -77,14 +77,14 @@ class PostReaderMock(PostReader):
         Добавление фильтров
         """
         if filters.order == GetPostsOrder.ASC:
-            posts.sort(key=lambda post: post.creator_id)
+            posts.sort(key=lambda post: post.created_at)
         else:
-            posts.sort(key=lambda post: post.creator_id, reverse=True)
+            posts.sort(key=lambda post: post.created_at, reverse=True)
 
         limit = filters.limit if filters.limit is not Empty.UNSET else 0
         offset = filters.offset if filters.offset is not Empty.UNSET else len(posts)
         last_index = limit + offset
 
-        posts = posts[limit:last_index]
+        posts = posts[offset:last_index]
 
         return posts

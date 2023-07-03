@@ -35,7 +35,7 @@ class PostReaderImpl(ElasticPostRepoBase, PostReader):
             },
             "sort": [
                 {
-                    "creator_id": {
+                    "created_at": {
                         "order": filters.order
                     }
                 }
@@ -78,7 +78,7 @@ class PostReaderImpl(ElasticPostRepoBase, PostReader):
             },
             "sort": [
                 {
-                    "creator_id": {
+                    "created_at": {
                         "order": filters.order
                     }
                 }

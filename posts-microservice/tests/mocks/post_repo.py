@@ -1,3 +1,5 @@
+import datetime
+
 from elasticsearch.exceptions import NotFoundError  # type: ignore
 
 from src.application.posts.interfaces import PostRepo
@@ -28,7 +30,15 @@ class PostRepoMock(PostRepo):
         Создание поста
         """
         post_id = PostId(value="gl5MJXMBMk1dGnErnBW8")
+        created_at = datetime.datetime(
+            year=2023,
+            month=6,
+            day=25,
+            hour=11,
+            minute=15
+        )
         data.post_id = post_id
+        data.created_at = created_at
 
         self.posts[post_id] = data
 
@@ -44,6 +54,9 @@ class PostRepoMock(PostRepo):
         """
         Удаление поста
         """
+        if post_id not in self.posts:
+            raise NotFoundError()
+
         del self.posts[post_id]
 
     def add_post(self, post: PostAggregate) -> None:
