@@ -9,7 +9,7 @@ from src.config.schemas.user_models import (
 )
 
 
-class RepositoryBase(ABC):
+class UserRepo(ABC):
     """Базовый класс для репозитория"""
     @abstractmethod
     async def get_user_by_id(self, user_id: int) -> UserModel:

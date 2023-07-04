@@ -1,14 +1,15 @@
 from fastapi_jwt_auth import AuthJWT  # type: ignore
 
 from src.application.auth_uow import AuthUoW
-from src.common import (
-    Empty,
-    UseCase,
-    AccessTokenManager, PasswordManager
-)
 from src.config.schemas.user_models import (
     UsernameData,
     UpdateUserData
+)
+from src.common import (
+    Empty,
+    UseCase,
+    PasswordManager,
+    AccessTokenManager
 )
 
 

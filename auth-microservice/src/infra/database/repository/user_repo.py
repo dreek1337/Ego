@@ -10,7 +10,7 @@ from sqlalchemy.exc import (
     IntegrityError
 )
 
-from src.common import RepositoryBase
+from src.common import UserRepo
 from ..models import Users
 from .base import UserRepositoryBase
 from ..exception_incepter import error_interceptor
@@ -20,7 +20,7 @@ from src.config.schemas.user_models import (
 )
 from src.application.exceptions import (
     RepoError,
-    UserIdIsNotExists,
+    UserIsNotExists,
     UserDataIsNotCorrect,
     UsernameIsAlreadyExist
 )
@@ -28,7 +28,7 @@ from src.application.exceptions import (
 DataModel = TypeVar('DataModel', bound=Any)
 
 
-class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
+class UserRepositoryImpl(UserRepositoryBase, UserRepo):
     """
     Реализация репозитория для работы с моделю пользователя
     """
@@ -47,7 +47,7 @@ class UserRepositoryImpl(UserRepositoryBase, RepositoryBase):
         result = user.scalar()
 
         if not result:
-            raise UserIdIsNotExists(user_id=user_id)
+            raise UserIsNotExists(user_id=user_id)
 
         return UserModel.from_orm(result)
 

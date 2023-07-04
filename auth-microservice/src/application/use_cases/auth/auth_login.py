@@ -4,8 +4,9 @@ from src.application.auth_uow import AuthUoW
 from src.config.schemas.token_models import TokensData
 from src.application.exceptions import UserDataIsNotCorrect
 from src.common import (
-    AccessTokenManager,
-    UseCase, PasswordManager
+    UseCase,
+    PasswordManager,
+    AccessTokenManager
 )
 from src.config.schemas.user_models import (
     UserIdData,

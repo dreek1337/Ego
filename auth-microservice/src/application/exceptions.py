@@ -12,7 +12,7 @@ class UserDataIsNotCorrect(BaseAppException):
 
 
 @dataclass
-class UserIdIsNotExists(BaseAppException):
+class UserIsNotExists(BaseAppException):
     """Ошибка о том, что айди отсутвует в базе"""
     user_id: int
 

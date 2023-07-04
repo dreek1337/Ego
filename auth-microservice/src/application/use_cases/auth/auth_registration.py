@@ -1,4 +1,4 @@
-from fastapi_jwt_auth import AuthJWT
+from fastapi_jwt_auth import AuthJWT  # type: ignore
 
 from src.application.auth_uow import AuthUoW
 from src.config.schemas.token_models import TokensData

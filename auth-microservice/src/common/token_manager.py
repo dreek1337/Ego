@@ -2,14 +2,18 @@ from abc import (
     ABC,
     abstractmethod
 )
-
-from fastapi_jwt_auth import AuthJWT  # type: ignore
+from typing import (
+    Any,
+    TypeVar
+)
 
 from src.config.schemas.user_models import UserIdData
 from src.config.schemas.token_models import (
     TokensData,
     AccessToken
 )
+
+AuthSettings = TypeVar('AuthSettings', bound=Any)
 
 
 class AccessTokenManager(ABC):
@@ -20,15 +24,15 @@ class AccessTokenManager(ABC):
     def create_tokens(
             self,
             *,
-            authorize: AuthJWT,
+            authorize: AuthSettings,
             subject: UserIdData
     ) -> TokensData:
         """Создание access и refresh токенов"""
 
     @abstractmethod
-    def refresh_access_token(self, authorize: AuthJWT) -> AccessToken:
+    def refresh_access_token(self, authorize: AuthSettings) -> AccessToken:
         """Обнавление access токена"""
 
     @abstractmethod
-    def verify_access_token(self, authorize: AuthJWT) -> int:
+    def verify_access_token(self, authorize: AuthSettings) -> int:
         """Проверка токена"""

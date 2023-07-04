@@ -22,7 +22,7 @@ from .responses.auth_response import (
     RefreshTokenResponse
 )
 from src.application.exceptions import (
-    UserIdIsNotExists,
+    UserIsNotExists,
     UserDataIsNotCorrect,
     UsernameIsAlreadyExist
 )
@@ -80,7 +80,7 @@ async def user_login(
     responses={
         status.HTTP_200_OK: {'model': None},
         status.HTTP_404_NOT_FOUND: {
-            'model': ErrorResult[UserIdIsNotExists]
+            'model': ErrorResult[UserIsNotExists]
         }
     },
     response_model=None

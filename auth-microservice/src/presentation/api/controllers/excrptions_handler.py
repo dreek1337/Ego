@@ -4,13 +4,13 @@ from fastapi import (
     FastAPI
 )
 from fastapi.responses import ORJSONResponse
-from fastapi_jwt_auth.exceptions import AuthJWTException
+from fastapi_jwt_auth.exceptions import AuthJWTException  # type: ignore
 
 from src.common import BaseAppException
 from src.common.exceptions import BaseJWTException
 from .responses.exception_responses import ErrorResult
 from src.application.exceptions import (
-    UserIdIsNotExists,
+    UserIsNotExists,
     UsernameIsAlreadyExist,
     UserDataIsNotCorrect
 )
@@ -18,7 +18,7 @@ from src.application.exceptions import (
 
 def setup_exception_handlers(app: FastAPI) -> None:
     app.add_exception_handler(AuthJWTException, handle_jwt_error)
-    app.add_exception_handler(UserIdIsNotExists, user_id_is_not_exists_handler)
+    app.add_exception_handler(UserIsNotExists, user_id_is_not_exists_handler)
     app.add_exception_handler(UsernameIsAlreadyExist, username_already_exist_handler)
     app.add_exception_handler(UserDataIsNotCorrect, user_data_is_not_correct_handler)
     app.add_exception_handler(Exception, unsupported_handler)
@@ -48,7 +48,7 @@ async def username_already_exist_handler(
 
 async def user_id_is_not_exists_handler(
         request: Request,
-        err: UserIdIsNotExists
+        err: UserIsNotExists
 ) -> ORJSONResponse:
     return await handle_app_error(
         err=err,

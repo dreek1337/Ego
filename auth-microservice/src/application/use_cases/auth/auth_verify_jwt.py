@@ -1,9 +1,7 @@
 from fastapi_jwt_auth import AuthJWT  # type: ignore
 
-from src.common import (
-    AccessTokenManager,
-    UseCase
-)
+from src.common import UseCase
+from src.common import AccessTokenManager
 
 
 class VerifyAccessTokenUseCase(UseCase):
