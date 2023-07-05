@@ -1,7 +1,13 @@
-from src_users.application.common import Mapper, Service
-from src_users.application.user import dto, use_cases
-from src_users.application.user.s3 import UserCloudStorage
-from src_users.application.user.uow import UserUoW
+from src_users.application.common import (
+    Mapper,
+    Service,
+)
+from src_users.application.user import (
+    dto,
+    s3,
+    uow,
+    use_cases,
+)
 
 
 class UserService(Service):
@@ -10,7 +16,7 @@ class UserService(Service):
     """
 
     def __init__(
-        self, *, uow: UserUoW, mapper: Mapper, cloud_storage: UserCloudStorage
+        self, *, uow: uow.UserUoW, mapper: Mapper, cloud_storage: s3.UserCloudStorage
     ) -> None:
         self._uow = uow
         self._mapper = mapper

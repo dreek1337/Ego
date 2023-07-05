@@ -1,10 +1,18 @@
 from datetime import date
 
-from src_users.application.common import BaseUseCase, Mapper, UseCaseData
+from src_users.application.common import (
+    BaseUseCase,
+    Mapper,
+    UseCaseData,
+)
 from src_users.application.user import dto
 from src_users.application.user.uow import UserUoW
 from src_users.domain import UserAggregate
-from src_users.domain.user.value_objects import UserBirthday, UserGender, UserId
+from src_users.domain.user.value_objects import (
+    UserBirthday,
+    UserGender,
+    UserId,
+)
 
 
 class CreateUserData(UseCaseData):
