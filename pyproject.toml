@@ -1,0 +1,21 @@
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+include_trailing_comma = true
+exclude = '''
+(
+    \.eggs
+  | \.git
+  | build
+  | dist
+  | venv
+  | docs
+)
+'''
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+include_trailing_comma = true
+combine_as_imports = true
+remove_redundant_aliases = true
