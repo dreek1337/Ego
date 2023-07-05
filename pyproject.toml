@@ -2,6 +2,7 @@
 line-length = 88
 target-version = ["py311"]
 include_trailing_comma = true
+force_grid_wrap=0
 exclude = '''
 (
     \.eggs
