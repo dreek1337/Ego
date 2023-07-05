@@ -1,9 +1,6 @@
 from src.application.posts import dto
-from src.application.posts.interfaces import (
-    PostReader,
-    GetPostsOrder,
-    GetPostsFilters
-)
+from src.application.posts.interfaces import (GetPostsFilters, GetPostsOrder,
+                                              PostReader)
 from src.domain import Empty
 
 

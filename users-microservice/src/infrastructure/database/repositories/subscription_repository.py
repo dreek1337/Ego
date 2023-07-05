@@ -1,6 +1,7 @@
 from typing import Any
 
-from asyncpg import ForeignKeyViolationError, UniqueViolationError  # type: ignore
+from asyncpg import (ForeignKeyViolationError,  # type: ignore
+                     UniqueViolationError)
 from sqlalchemy import delete, func, select
 from sqlalchemy.exc import DBAPIError, IntegrityError
 from src import application as app

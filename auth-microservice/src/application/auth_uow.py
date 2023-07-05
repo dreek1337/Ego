@@ -1,9 +1,6 @@
 from abc import ABC
 
-from src.common import (
-    UnitOfWork,
-    UserRepo
-)
+from src.common import UnitOfWork, UserRepo
 
 
 class AuthUoW(UnitOfWork, ABC):

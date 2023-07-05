@@ -2,14 +2,10 @@ from fastapi import FastAPI
 from src.infrastructure import cloud_config, engine_config, s3_factory
 from src.infrastructure.database.main import create_session_factory
 from src.infrastructure.mapper.main import create_mapper
-from src.presentation.api.di.providers import (
-    InfrastructureProvider,
-    get_cloud_storage_stub,
-    get_mapper_stub,
-    get_service,
-    get_service_stub,
-    get_uow_stub,
-)
+from src.presentation.api.di.providers import (InfrastructureProvider,
+                                               get_cloud_storage_stub,
+                                               get_mapper_stub, get_service,
+                                               get_service_stub, get_uow_stub)
 
 mapper_instance = create_mapper()
 minio_connection = s3_factory(cloud_config=cloud_config)

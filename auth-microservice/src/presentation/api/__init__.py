@@ -1,10 +1,6 @@
 from fastapi import FastAPI
 
-from .controllers import (
-    user_routers,
-    auth_routers,
-    health_check_router
-)
+from .controllers import auth_routers, health_check_router, user_routers
 from .controllers.excrptions_handler import setup_exception_handlers
 
 

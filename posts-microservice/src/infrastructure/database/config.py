@@ -1,8 +1,4 @@
-from pydantic import (
-    Field,
-    BaseSettings,
-    root_validator
-)
+from pydantic import BaseSettings, Field, root_validator
 
 
 class ElasticEngine(BaseSettings):

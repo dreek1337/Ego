@@ -1,14 +1,6 @@
 import pytest  # type: ignore
-
-from src.infrastructure import (
-    MapperImpl,
-    create_mapper
-)
-from tests.mocks import (
-    PostUoWMock,
-    PostRepoMock,
-    PostReaderMock
-)
+from src.infrastructure import MapperImpl, create_mapper
+from tests.mocks import PostReaderMock, PostRepoMock, PostUoWMock
 
 
 @pytest.fixture

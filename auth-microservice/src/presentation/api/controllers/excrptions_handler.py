@@ -1,19 +1,12 @@
-from fastapi import (
-    status,
-    Request,
-    FastAPI
-)
+from fastapi import FastAPI, Request, status
 from fastapi.responses import ORJSONResponse
 from fastapi_jwt_auth.exceptions import AuthJWTException  # type: ignore
-
+from src.application.exceptions import (UserDataIsNotCorrect, UserIsNotExists,
+                                        UsernameIsAlreadyExist)
 from src.common import BaseAppException
 from src.common.exceptions import BaseJWTException
+
 from .responses.exception_responses import ErrorResult
-from src.application.exceptions import (
-    UserIsNotExists,
-    UsernameIsAlreadyExist,
-    UserDataIsNotCorrect
-)
 
 
 def setup_exception_handlers(app: FastAPI) -> None:

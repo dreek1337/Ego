@@ -1,29 +1,17 @@
-from typing import (
-    Any,
-    TypeVar
-)
+from typing import Any, TypeVar
 
-from sqlalchemy import select
 from asyncpg import UniqueViolationError  # type: ignore
-from sqlalchemy.exc import (
-    DBAPIError,
-    IntegrityError
-)
-
+from sqlalchemy import select
+from sqlalchemy.exc import DBAPIError, IntegrityError
+from src.application.exceptions import (RepoError, UserDataIsNotCorrect,
+                                        UserIsNotExists,
+                                        UsernameIsAlreadyExist)
 from src.common import UserRepo
+from src.config.schemas.user_models import UserModel, UserSaveDataInDB
+
+from ..exception_incepter import error_interceptor
 from ..models import Users
 from .base import UserRepositoryBase
-from ..exception_incepter import error_interceptor
-from src.config.schemas.user_models import (
-    UserModel,
-    UserSaveDataInDB
-)
-from src.application.exceptions import (
-    RepoError,
-    UserIsNotExists,
-    UserDataIsNotCorrect,
-    UsernameIsAlreadyExist
-)
 
 DataModel = TypeVar('DataModel', bound=Any)
 

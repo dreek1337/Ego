@@ -1,14 +1,7 @@
+from src.application.common import Mapper, UseCase, UseCaseData
 from src.application.posts.dto import PostDTO
 from src.application.posts.uow import PostUoW
-from src.application.common import (
-    Mapper,
-    UseCase,
-    UseCaseData
-)
-from src.domain import (
-    CreatorId,
-    PostAggregate
-)
+from src.domain import CreatorId, PostAggregate
 
 
 class CreatePostData(UseCaseData):

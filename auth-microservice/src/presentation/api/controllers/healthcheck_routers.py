@@ -1,8 +1,4 @@
-from fastapi import (
-    status,
-    APIRouter
-)
-
+from fastapi import APIRouter, status
 from src.presentation.api.controllers.responses import HealthCheckResponse
 
 health_check_router = APIRouter(

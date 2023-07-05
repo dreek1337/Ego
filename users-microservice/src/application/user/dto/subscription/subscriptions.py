@@ -1,5 +1,6 @@
 from src.application.common import DTO
-from src.application.user.dto.subscription.subscriptiondto import SubscriptionDTO
+from src.application.user.dto.subscription.subscriptiondto import \
+    SubscriptionDTO
 from src.domain.common import Empty
 
 

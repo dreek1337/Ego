@@ -1,17 +1,10 @@
+from fastapi import APIRouter, Depends, status
 from fastapi_jwt_auth import AuthJWT  # type: ignore
-from fastapi import (
-    status,
-    Depends,
-    APIRouter
-)
-
 from src.application import AuthService
+
+from ..di.providers import get_auth_jwt_stub, get_service_stub
 from .requests.user_requests import UpdateUserRequest
 from .responses.user_responses import UpdateUserResponse
-from ..di.providers import (
-    get_service_stub,
-    get_auth_jwt_stub
-)
 
 user_routers = APIRouter(
     prefix='/auth/user',

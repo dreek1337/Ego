@@ -1,16 +1,11 @@
 from typing import Any
 
-from fastapi_jwt_auth.exceptions import (  # type: ignore
-    JWTDecodeError,  # type: ignore
-    RefreshTokenRequired  # type: ignore
-)
-
+from fastapi_jwt_auth.exceptions import JWTDecodeError  # type: ignore
+from fastapi_jwt_auth.exceptions import \
+    RefreshTokenRequired  # type: ignore; type: ignore
 from src.common import AccessTokenManager
+from src.config.schemas.token_models import AccessToken, TokensData
 from src.config.schemas.user_models import UserIdData
-from src.config.schemas.token_models import (
-    TokensData,
-    AccessToken
-)
 
 
 class AccessTokenManagerMock(AccessTokenManager):

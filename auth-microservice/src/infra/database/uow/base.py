@@ -1,10 +1,6 @@
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from src.application.exceptions import (
-    CommitError,
-    RollbackError
-)
+from src.application.exceptions import CommitError, RollbackError
 
 
 class SQLAlchemyBaseUoW:

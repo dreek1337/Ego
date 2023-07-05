@@ -1,12 +1,6 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC, abstractmethod
 
-from src.config.schemas.user_models import (
-    UserModel,
-    UserSaveDataInDB
-)
+from src.config.schemas.user_models import UserModel, UserSaveDataInDB
 
 
 class UserRepo(ABC):

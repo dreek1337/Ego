@@ -1,17 +1,9 @@
 from fastapi_jwt_auth import AuthJWT  # type: ignore
-
 from src.application.auth_uow import AuthUoW
-from src.config.schemas.token_models import TokensData
 from src.application.exceptions import UserDataIsNotCorrect
-from src.common import (
-    UseCase,
-    PasswordManager,
-    AccessTokenManager
-)
-from src.config.schemas.user_models import (
-    UserIdData,
-    LoginSchema
-)
+from src.common import AccessTokenManager, PasswordManager, UseCase
+from src.config.schemas.token_models import TokensData
+from src.config.schemas.user_models import LoginSchema, UserIdData
 
 
 class UserLoginUseCase(UseCase):

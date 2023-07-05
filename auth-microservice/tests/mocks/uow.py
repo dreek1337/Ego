@@ -1,5 +1,5 @@
-from tests.mocks.user_repo import UserRepoMock
 from src.application.auth_uow import AuthUoW
+from tests.mocks.user_repo import UserRepoMock
 
 
 class UnitOfWorkMock(AuthUoW):

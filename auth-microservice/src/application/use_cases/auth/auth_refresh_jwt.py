@@ -1,8 +1,6 @@
 from fastapi_jwt_auth import AuthJWT  # type: ignore
-
-from src.common import UseCase
+from src.common import AccessTokenManager, UseCase
 from src.config.schemas.token_models import AccessToken
-from src.common import AccessTokenManager
 
 
 class RefreshAccessTokenUseCase(UseCase):

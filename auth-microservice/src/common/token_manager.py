@@ -1,17 +1,8 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
-from typing import (
-    Any,
-    TypeVar
-)
+from abc import ABC, abstractmethod
+from typing import Any, TypeVar
 
+from src.config.schemas.token_models import AccessToken, TokensData
 from src.config.schemas.user_models import UserIdData
-from src.config.schemas.token_models import (
-    TokensData,
-    AccessToken
-)
 
 AuthSettings = TypeVar('AuthSettings', bound=Any)
 

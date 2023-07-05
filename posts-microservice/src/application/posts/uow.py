@@ -1,11 +1,7 @@
 from abc import ABC
 
-from src.application.posts.interfaces import (
-    PostRepo,
-    PostReader
-)
-
 from src.application.common import UnitOfWork
+from src.application.posts.interfaces import PostReader, PostRepo
 
 
 class PostUoW(UnitOfWork, ABC):

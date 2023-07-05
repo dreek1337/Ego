@@ -1,14 +1,11 @@
-from typing import (
-    Any,
-    TypeVar
-)
+from typing import Any, TypeVar
 
-from src import domain
 from src import application as app
-from src.application.posts import dto
+from src import domain
 from src.application import UnsupportedConvertor
-from src.infrastructure.mapper.convert import Convert
+from src.application.posts import dto
 from src.infrastructure.mapper import convert_functions as cf
+from src.infrastructure.mapper.convert import Convert
 
 FromModel = TypeVar("FromModel", bound=Any)
 ToModel = TypeVar("ToModel", bound=Any)

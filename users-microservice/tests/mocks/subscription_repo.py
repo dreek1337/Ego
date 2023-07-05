@@ -1,4 +1,5 @@
-from src.application import SubscribeIsNotExists, SubscribeOnYourself, SubscriptionRepo
+from src.application import (SubscribeIsNotExists, SubscribeOnYourself,
+                             SubscriptionRepo)
 from src.domain.user import SubscriptionEntity
 from src.domain.user.value_objects import SubscriberId, SubscriptionId
 

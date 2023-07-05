@@ -1,7 +1,4 @@
-from src import (
-    app,
-    app_config
-)
+from src import app, app_config
 
 if __name__ == "__main__":
     import uvicorn

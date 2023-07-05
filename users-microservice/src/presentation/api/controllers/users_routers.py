@@ -5,7 +5,8 @@ from src.application import UserIdIsAlreadyExist, UserIsNotExist
 from src.application.user.service.user_service import UserService
 from src.domain.user import exceptions as exc
 from src.domain.user.exceptions import UserIsDeleted
-from src.presentation.api.controllers import request as req, response as resp
+from src.presentation.api.controllers import request as req
+from src.presentation.api.controllers import response as resp
 from src.presentation.api.di import get_service_stub
 
 user_routers = APIRouter(tags=["users"], prefix="/users")

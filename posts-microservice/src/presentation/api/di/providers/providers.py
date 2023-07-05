@@ -1,18 +1,11 @@
 from typing import Callable
 
 from fastapi import Depends
-
 from src.application import PostService
-from src.presentation.api.di.providers.stubs import (
-    get_uow_stub,
-    get_mapper_stub
-)
-from src.infrastructure import (
-    MapperImpl,
-    PostRepoImpl,
-    PostReaderImpl,
-    ElasticsearchUoW
-)
+from src.infrastructure import (ElasticsearchUoW, MapperImpl, PostReaderImpl,
+                                PostRepoImpl)
+from src.presentation.api.di.providers.stubs import (get_mapper_stub,
+                                                     get_uow_stub)
 
 
 class InfrastructureProvider:

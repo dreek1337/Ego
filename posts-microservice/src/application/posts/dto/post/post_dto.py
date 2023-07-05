@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from pydantic import Field
-
 from src.application.common import DTO
 
 

@@ -1,5 +1,6 @@
 from pydantic import validator
-from src.application import CreateUserData, DeleteUserData, GetUserData, UpdateUserData
+from src.application import (CreateUserData, DeleteUserData, GetUserData,
+                             UpdateUserData)
 from src.domain.common import Empty
 
 

@@ -1,11 +1,8 @@
-from datetime import datetime
 from dataclasses import dataclass, field
+from datetime import datetime
 
 from src.domain.common import Aggregate
-from src.domain.post.value_objects import (
-    PostId,
-    CreatorId
-)
+from src.domain.post.value_objects import CreatorId, PostId
 
 
 @dataclass

@@ -1,13 +1,7 @@
+from src.application.exceptions import (UserDataIsNotCorrect, UserIsNotExists,
+                                        UsernameIsAlreadyExist)
 from src.common import UserRepo
-from src.config.schemas.user_models import (
-    UserModel,
-    UserSaveDataInDB
-)
-from src.application.exceptions import (
-    UserIsNotExists,
-    UserDataIsNotCorrect,
-    UsernameIsAlreadyExist
-)
+from src.config.schemas.user_models import UserModel, UserSaveDataInDB
 
 
 class UserRepoMock(UserRepo):

@@ -1,7 +1,4 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC, abstractmethod
 from typing import Any, TypeVar
 
 FromModel = TypeVar("FromModel", bound=Any)

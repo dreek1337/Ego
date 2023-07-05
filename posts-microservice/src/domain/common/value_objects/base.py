@@ -1,10 +1,6 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import (
-    Any,
-    TypeVar,
-    Generic
-)
+from typing import Any, Generic, TypeVar
 
 V = TypeVar("V", bound=Any)
 

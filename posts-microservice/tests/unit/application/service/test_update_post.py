@@ -2,20 +2,11 @@ import datetime
 
 import pytest  # type: ignore
 from elasticsearch import NotFoundError  # type: ignore
-
-from tests.mocks import PostUoWMock
+from src.application import PostService, UpdatePostData, UserIsNotPostCreator
 from src.application.posts import dto
+from src.domain import CreatorId, PostAggregate, PostId
 from src.infrastructure import MapperImpl
-from src.domain import (
-    PostId,
-    CreatorId,
-    PostAggregate
-)
-from src.application import (
-    PostService,
-    UpdatePostData,
-    UserIsNotPostCreator
-)
+from tests.mocks import PostUoWMock
 
 
 @pytest.mark.asyncio

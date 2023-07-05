@@ -1,7 +1,4 @@
-from src.config.schemas.user_models import (
-    LoginSchema,
-    CreateUserData
-)
+from src.config.schemas.user_models import CreateUserData, LoginSchema
 
 
 class RegistrationRequest(CreateUserData):

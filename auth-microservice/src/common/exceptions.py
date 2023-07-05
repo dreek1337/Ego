@@ -1,8 +1,5 @@
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from abc import (
-    ABC,
-    abstractmethod
-)
 
 from fastapi_jwt_auth.exceptions import AuthJWTException  # type: ignore
 

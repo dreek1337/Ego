@@ -1,5 +1,4 @@
 from passlib.context import CryptContext  # type: ignore
-
 from src.config import PasswordConfig
 
 

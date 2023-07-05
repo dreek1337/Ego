@@ -1,20 +1,11 @@
 from fastapi import FastAPI, Request, status
 from fastapi.responses import ORJSONResponse
-from src.application import (
-    AvatarIsNotExist,
-    SubscribeIsAlreadyExists,
-    SubscribeIsNotExists,
-    SubscribeOnYourself,
-    UserIdIsAlreadyExist,
-    UserIsNotExist,
-)
+from src.application import (AvatarIsNotExist, SubscribeIsAlreadyExists,
+                             SubscribeIsNotExists, SubscribeOnYourself,
+                             UserIdIsAlreadyExist, UserIsNotExist)
 from src.domain.common import AbstractBaseException
-from src.domain.user.exceptions import (
-    InvalidAvatarType,
-    InvalidBirthdayDate,
-    InvalidGender,
-    UserIsDeleted,
-)
+from src.domain.user.exceptions import (InvalidAvatarType, InvalidBirthdayDate,
+                                        InvalidGender, UserIsDeleted)
 from src.presentation.api.controllers.response import ErrorResult
 
 

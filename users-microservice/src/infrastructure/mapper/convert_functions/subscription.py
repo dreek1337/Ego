@@ -5,7 +5,8 @@ from src.application.user.constant import AvatarCloudEnum
 from src.application.user.dto import SubscribeActionDTO, SubscriptionDTO
 from src.domain import SubscriptionEntity
 from src.domain.user import value_objects as vo
-from src.infrastructure.database.models.subscriptions_model import Subscriptions
+from src.infrastructure.database.models.subscriptions_model import \
+    Subscriptions
 
 
 def convert_subscription_entity_to_dto(

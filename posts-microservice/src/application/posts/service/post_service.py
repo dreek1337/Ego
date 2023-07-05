@@ -1,10 +1,7 @@
+from src.application.common import Mapper, Service
 from src.application.posts import dto
-from src.application.posts.uow import PostUoW
-from src.application.common import (
-    Mapper,
-    Service
-)
 from src.application.posts import use_cases as uc
+from src.application.posts.uow import PostUoW
 
 
 class PostService(Service):

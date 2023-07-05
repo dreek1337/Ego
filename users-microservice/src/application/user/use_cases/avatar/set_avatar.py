@@ -8,7 +8,8 @@ from src.application.user.s3 import UserCloudStorage
 from src.application.user.uow import UserUoW
 from src.domain import AvatarEntity
 from src.domain.user.exceptions import UserIsDeleted
-from src.domain.user.value_objects import AvatarId, AvatarType, AvatarUserId, UserId
+from src.domain.user.value_objects import (AvatarId, AvatarType, AvatarUserId,
+                                           UserId)
 
 
 class SetAvatarData(UseCaseData):

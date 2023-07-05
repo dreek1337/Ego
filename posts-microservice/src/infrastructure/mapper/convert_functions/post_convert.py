@@ -1,11 +1,7 @@
 from typing import Any
 
 from src.application.posts.dto import PostDTO
-from src.domain import (
-    PostId,
-    CreatorId,
-    PostAggregate
-)
+from src.domain import CreatorId, PostAggregate, PostId
 
 
 def convert_from_entity_to_dto(

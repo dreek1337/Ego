@@ -1,5 +1,4 @@
 import pytest
-
 from tests import mocks as m
 
 

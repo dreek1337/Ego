@@ -1,7 +1,6 @@
 from typing import Callable
 
 from elasticsearch import AsyncElasticsearch  # type: ignore
-
 from src.infrastructure.database.config import ElasticEngine
 
 

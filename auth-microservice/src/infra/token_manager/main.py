@@ -1,5 +1,4 @@
 from fastapi_jwt_auth import AuthJWT  # type: ignore
-
 from src.config import JWTSettings, jwt_config
 
 

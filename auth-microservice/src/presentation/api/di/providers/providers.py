@@ -2,23 +2,14 @@ from typing import AsyncGenerator
 
 from fastapi import Depends
 from passlib.context import CryptContext  # type: ignore
-from sqlalchemy.ext.asyncio import (
-    AsyncSession,
-    async_sessionmaker
-)
-
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from src.application import AuthService
+from src.infra import (AccessTokenManagerImpl, PasswordManagerImpl,
+                       UserRepositoryImpl)
 from src.infra.database.uow.uow import SQLAlchemyUoW
-from src.infra import (
-    UserRepositoryImpl,
-    PasswordManagerImpl,
-    AccessTokenManagerImpl
-)
-from src.presentation.api.di.providers.stubs import (
-    get_uow_stub,
-    get_token_manager_stub,
-    get_password_manager_stub
-)
+from src.presentation.api.di.providers.stubs import (get_password_manager_stub,
+                                                     get_token_manager_stub,
+                                                     get_uow_stub)
 
 
 class InfraProvider:

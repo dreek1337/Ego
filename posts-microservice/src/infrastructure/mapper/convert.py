@@ -1,8 +1,4 @@
-from typing import (
-    Any,
-    TypeVar,
-    Callable
-)
+from typing import Any, Callable, TypeVar
 
 FromModel = TypeVar("FromModel", bound=Any)
 ToModel = TypeVar("ToModel", bound=Any)

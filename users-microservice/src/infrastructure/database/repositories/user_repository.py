@@ -2,7 +2,8 @@ from asyncpg import UniqueViolationError  # type: ignore
 from sqlalchemy import select
 from sqlalchemy.exc import DBAPIError, IntegrityError
 from src.application import RepoError, UserRepo
-from src.application.user.exceptions import UserIdIsAlreadyExist, UserIsNotExist
+from src.application.user.exceptions import (UserIdIsAlreadyExist,
+                                             UserIsNotExist)
 from src.domain import UserAggregate
 from src.domain.user.value_objects import UserId
 from src.infrastructure.database.error_interceptor import error_interceptor

@@ -1,5 +1,4 @@
 from pydantic import Field
-
 from src.config.schemas.base import BaseDataModel
 
 

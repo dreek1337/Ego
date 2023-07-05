@@ -4,18 +4,14 @@ from src.application.user.service.user_service import UserService
 from src.presentation.api.controllers import response as resp
 from src.presentation.api.di import get_service_stub
 
-from .request.subscription_requests import (
-    GetSubscribersRequest,
-    GetSubscriptionsRequest,
-    SubscribeRequest,
-    UnubscribeRequest,
-)
-from .response.subscription_response import (
-    SubscribeResponse,
-    SubscribersResponse,
-    SubscriptionsResponse,
-    UnsubscribeResponse,
-)
+from .request.subscription_requests import (GetSubscribersRequest,
+                                            GetSubscriptionsRequest,
+                                            SubscribeRequest,
+                                            UnubscribeRequest)
+from .response.subscription_response import (SubscribeResponse,
+                                             SubscribersResponse,
+                                             SubscriptionsResponse,
+                                             UnsubscribeResponse)
 
 subscription_routers = APIRouter(tags=["subscription"], prefix="/subscription")
 

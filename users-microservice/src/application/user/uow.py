@@ -1,12 +1,8 @@
 from abc import ABC
 
 from src.application.common import UnitOfWork
-from src.application.user.interfaces import (
-    AvatarRepo,
-    SubscriptionReader,
-    SubscriptionRepo,
-    UserRepo,
-)
+from src.application.user.interfaces import (AvatarRepo, SubscriptionReader,
+                                             SubscriptionRepo, UserRepo)
 
 
 class UserUoW(UnitOfWork, ABC):

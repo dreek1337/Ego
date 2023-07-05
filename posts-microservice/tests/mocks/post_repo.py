@@ -1,12 +1,8 @@
 import datetime
 
 from elasticsearch.exceptions import NotFoundError  # type: ignore
-
 from src.application.posts.interfaces import PostRepo
-from src.domain import (
-    PostId,
-    PostAggregate
-)
+from src.domain import PostAggregate, PostId
 
 
 class PostRepoMock(PostRepo):

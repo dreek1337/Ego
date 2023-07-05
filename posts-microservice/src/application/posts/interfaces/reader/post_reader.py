@@ -1,15 +1,9 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
-
-
+from abc import ABC, abstractmethod
 from enum import Enum
 
 from pydantic import BaseModel
-
-from src.domain.common.constants import Empty
 from src.application.posts.dto import PostDTO
+from src.domain.common.constants import Empty
 
 
 class GetPostsOrder(str, Enum):

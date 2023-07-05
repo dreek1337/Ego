@@ -1,12 +1,8 @@
-from src.domain import PostId
+from src.application.common import Mapper, UseCase, UseCaseData
 from src.application.posts.dto import PostDTO
-from src.application.posts.uow import PostUoW
 from src.application.posts.exceptions import UserIsNotPostCreator
-from src.application.common import (
-    Mapper,
-    UseCase,
-    UseCaseData
-)
+from src.application.posts.uow import PostUoW
+from src.domain import PostId
 
 
 class UpdatePostData(UseCaseData):

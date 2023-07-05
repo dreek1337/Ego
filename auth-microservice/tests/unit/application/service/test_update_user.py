@@ -1,15 +1,10 @@
 import pytest
 from pydantic import EmailStr
-
-from tests import mocks as m
 from src.application import AuthService
 from src.application.exceptions import UserIsNotExists
-from src.config.schemas.user_models import (
-    UserModel,
-    UserIdData,
-    UsernameData,
-    UpdateUserData
-)
+from src.config.schemas.user_models import (UpdateUserData, UserIdData,
+                                            UserModel, UsernameData)
+from tests import mocks as m
 
 
 @pytest.mark.asyncio

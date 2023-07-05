@@ -6,11 +6,10 @@ from src.application import AvatarIsNotExist, SetAvatarData, UserIsNotExist
 from src.application.user.service.user_service import UserService
 from src.domain.user.exceptions import InvalidAvatarType
 from src.presentation.api.controllers import response as resp
-from src.presentation.api.controllers.request.avatar_requests import DeleteAvatarRequest
-from src.presentation.api.controllers.response import (
-    DeletedAvatarResponse,
-    SetAvatarResponse,
-)
+from src.presentation.api.controllers.request.avatar_requests import \
+    DeleteAvatarRequest
+from src.presentation.api.controllers.response import (DeletedAvatarResponse,
+                                                       SetAvatarResponse)
 from src.presentation.api.di import get_service_stub
 
 avatar_routers = APIRouter(tags=["avatars"], prefix="/avatars")

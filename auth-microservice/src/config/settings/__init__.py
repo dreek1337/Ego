@@ -1,9 +1,6 @@
+from src.config.settings.engine_config import DatabaseConfig, EngineConfig
 from src.config.settings.jwt_config import JWTSettings
 from src.config.settings.password_config import PasswordConfig
-from src.config.settings.engine_config import (
-    EngineConfig,
-    DatabaseConfig
-)
 
 jwt_config: JWTSettings = JWTSettings()  # type: ignore
 engine_config: EngineConfig = EngineConfig()  # type: ignore

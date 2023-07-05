@@ -1,8 +1,4 @@
-from src.application.posts.dto import (
-    PostDTO,
-    PostsDTO,
-    DeletePostDTO
-)
+from src.application.posts.dto import DeletePostDTO, PostDTO, PostsDTO
 
 
 class PostResponse(PostDTO):

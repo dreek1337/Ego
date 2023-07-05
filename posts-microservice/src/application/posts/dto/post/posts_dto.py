@@ -1,6 +1,6 @@
-from src.domain.common import Empty
 from src.application.common import DTO
 from src.application.posts.dto.post.post_dto import PostDTO
+from src.domain.common import Empty
 
 
 class PostsDTO(DTO):

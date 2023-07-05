@@ -1,15 +1,9 @@
-from src.application.posts.dto import PostDTO
-from src.infrastructure.database.repositories.base import ElasticPostRepoBase
-from src.domain import (
-    PostId,
-    PostAggregate, Empty
-)
-from src.application.posts.interfaces import (
-    PostRepo,
-    PostReader,
-    GetPostsFilters
-)
 from src.application import ElasticIndexes
+from src.application.posts.dto import PostDTO
+from src.application.posts.interfaces import (GetPostsFilters, PostReader,
+                                              PostRepo)
+from src.domain import Empty, PostAggregate, PostId
+from src.infrastructure.database.repositories.base import ElasticPostRepoBase
 
 
 class PostReaderImpl(ElasticPostRepoBase, PostReader):

@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 from pydantic import Field
-
 from src.config.settings.base import BaseConfigSettings
 
 

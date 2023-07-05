@@ -1,15 +1,11 @@
 import datetime
 
 import pytest  # type: ignore
-
-from tests.mocks import PostUoWMock
+from src.application import GetPostsData, PostService
 from src.application.posts import dto
-from src.infrastructure import MapperImpl
 from src.application.posts.interfaces import GetPostsOrder
-from src.application import (
-    PostService,
-    GetPostsData
-)
+from src.infrastructure import MapperImpl
+from tests.mocks import PostUoWMock
 
 
 @pytest.mark.asyncio

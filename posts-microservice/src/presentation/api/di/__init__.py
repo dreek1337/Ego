@@ -1,17 +1,8 @@
 from fastapi import FastAPI
-
-from src.infrastructure import (
-    create_mapper,
-    elastic_config,
-    elastic_factory
-)
-from src.presentation.api.di.providers import (
-    get_service,
-    get_uow_stub,
-    get_mapper_stub,
-    get_service_stub,
-    InfrastructureProvider
-)
+from src.infrastructure import create_mapper, elastic_config, elastic_factory
+from src.presentation.api.di.providers import (InfrastructureProvider,
+                                               get_mapper_stub, get_service,
+                                               get_service_stub, get_uow_stub)
 
 engine = elastic_factory(config=elastic_config)
 mapper_instance = create_mapper()

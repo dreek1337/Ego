@@ -1,9 +1,7 @@
 from src.application.common import BaseUseCase, UseCaseData
 from src.application.user import dto
-from src.application.user.interfaces import (
-    GetSubscriptionsFilters,
-    GetSubscriptionsOrder,
-)
+from src.application.user.interfaces import (GetSubscriptionsFilters,
+                                             GetSubscriptionsOrder)
 from src.application.user.uow import UserUoW
 from src.domain.common import Empty
 from src.domain.user.value_objects import UserId

@@ -1,10 +1,6 @@
-from src.application import (
-    GetPostsData,
-    CreatePostData,
-    DeletePostData,
-    UpdatePostData,
-    FullTextSearchPostsData
-)
+from src.application import (CreatePostData, DeletePostData,
+                             FullTextSearchPostsData, GetPostsData,
+                             UpdatePostData)
 
 
 class GetPostsRequest(GetPostsData):

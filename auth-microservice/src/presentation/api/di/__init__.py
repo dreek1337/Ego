@@ -1,17 +1,9 @@
 from fastapi import FastAPI
 from fastapi_jwt_auth import AuthJWT  # type: ignore
-
+from src.config import engine_config, pwd_config
+from src.infra import (AccessTokenManagerImpl, create_jwt_auth_factory,
+                       create_pwd_context, create_session_factory)
 from src.presentation.api.di import providers as prov
-from src.config import (
-    pwd_config,
-    engine_config
-)
-from src.infra import (
-    create_jwt_auth_factory,
-    create_pwd_context,
-    create_session_factory,
-    AccessTokenManagerImpl
-)
 
 auth = create_jwt_auth_factory(authorize=AuthJWT)   # type: ignore
 token_manager_instance = AccessTokenManagerImpl()

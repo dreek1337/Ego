@@ -1,14 +1,8 @@
-from src.domain import Empty
-from src.application.posts.uow import PostUoW
+from src.application.common import UseCase, UseCaseData
 from src.application.posts.dto import PostsDTO
-from src.application.common import (
-    UseCase,
-    UseCaseData
-)
-from src.application.posts.interfaces import (
-    GetPostsOrder,
-    GetPostsFilters
-)
+from src.application.posts.interfaces import GetPostsFilters, GetPostsOrder
+from src.application.posts.uow import PostUoW
+from src.domain import Empty
 
 
 class FullTextSearchPostsData(UseCaseData):

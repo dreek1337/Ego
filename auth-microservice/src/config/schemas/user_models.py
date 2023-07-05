@@ -1,8 +1,4 @@
-from pydantic import (
-    Field,
-    EmailStr, validator
-)
-
+from pydantic import EmailStr, Field, validator
 from src.common import Empty
 from src.config.schemas.base import BaseDataModel
 

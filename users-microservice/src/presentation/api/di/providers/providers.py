@@ -3,14 +3,13 @@ from typing import AsyncContextManager, AsyncGenerator, Callable
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from src.application.user.service.user_service import UserService
-from src.infrastructure.database import SQLAlchemyUoW, repositories as repo
+from src.infrastructure.database import SQLAlchemyUoW
+from src.infrastructure.database import repositories as repo
 from src.infrastructure.mapper import MapperImpl
 from src.infrastructure.simple_storage_service import UserCloudStorageImpl
-from src.presentation.api.di.providers.stubs import (
-    get_cloud_storage_stub,
-    get_mapper_stub,
-    get_uow_stub,
-)
+from src.presentation.api.di.providers.stubs import (get_cloud_storage_stub,
+                                                     get_mapper_stub,
+                                                     get_uow_stub)
 
 
 class InfrastructureProvider:

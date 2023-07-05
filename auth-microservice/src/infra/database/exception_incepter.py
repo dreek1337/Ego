@@ -1,11 +1,7 @@
 from functools import wraps
-from typing import (
-    Any,
-    Callable
-)
+from typing import Any, Callable
 
 from sqlalchemy.exc import SQLAlchemyError
-
 from src.application.exceptions import RepoError
 
 

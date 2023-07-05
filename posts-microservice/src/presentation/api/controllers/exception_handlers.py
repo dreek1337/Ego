@@ -1,14 +1,8 @@
+from elasticsearch.exceptions import ElasticsearchException  # type: ignore
+from elasticsearch.exceptions import \
+    TransportError  # type: ignore; type: ignore
+from fastapi import FastAPI, Request, status
 from fastapi.responses import ORJSONResponse
-from fastapi import (
-    status,
-    FastAPI,
-    Request
-)
-from elasticsearch.exceptions import (  # type: ignore
-    TransportError,  # type: ignore
-    ElasticsearchException  # type: ignore
-)
-
 from src.application import UserIsNotPostCreator
 from src.domain import AbstractBaseException
 from src.presentation.api.controllers.responses import ErrorResult

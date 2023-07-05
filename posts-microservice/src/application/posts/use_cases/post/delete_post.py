@@ -1,11 +1,8 @@
-from src.domain import PostId
-from src.application.posts.uow import PostUoW
+from src.application.common import UseCase, UseCaseData
 from src.application.posts.dto import DeletePostDTO
 from src.application.posts.exceptions import UserIsNotPostCreator
-from src.application.common import (
-    UseCase,
-    UseCaseData
-)
+from src.application.posts.uow import PostUoW
+from src.domain import PostId
 
 
 class DeletePostData(UseCaseData):

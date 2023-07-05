@@ -1,9 +1,6 @@
-from src.application.user.use_cases import (
-    GetSubscribersData,
-    GetSubscriptionsData,
-    SubscribeData,
-    UnsubscribeData,
-)
+from src.application.user.use_cases import (GetSubscribersData,
+                                            GetSubscriptionsData,
+                                            SubscribeData, UnsubscribeData)
 
 
 class SubscribeRequest(SubscribeData):

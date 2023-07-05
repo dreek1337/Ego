@@ -1,8 +1,5 @@
 from dataclasses import dataclass
-from typing import (
-    TypeVar,
-    Generic
-)
+from typing import Generic, TypeVar
 
 from pydantic.generics import GenericModel
 

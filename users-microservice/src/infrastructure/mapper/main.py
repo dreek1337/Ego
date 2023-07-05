@@ -1,7 +1,8 @@
 from typing import Any, TypeVar
 
 from sqlalchemy import ChunkedIteratorResult
-from src import application as app, domain
+from src import application as app
+from src import domain
 from src.application import UnsupportedConvertor
 from src.infrastructure.database import models
 from src.infrastructure.mapper import convert_functions as cf

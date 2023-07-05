@@ -1,11 +1,10 @@
 import datetime
 
 import pytest  # type: ignore
-
-from src.application import PostService, CreatePostData
+from src.application import CreatePostData, PostService
 from src.application.posts import dto
-from tests.mocks import PostUoWMock
 from src.infrastructure import MapperImpl
+from tests.mocks import PostUoWMock
 
 
 @pytest.mark.asyncio

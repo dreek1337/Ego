@@ -1,13 +1,8 @@
-from fastapi import (
-    status,
-    Depends,
-    APIRouter
-)
-
-from src.presentation.api.di import get_service_stub
+from fastapi import APIRouter, Depends, status
+from src.application import PostService, UserIsNotPostCreator
 from src.presentation.api.controllers import requests as req
 from src.presentation.api.controllers import responses as resp
-from src.application import PostService, UserIsNotPostCreator
+from src.presentation.api.di import get_service_stub
 
 post_router = APIRouter(
     tags=['posts']

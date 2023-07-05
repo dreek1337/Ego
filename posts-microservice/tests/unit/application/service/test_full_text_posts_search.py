@@ -1,12 +1,11 @@
 import datetime
 
 import pytest  # type: ignore
-
+from src.application import FullTextSearchPostsData, PostService
 from src.application.posts import dto
 from src.application.posts.interfaces import GetPostsOrder
-from tests.mocks import PostUoWMock
-from src.application import PostService, FullTextSearchPostsData
 from src.infrastructure import MapperImpl
+from tests.mocks import PostUoWMock
 
 
 @pytest.mark.asyncio

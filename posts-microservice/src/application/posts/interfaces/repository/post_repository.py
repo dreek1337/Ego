@@ -1,12 +1,6 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC, abstractmethod
 
-from src.domain import (
-    PostId,
-    PostAggregate
-)
+from src.domain import PostAggregate, PostId
 
 
 class PostRepo(ABC):

@@ -1,10 +1,7 @@
 from fastapi import FastAPI
 
-from .controllers import (
-    post_router,
-    health_check_router,
-    setup_exception_handlers
-)
+from .controllers import (health_check_router, post_router,
+                          setup_exception_handlers)
 
 
 def register_routers(

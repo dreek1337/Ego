@@ -1,9 +1,5 @@
-from src.application import (
-    GetSubscriptionsFilters,
-    GetSubscriptionsOrder,
-    SubscriptionDTO,
-    SubscriptionReader,
-)
+from src.application import (GetSubscriptionsFilters, GetSubscriptionsOrder,
+                             SubscriptionDTO, SubscriptionReader)
 from src.domain.common import Empty
 
 

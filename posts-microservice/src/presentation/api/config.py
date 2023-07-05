@@ -1,7 +1,4 @@
-from pydantic import (
-    Field,
-    BaseSettings
-)
+from pydantic import BaseSettings, Field
 
 
 class APIConfig(BaseSettings):

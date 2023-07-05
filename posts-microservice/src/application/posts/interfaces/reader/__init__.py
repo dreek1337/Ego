@@ -1,5 +1,2 @@
 from src.application.posts.interfaces.reader.post_reader import (
-    PostReader,
-    GetPostsOrder,
-    GetPostsFilters
-)
+    GetPostsFilters, GetPostsOrder, PostReader)

@@ -1,7 +1,4 @@
-from src.config.schemas.token_models import (
-    TokensData,
-    AccessToken
-)
+from src.config.schemas.token_models import AccessToken, TokensData
 
 
 class TokensResponse(TokensData):

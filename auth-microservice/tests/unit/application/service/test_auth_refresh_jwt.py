@@ -1,10 +1,9 @@
 import pytest
 from fastapi_jwt_auth.exceptions import RefreshTokenRequired  # type: ignore
-
-from src.config.schemas.token_models import AccessToken
-from tests import mocks as m
 from src.application import AuthService
+from src.config.schemas.token_models import AccessToken
 from src.config.schemas.user_models import UserIdData
+from tests import mocks as m
 
 
 @pytest.mark.asyncio

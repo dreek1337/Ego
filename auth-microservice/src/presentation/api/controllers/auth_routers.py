@@ -1,31 +1,13 @@
-from fastapi import (
-    status,
-    Depends,
-    Response,
-    APIRouter
-)
+from fastapi import APIRouter, Depends, Response, status
 from fastapi_jwt_auth import AuthJWT  # type: ignore
-
-
 from src.application import AuthService
+from src.application.exceptions import (UserDataIsNotCorrect, UserIsNotExists,
+                                        UsernameIsAlreadyExist)
+
+from ..di.providers import get_auth_jwt_stub, get_service_stub
+from .requests.auth_requests import LoginRequest, RegistrationRequest
+from .responses.auth_response import RefreshTokenResponse, TokensResponse
 from .responses.exception_responses import ErrorResult
-from ..di.providers import (
-    get_service_stub,
-    get_auth_jwt_stub
-)
-from .requests.auth_requests import (
-    LoginRequest,
-    RegistrationRequest
-)
-from .responses.auth_response import (
-    TokensResponse,
-    RefreshTokenResponse
-)
-from src.application.exceptions import (
-    UserIsNotExists,
-    UserDataIsNotCorrect,
-    UsernameIsAlreadyExist
-)
 
 auth_routers = APIRouter(
     prefix='/auth',
