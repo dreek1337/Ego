@@ -84,7 +84,7 @@ services:
 
   fastapi-app:
     build: .
-    command: python run.py
+    command: python run_posts.py
     ports:
       - ${SITE_PORT}:${SITE_PORT}
     depends_on:

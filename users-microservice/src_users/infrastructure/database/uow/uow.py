@@ -1,0 +1,22 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+from src_users.application import UserUoW
+from src_users.infrastructure.database import repositories as repo
+from src_users.infrastructure.database.uow.base import SQLAlchemyBaseUoW
+
+
+class SQLAlchemyUoW(SQLAlchemyBaseUoW, UserUoW):
+    def __init__(
+        self,
+        *,
+        session: AsyncSession,
+        user_repo: repo.UserRepoImpl,
+        avatar_repo: repo.AvatarRepoImpl,
+        subscription_repo: repo.SubscriptionRepoImpl,
+        subscription_reader: repo.SubscriptionReaderImpl,
+    ) -> None:
+        self.user_repo = user_repo
+        self.avatar_repo = avatar_repo
+        self.subscription_repo = subscription_repo
+        self.subscription_reader = subscription_reader
+
+        super().__init__(session=session)
