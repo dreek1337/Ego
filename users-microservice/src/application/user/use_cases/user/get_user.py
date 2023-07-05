@@ -1,15 +1,8 @@
+from src.application.common import BaseUseCase, Mapper, UseCaseData
 from src.application.user import dto
-from src.application.user.uow import UserUoW
 from src.application.user.constant import AvatarCloudEnum
-from src.domain.user.value_objects import (
-    UserId,
-    AvatarUserId
-)
-from src.application.common import (
-    Mapper,
-    BaseUseCase,
-    UseCaseData
-)
+from src.application.user.uow import UserUoW
+from src.domain.user.value_objects import AvatarUserId, UserId
 
 
 class GetUserData(UseCaseData):
@@ -23,12 +16,8 @@ class GetUser(BaseUseCase):
     """
     Получение пользователя
     """
-    def __init__(
-            self,
-            *,
-            uow: UserUoW,
-            mapper: Mapper
-    ) -> None:
+
+    def __init__(self, *, uow: UserUoW, mapper: Mapper) -> None:
         self._mapper = mapper
         self._uow = uow
 
@@ -47,7 +36,7 @@ class GetUser(BaseUseCase):
         )
 
         avatar_path = (
-            f'{AvatarCloudEnum.FOLDER.value}/{avatar.get_full_avatar_name()}'
+            f"{AvatarCloudEnum.FOLDER.value}/{avatar.get_full_avatar_name()}"
             if avatar
             else None
         )

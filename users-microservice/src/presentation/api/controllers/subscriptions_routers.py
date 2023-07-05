@@ -1,51 +1,41 @@
-from fastapi import (
-    status,
-    Depends,
-    APIRouter
-)
-
+from fastapi import APIRouter, Depends, status
 from src import application as app
-from src.presentation.api.di import get_service_stub
-from src.presentation.api.controllers import response as resp
 from src.application.user.service.user_service import UserService
+from src.presentation.api.controllers import response as resp
+from src.presentation.api.di import get_service_stub
+
 from .request.subscription_requests import (
+    GetSubscribersRequest,
+    GetSubscriptionsRequest,
     SubscribeRequest,
     UnubscribeRequest,
-    GetSubscribersRequest,
-    GetSubscriptionsRequest
 )
 from .response.subscription_response import (
     SubscribeResponse,
-    UnsubscribeResponse,
     SubscribersResponse,
-    SubscriptionsResponse
+    SubscriptionsResponse,
+    UnsubscribeResponse,
 )
 
-subscription_routers = APIRouter(
-    tags=['subscription'],
-    prefix='/subscription'
-)
+subscription_routers = APIRouter(tags=["subscription"], prefix="/subscription")
 
 
 @subscription_routers.post(
-    path='/subscribe',
+    path="/subscribe",
     responses={
-        status.HTTP_201_CREATED: {'model': SubscribeResponse},
+        status.HTTP_201_CREATED: {"model": SubscribeResponse},
         status.HTTP_400_BAD_REQUEST: {
-            'model': resp.ErrorResult[app.SubscribeOnYourself]
+            "model": resp.ErrorResult[app.SubscribeOnYourself]
         },
-        status.HTTP_404_NOT_FOUND: {
-            'model': resp.ErrorResult[app.UserIsNotExist]
-        },
+        status.HTTP_404_NOT_FOUND: {"model": resp.ErrorResult[app.UserIsNotExist]},
         status.HTTP_409_CONFLICT: {
-            'model': resp.ErrorResult[app.SubscribeIsAlreadyExists]
-        }
+            "model": resp.ErrorResult[app.SubscribeIsAlreadyExists]
+        },
     },
-    response_model=SubscribeResponse
+    response_model=SubscribeResponse,
 )
 async def subscribe(
-        subscribe_data: SubscribeRequest,
-        service: UserService = Depends(get_service_stub)
+    subscribe_data: SubscribeRequest, service: UserService = Depends(get_service_stub)
 ):
     """
     Оформление подписки
@@ -54,18 +44,18 @@ async def subscribe(
 
 
 @subscription_routers.post(
-    path='/unsubscribe',
+    path="/unsubscribe",
     responses={
-        status.HTTP_200_OK: {'model': UnsubscribeResponse},
+        status.HTTP_200_OK: {"model": UnsubscribeResponse},
         status.HTTP_404_NOT_FOUND: {
-            'model': resp.ErrorResult[app.SubscribeIsNotExists]
-        }
+            "model": resp.ErrorResult[app.SubscribeIsNotExists]
+        },
     },
-    response_model=UnsubscribeResponse
+    response_model=UnsubscribeResponse,
 )
 async def unsubscribe(
-        unsubscribe_data: UnubscribeRequest,
-        service: UserService = Depends(get_service_stub)
+    unsubscribe_data: UnubscribeRequest,
+    service: UserService = Depends(get_service_stub),
 ):
     """
     Отписка от пользователя
@@ -74,18 +64,16 @@ async def unsubscribe(
 
 
 @subscription_routers.get(
-    path='/get_subscriptions',
+    path="/get_subscriptions",
     responses={
-        status.HTTP_200_OK: {'model': SubscriptionsResponse},
-        status.HTTP_404_NOT_FOUND: {
-            'model': resp.ErrorResult[app.UserIsNotExist]
-        }
+        status.HTTP_200_OK: {"model": SubscriptionsResponse},
+        status.HTTP_404_NOT_FOUND: {"model": resp.ErrorResult[app.UserIsNotExist]},
     },
-    response_model=SubscriptionsResponse
+    response_model=SubscriptionsResponse,
 )
 async def get_subscriptions(
-        subscriptions_data: GetSubscriptionsRequest = Depends(),
-        service: UserService = Depends(get_service_stub)
+    subscriptions_data: GetSubscriptionsRequest = Depends(),
+    service: UserService = Depends(get_service_stub),
 ):
     """
     Получение подписчиков пользователя
@@ -94,18 +82,16 @@ async def get_subscriptions(
 
 
 @subscription_routers.get(
-    path='/get_subscribers',
+    path="/get_subscribers",
     responses={
-        status.HTTP_200_OK: {'model': SubscribersResponse},
-        status.HTTP_404_NOT_FOUND: {
-            'model': resp.ErrorResult[app.UserIsNotExist]
-        }
+        status.HTTP_200_OK: {"model": SubscribersResponse},
+        status.HTTP_404_NOT_FOUND: {"model": resp.ErrorResult[app.UserIsNotExist]},
     },
-    response_model=SubscribersResponse
+    response_model=SubscribersResponse,
 )
 async def get_subscribers(
-        subscribers_data: GetSubscribersRequest = Depends(),
-        service: UserService = Depends(get_service_stub)
+    subscribers_data: GetSubscribersRequest = Depends(),
+    service: UserService = Depends(get_service_stub),
 ):
     """
     Получение подписчиков пользователя

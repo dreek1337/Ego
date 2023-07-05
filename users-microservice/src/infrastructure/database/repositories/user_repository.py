@@ -1,36 +1,26 @@
-from sqlalchemy import select
 from asyncpg import UniqueViolationError  # type: ignore
-from sqlalchemy.exc import (
-    DBAPIError,
-    IntegrityError
-)
-
+from sqlalchemy import select
+from sqlalchemy.exc import DBAPIError, IntegrityError
+from src.application import RepoError, UserRepo
+from src.application.user.exceptions import UserIdIsAlreadyExist, UserIsNotExist
 from src.domain import UserAggregate
-from src.application import UserRepo, RepoError
 from src.domain.user.value_objects import UserId
+from src.infrastructure.database.error_interceptor import error_interceptor
 from src.infrastructure.database.models import Users
 from src.infrastructure.database.repositories.base import SQLAlchemyRepo
-from src.infrastructure.database.error_interceptor import error_interceptor
-from src.application.user.exceptions import (
-    UserIsNotExist,
-    UserIdIsAlreadyExist
-)
 
 
 class UserRepoImpl(SQLAlchemyRepo, UserRepo):
     """
     Реализация пользовательского репозитория
     """
+
     @error_interceptor(file_name=__name__)
     async def get_user_by_id(self, user_id: UserId) -> UserAggregate:
         """
         Получение пользователя по id
         """
-        query = (
-            select(Users)
-            .where(Users.user_id == user_id.to_int)
-            .with_for_update()
-        )
+        query = select(Users).where(Users.user_id == user_id.to_int).with_for_update()
         user = await self._session.execute(query)
 
         result = user.scalar()
@@ -66,10 +56,7 @@ class UserRepoImpl(SQLAlchemyRepo, UserRepo):
             self._parse_error(err=err, data=user)
 
     @staticmethod
-    def _parse_error(
-            err: DBAPIError,
-            data: UserAggregate
-    ) -> None:
+    def _parse_error(err: DBAPIError, data: UserAggregate) -> None:
         """
         Определение ошибки
         """

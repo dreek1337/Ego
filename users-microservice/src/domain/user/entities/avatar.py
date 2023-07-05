@@ -1,15 +1,8 @@
-from dataclasses import (
-    dataclass,
-    field
-)
+from dataclasses import dataclass, field
 
-from src.domain.user.exceptions import AvatarIsDeleted
 from src.domain.common import Entity
-from src.domain.user.value_objects import (
-    AvatarId,
-    AvatarType,
-    AvatarUserId
-)
+from src.domain.user.exceptions import AvatarIsDeleted
+from src.domain.user.value_objects import AvatarId, AvatarType, AvatarUserId
 
 
 @dataclass
@@ -17,6 +10,7 @@ class AvatarEntity(Entity):
     """
     Информация о файле
     """
+
     avatar_id: AvatarId
     avatar_type: AvatarType
     avatar_user_id: AvatarUserId
@@ -24,19 +18,19 @@ class AvatarEntity(Entity):
 
     @classmethod
     def create_avatar(
-            cls,
-            *,
-            avatar_user_id: AvatarUserId,
-            avatar_name: AvatarId,
-            avatar_type: AvatarType
-    ) -> 'AvatarEntity':
+        cls,
+        *,
+        avatar_user_id: AvatarUserId,
+        avatar_name: AvatarId,
+        avatar_type: AvatarType,
+    ) -> "AvatarEntity":
         """
         Создание файла
         """
         avatar = AvatarEntity(
             avatar_user_id=avatar_user_id,
             avatar_id=avatar_name,
-            avatar_type=avatar_type
+            avatar_type=avatar_type,
         )
 
         return avatar
@@ -45,7 +39,7 @@ class AvatarEntity(Entity):
         """
         Поулчение имя файла
         """
-        return f'{self.avatar_id.to_uuid}.{self.avatar_type.get_value}'
+        return f"{self.avatar_id.to_uuid}.{self.avatar_type.get_value}"
 
     def delete(self) -> None:
         """

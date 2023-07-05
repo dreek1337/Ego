@@ -1,10 +1,6 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import (
-    Any,
-    TypeVar,
-    Generic
-)
+from typing import Any, Generic, TypeVar
 
 V = TypeVar("V", bound=Any)
 
@@ -14,6 +10,7 @@ class BaseValueObject(ABC):
     """
     Базовый класс для во
     """
+
     def __post_init__(self) -> None:
         """
         Пост обработка, проверка на валидность данных

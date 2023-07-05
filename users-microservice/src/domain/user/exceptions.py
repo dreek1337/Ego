@@ -9,6 +9,7 @@ class UserIsDeleted(AbstractBaseException):
     """
     Ошибка об том, что пользователь удален
     """
+
     user_id: int
 
     @property
@@ -20,9 +21,10 @@ class AvatarIsDeleted(AbstractBaseException):
     """
     Ошибка об том, что аватар удален
     """
+
     @property
     def message(self) -> str:
-        return 'User hasn\'t avatar'
+        return "User hasn't avatar"
 
 
 @dataclass
@@ -30,11 +32,12 @@ class InvalidAvatarType(AbstractBaseException):
     """
     Ошибка о невалидном типе аватара
     """
+
     file_type: str
 
     @property
     def message(self) -> str:
-        return f'Unsupported file type {self.file_type}'
+        return f"Unsupported file type {self.file_type}"
 
 
 @dataclass
@@ -42,11 +45,12 @@ class InvalidGender(AbstractBaseException):
     """
     Ошибка о невалидном типе пола
     """
+
     gender_type: str
 
     @property
     def message(self) -> str:
-        return f'Unsupported gender type {self.gender_type}'
+        return f"Unsupported gender type {self.gender_type}"
 
 
 @dataclass
@@ -54,8 +58,9 @@ class InvalidBirthdayDate(AbstractBaseException):
     """
     Ошибка о неправильной дате рождения
     """
+
     birthday_date: date
 
     @property
     def message(self) -> str:
-        return f'You can\'t give birth in the future {self.birthday_date}'
+        return f"You can't give birth in the future {self.birthday_date}"

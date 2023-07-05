@@ -1,8 +1,8 @@
 from src.application.user.use_cases import (
+    GetSubscribersData,
+    GetSubscriptionsData,
     SubscribeData,
     UnsubscribeData,
-    GetSubscribersData,
-    GetSubscriptionsData
 )
 
 

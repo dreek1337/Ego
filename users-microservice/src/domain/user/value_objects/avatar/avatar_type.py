@@ -1,9 +1,6 @@
 from dataclasses import dataclass
 
-from src.domain.common import (
-    ValueObject,
-    ValidAvatarType
-)
+from src.domain.common import ValidAvatarType, ValueObject
 from src.domain.user.exceptions import InvalidAvatarType
 
 

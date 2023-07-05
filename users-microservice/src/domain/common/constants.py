@@ -6,11 +6,11 @@ class Empty(str, Enum):
 
 
 class ValidAvatarType(str, Enum):
-    JPEG = 'jpeg'
-    JPG = 'jpg'
-    PNG = 'png'
+    JPEG = "jpeg"
+    JPG = "jpg"
+    PNG = "png"
 
 
 class GenderValue(str, Enum):
-    MALE = 'male'
-    FEMALE = 'female'
+    MALE = "male"
+    FEMALE = "female"

@@ -1,8 +1,4 @@
-from src.application import (
-    SubscribersDTO,
-    SubscriptionsDTO,
-    SubscribeActionDTO
-)
+from src.application import SubscribeActionDTO, SubscribersDTO, SubscriptionsDTO
 
 
 class SubscribeResponse(SubscribeActionDTO):

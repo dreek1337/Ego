@@ -1,25 +1,17 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC, abstractmethod
 
 from src.domain.user import SubscriptionEntity
-from src.domain.user.value_objects import (
-    SubscriberId,
-    SubscriptionId
-)
+from src.domain.user.value_objects import SubscriberId, SubscriptionId
 
 
 class SubscriptionRepo(ABC):
     """
     Репозиторий подпичок
     """
+
     @abstractmethod
     async def get_subscription_by_id(
-            self,
-            *,
-            subscription_id: SubscriptionId,
-            subscriber_id: SubscriberId
+        self, *, subscription_id: SubscriptionId, subscriber_id: SubscriberId
     ) -> SubscriptionEntity:
         """Получение подписки"""
 

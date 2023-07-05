@@ -1,21 +1,10 @@
 from datetime import date
 
+from src.application.common import BaseUseCase, Mapper, UseCaseData
 from src.application.user import dto
 from src.application.user.uow import UserUoW
-from src.domain.common.constants import (
-    Empty,
-    GenderValue
-)
-from src.domain.user.value_objects import (
-    UserId,
-    UserGender,
-    UserBirthday
-)
-from src.application.common import (
-    Mapper,
-    BaseUseCase,
-    UseCaseData
-)
+from src.domain.common.constants import Empty, GenderValue
+from src.domain.user.value_objects import UserBirthday, UserGender, UserId
 
 
 class UpdateUserData(UseCaseData):
@@ -33,12 +22,8 @@ class UpdateUser(BaseUseCase):
     """
     Обнавление пользователя
     """
-    def __init__(
-            self,
-            *,
-            uow: UserUoW,
-            mapper: Mapper
-    ) -> None:
+
+    def __init__(self, *, uow: UserUoW, mapper: Mapper) -> None:
         self._mapper = mapper
         self._uow = uow
 
@@ -61,14 +46,11 @@ class UpdateUser(BaseUseCase):
             first_name=data.first_name,
             last_name=data.last_name,
             gender=user_gender,
-            birthday=user_birthday
+            birthday=user_birthday,
         )
         await self._uow.user_repo.update_user(user=user)
         await self._uow.commit()
 
-        user_dto = self._mapper.load(
-            from_model=user,
-            to_model=dto.UserDTO
-        )
+        user_dto = self._mapper.load(from_model=user, to_model=dto.UserDTO)
 
         return user_dto

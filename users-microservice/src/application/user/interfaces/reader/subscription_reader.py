@@ -1,15 +1,9 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
-
-
+from abc import ABC, abstractmethod
 from enum import Enum
 
 from pydantic import BaseModel
-
-from src.domain.common.constants import Empty
 from src.application.user.dto import SubscriptionDTO
+from src.domain.common.constants import Empty
 
 
 class GetSubscriptionsOrder(str, Enum):
@@ -27,22 +21,17 @@ class SubscriptionReader(ABC):
     """
     Ридер для работы с бд
     """
+
     @abstractmethod
     async def get_subscriptions_by_id(
-            self,
-            *,
-            subscriber_id: int,
-            filters: GetSubscriptionsFilters
-    ) -> list[SubscriptionDTO]:
+        self, *, subscriber_id: int, filters: GetSubscriptionsFilters
+    ) -> list[SubscriptionDTO] | None:
         """Получение списка всех подписок пользователя"""
 
     @abstractmethod
     async def get_subscribers_by_id(
-            self,
-            *,
-            subscription_id: int,
-            filters: GetSubscriptionsFilters
-    ) -> list[SubscriptionDTO]:
+        self, *, subscription_id: int, filters: GetSubscriptionsFilters
+    ) -> list[SubscriptionDTO] | None:
         """Получения списка всех подписчиков пользователя"""
 
     @abstractmethod

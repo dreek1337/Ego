@@ -1,5 +1,5 @@
-from uuid import UUID
 from dataclasses import dataclass
+from uuid import UUID
 
 from src.application.common.exceptions import AppException
 
@@ -47,7 +47,7 @@ class AvatarIsNotExist(AppException):
         """
         Сообщение об ошибке
         """
-        return 'Avatar is not exists'
+        return "Avatar is not exists"
 
 
 @dataclass
@@ -57,7 +57,7 @@ class UnsupportedConvertor(AppException):
         """
         Сообщение об ошибке
         """
-        return 'ToModel or FromModel is unsupported!'
+        return "ToModel or FromModel is unsupported!"
 
 
 @dataclass
@@ -67,7 +67,7 @@ class SubscribeOnYourself(AppException):
         """
         Сообщение об ошибке
         """
-        return 'You can\'t subscribe on yourself!'
+        return "You can't subscribe on yourself!"
 
 
 @dataclass
@@ -77,7 +77,7 @@ class SubscribeIsAlreadyExists(AppException):
         """
         Сообщение об ошибке
         """
-        return 'Subscribe is already exists!'
+        return "Subscribe is already exists!"
 
 
 @dataclass
@@ -87,4 +87,4 @@ class SubscribeIsNotExists(AppException):
         """
         Сообщение об ошибке
         """
-        return 'Subscribe is not exists!'
+        return "Subscribe is not exists!"

@@ -1,7 +1,4 @@
-from src.application import (
-    UserDTO,
-    DeleteUserData
-)
+from src.application import DeleteUserData, UserDTO
 
 
 class UserDataResponse(UserDTO):

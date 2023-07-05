@@ -1,11 +1,7 @@
+from src.application.common import BaseUseCase, Mapper, UseCaseData
 from src.application.user import dto
 from src.application.user.uow import UserUoW
 from src.domain.user.value_objects import UserId
-from src.application.common import (
-    Mapper,
-    BaseUseCase,
-    UseCaseData
-)
 
 
 class DeleteUserData(UseCaseData):
@@ -19,12 +15,8 @@ class DeleteUser(BaseUseCase):
     """
     Удаление пользователя
     """
-    def __init__(
-            self,
-            *,
-            uow: UserUoW,
-            mapper: Mapper
-    ) -> None:
+
+    def __init__(self, *, uow: UserUoW, mapper: Mapper) -> None:
         self._mapper = mapper
         self._uow = uow
 
@@ -38,8 +30,7 @@ class DeleteUser(BaseUseCase):
         await self._uow.commit()
 
         deleted_user_dto = self._mapper.load(
-            from_model=user,
-            to_model=dto.DeletedUserDTO
+            from_model=user, to_model=dto.DeletedUserDTO
         )
 
         return deleted_user_dto

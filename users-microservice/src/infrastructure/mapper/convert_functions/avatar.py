@@ -1,10 +1,7 @@
+from src.application import AvatarDTO, DeletedAvatarDTO
 from src.domain import AvatarEntity
 from src.domain.user import value_objects as vo
 from src.infrastructure.database.models import Avatars
-from src.application import (
-    AvatarDTO,
-    DeletedAvatarDTO,
-)
 
 
 def convert_avatar_entity_to_dto(avatar: AvatarEntity) -> AvatarDTO:
@@ -14,7 +11,7 @@ def convert_avatar_entity_to_dto(avatar: AvatarEntity) -> AvatarDTO:
     avatar_dto = AvatarDTO(
         avatar_id=avatar.avatar_id.to_uuid,
         avatar_type=avatar.avatar_type.get_value,
-        avatar_user_id=avatar.avatar_user_id.to_int
+        avatar_user_id=avatar.avatar_user_id.to_int,
     )
 
     return avatar_dto
@@ -24,9 +21,7 @@ def convert_deleted_avatar_entity_to_dto(avatar: AvatarEntity) -> DeletedAvatarD
     """
     Преобразование удаленный Энтити в ДТО
     """
-    avatar_deleted_dto = DeletedAvatarDTO(
-        avatar_id=avatar.avatar_id.to_uuid
-    )
+    avatar_deleted_dto = DeletedAvatarDTO(avatar_id=avatar.avatar_id.to_uuid)
 
     return avatar_deleted_dto
 
@@ -38,7 +33,7 @@ def convert_avatar_entity_to_db_model(avatar: AvatarEntity) -> Avatars:
     avatar_model = Avatars(
         avatar_id=avatar.avatar_id.to_uuid,
         avatar_type=avatar.avatar_type.get_value,
-        avatar_user_id=avatar.avatar_user_id.to_int
+        avatar_user_id=avatar.avatar_user_id.to_int,
     )
 
     return avatar_model
@@ -49,15 +44,9 @@ def convert_db_model_to_avatar_entity(avatar: Avatars) -> AvatarEntity:
     Преобразование ORM модели в Энтити
     """
     avatar_entity = AvatarEntity(
-        avatar_id=vo.AvatarId(
-            value=avatar.avatar_id
-        ),
-        avatar_type=vo.AvatarType(
-            value=avatar.avatar_type
-        ),
-        avatar_user_id=vo.AvatarUserId(
-            value=avatar.avatar_user_id
-        )
+        avatar_id=vo.AvatarId(value=avatar.avatar_id),
+        avatar_type=vo.AvatarType(value=avatar.avatar_type),
+        avatar_user_id=vo.AvatarUserId(value=avatar.avatar_user_id),
     )
 
     return avatar_entity

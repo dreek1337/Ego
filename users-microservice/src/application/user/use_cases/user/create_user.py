@@ -1,18 +1,10 @@
 from datetime import date
 
-from src.domain import UserAggregate
+from src.application.common import BaseUseCase, Mapper, UseCaseData
 from src.application.user import dto
 from src.application.user.uow import UserUoW
-from src.application.common import (
-    Mapper,
-    BaseUseCase,
-    UseCaseData
-)
-from src.domain.user.value_objects import (
-    UserId,
-    UserGender,
-    UserBirthday
-)
+from src.domain import UserAggregate
+from src.domain.user.value_objects import UserBirthday, UserGender, UserId
 
 
 class CreateUserData(UseCaseData):
@@ -30,12 +22,8 @@ class CreateUser(BaseUseCase):
     """
     Создание пользователя
     """
-    def __init__(
-            self,
-            *,
-            uow: UserUoW,
-            mapper: Mapper
-    ) -> None:
+
+    def __init__(self, *, uow: UserUoW, mapper: Mapper) -> None:
         self._mapper = mapper
         self._uow = uow
 
@@ -45,15 +33,12 @@ class CreateUser(BaseUseCase):
             first_name=data.first_name,
             last_name=data.last_name,
             gender=UserGender(data.gender),
-            birthday=UserBirthday(data.birthday)
+            birthday=UserBirthday(data.birthday),
         )
 
         await self._uow.user_repo.create_user(user=user)
         await self._uow.commit()
 
-        created_user_dto = self._mapper.load(
-            from_model=user,
-            to_model=dto.UserDTO
-        )
+        created_user_dto = self._mapper.load(from_model=user, to_model=dto.UserDTO)
 
         return created_user_dto

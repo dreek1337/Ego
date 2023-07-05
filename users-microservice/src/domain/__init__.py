@@ -1,5 +1,1 @@
-from src.domain.user import (
-    AvatarEntity,
-    UserAggregate,
-    SubscriptionEntity
-)
+from src.domain.user import AvatarEntity, SubscriptionEntity, UserAggregate

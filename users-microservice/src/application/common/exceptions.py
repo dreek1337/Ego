@@ -25,4 +25,5 @@ class RollbackError(UnexpectedError):
 @dataclass
 class RepoError(UnexpectedError):
     """Неизвестная ошибка репозитория"""
+
     file_name: str | None = None

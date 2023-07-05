@@ -1,18 +1,8 @@
-from dataclasses import (
-    field,
-    dataclass
-)
+from dataclasses import dataclass, field
 
+from src.domain.common import Aggregate, Empty
 from src.domain.user.exceptions import UserIsDeleted
-from src.domain.common import (
-    Empty,
-    Aggregate
-)
-from src.domain.user.value_objects import (
-    UserId,
-    UserGender,
-    UserBirthday
-)
+from src.domain.user.value_objects import UserBirthday, UserGender, UserId
 
 
 @dataclass
@@ -20,6 +10,7 @@ class UserAggregate(Aggregate):
     """
     Полная модель пользователя
     """
+
     user_id: UserId
     first_name: str
     last_name: str
@@ -32,14 +23,14 @@ class UserAggregate(Aggregate):
 
     @classmethod
     def create_user(
-            cls,
-            *,
-            user_id: UserId,
-            first_name: str,
-            last_name: str,
-            gender: UserGender,
-            birthday: UserBirthday,
-    ) -> 'UserAggregate':
+        cls,
+        *,
+        user_id: UserId,
+        first_name: str,
+        last_name: str,
+        gender: UserGender,
+        birthday: UserBirthday,
+    ) -> "UserAggregate":
         """
         Создание модели пользователя
         """
@@ -48,18 +39,18 @@ class UserAggregate(Aggregate):
             first_name=first_name,
             last_name=last_name,
             gender=gender,
-            birthday=birthday
+            birthday=birthday,
         )
 
         return user
 
     def update(
-            self,
-            *,
-            first_name: str | Empty = Empty.UNSET,
-            last_name: str | Empty = Empty.UNSET,
-            gender: UserGender | Empty = Empty.UNSET,
-            birthday: UserBirthday | Empty = Empty.UNSET,
+        self,
+        *,
+        first_name: str | Empty = Empty.UNSET,
+        last_name: str | Empty = Empty.UNSET,
+        gender: UserGender | Empty = Empty.UNSET,
+        birthday: UserBirthday | Empty = Empty.UNSET,
     ) -> None:
         """
         Обнавление информации, пользователя
@@ -71,7 +62,7 @@ class UserAggregate(Aggregate):
         if not last_name == Empty.UNSET:
             self.last_name = last_name
         if not gender == Empty.UNSET:
-            self.gender = gender   # type: ignore
+            self.gender = gender  # type: ignore
         if not birthday == Empty.UNSET:
             self.birthday = birthday  # type: ignore
 

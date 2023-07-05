@@ -1,35 +1,35 @@
+from src.application.user.dto import (
+    AvatarDTO,
+    DeletedAvatarDTO,
+    DeletedUserDTO,
+    SubscribeActionDTO,
+    SubscribersDTO,
+    SubscriptionDTO,
+    SubscriptionsDTO,
+    UserDTO,
+)
+from src.application.user.exceptions import (
+    AvatarIsNotExist,
+    SubscribeIsAlreadyExists,
+    SubscribeIsNotExists,
+    SubscribeOnYourself,
+    UnsupportedConvertor,
+    UserIdIsAlreadyExist,
+    UserIsNotExist,
+)
+from src.application.user.interfaces import (
+    AvatarRepo,
+    GetSubscriptionsFilters,
+    GetSubscriptionsOrder,
+    SubscriptionReader,
+    SubscriptionRepo,
+    UserRepo,
+)
 from src.application.user.use_cases import (
+    CreateUserData,
+    DeleteAvatarData,
+    DeleteUserData,
     GetUserData,
     SetAvatarData,
     UpdateUserData,
-    DeleteUserData,
-    CreateUserData,
-    DeleteAvatarData,
-)
-from src.application.user.exceptions import (
-    UserIsNotExist,
-    AvatarIsNotExist,
-    SubscribeOnYourself,
-    UserIdIsAlreadyExist,
-    UnsupportedConvertor,
-    SubscribeIsNotExists,
-    SubscribeIsAlreadyExists
-)
-from src.application.user.dto import (
-    UserDTO,
-    AvatarDTO,
-    SubscribersDTO,
-    DeletedUserDTO,
-    SubscriptionDTO,
-    SubscriptionsDTO,
-    DeletedAvatarDTO,
-    SubscribeActionDTO,
-)
-from src.application.user.interfaces import (
-    UserRepo,
-    AvatarRepo,
-    SubscriptionRepo,
-    SubscriptionReader,
-    GetSubscriptionsOrder,
-    GetSubscriptionsFilters
 )

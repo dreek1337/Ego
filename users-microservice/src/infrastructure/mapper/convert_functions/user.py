@@ -1,11 +1,8 @@
+from src.application import DeletedUserDTO, UserDTO
 from src.domain import UserAggregate
 from src.domain.common import GenderValue
 from src.domain.user import value_objects as vo
 from src.infrastructure.database.models import Users
-from src.application import (
-    UserDTO,
-    DeletedUserDTO
-)
 
 
 def convert_user_aggregate_to_dto(user: UserAggregate) -> UserDTO:
@@ -21,7 +18,7 @@ def convert_user_aggregate_to_dto(user: UserAggregate) -> UserDTO:
         avatar_path=user.avatar_path if user.avatar_path else None,
         count_of_subscriptions=user.count_of_subscriptions,
         count_of_subscribers=user.count_of_subscribers,
-        deleted=user.deleted
+        deleted=user.deleted,
     )
 
     return user_dto
@@ -35,7 +32,7 @@ def convert_deleted_user_aggregate_to_dto(user: UserAggregate) -> DeletedUserDTO
         user_id=user.user_id.to_int,
         first_name=user.first_name,
         last_name=user.last_name,
-        deleted=user.deleted
+        deleted=user.deleted,
     )
 
     return deleted_user_dto
@@ -51,7 +48,7 @@ def convert_user_aggregate_to_db_model(user: UserAggregate) -> Users:
         last_name=user.last_name,
         gender=user.gender.get_value,
         birthday=user.birthday.get_value,
-        deleted=user.deleted
+        deleted=user.deleted,
     )
 
     return orm_model
@@ -66,12 +63,10 @@ def convert_db_model_to_user_aggregate(user: Users) -> UserAggregate:
         first_name=user.first_name,
         last_name=user.last_name,
         gender=vo.UserGender(
-            value=GenderValue.MALE
-            if user.gender == 'male'
-            else GenderValue.FEMALE
+            value=GenderValue.MALE if user.gender == "male" else GenderValue.FEMALE
         ),
         birthday=vo.UserBirthday(value=user.birthday),
-        deleted=user.deleted
+        deleted=user.deleted,
     )
 
     return user_aggregate

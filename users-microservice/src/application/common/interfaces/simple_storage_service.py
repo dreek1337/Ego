@@ -1,24 +1,19 @@
-from typing import (
-    Any,
-    TypeVar
-)
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC, abstractmethod
+from typing import Any, TypeVar
 
-SaveData = TypeVar('SaveData', bound=Any)
-DeleteData = TypeVar('DeleteData', bound=Any)
+SaveData = TypeVar("SaveData", bound=Any)
+DeleteData = TypeVar("DeleteData", bound=Any)
 
 
 class CloudStorageBase(ABC):
     """
     Базовый класс с3 сервиса
     """
+
     @abstractmethod
-    async def put(self, data: SaveData) -> None:
+    async def put(self, avatar: SaveData) -> None:
         """Сохранение объекта"""
 
     @abstractmethod
-    async def delete(self, data: DeleteData) -> None:
+    async def delete(self, avatar: DeleteData) -> None:
         """Удаление объекта"""

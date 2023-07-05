@@ -1,7 +1,4 @@
-from src.application import (
-    AvatarDTO,
-    DeletedAvatarDTO
-)
+from src.application import AvatarDTO, DeletedAvatarDTO
 
 
 class SetAvatarResponse(AvatarDTO):

@@ -1,26 +1,14 @@
 import uuid
 
-from pydantic import (
-    UUID4,
-    Field
-)
-
-from src.domain import AvatarEntity
+from pydantic import UUID4, Field
+from src.application.common import BaseUseCase, Mapper, UseCaseData
 from src.application.user import dto
-from src.application.user.uow import UserUoW
-from src.application.common import CloudStorageBase
-from src.domain.user.exceptions import UserIsDeleted
 from src.application.user.exceptions import UserIsNotExist
-from src.application.common import (
-    Mapper,
-    BaseUseCase,
-    UseCaseData
-)
-from src.domain.user.value_objects import (
-    AvatarId,
-    AvatarType,
-    AvatarUserId, UserId
-)
+from src.application.user.s3 import UserCloudStorage
+from src.application.user.uow import UserUoW
+from src.domain import AvatarEntity
+from src.domain.user.exceptions import UserIsDeleted
+from src.domain.user.value_objects import AvatarId, AvatarType, AvatarUserId, UserId
 
 
 class SetAvatarData(UseCaseData):
@@ -37,12 +25,9 @@ class SetAvatar(BaseUseCase):
     """
     Сохранение аватара
     """
+
     def __init__(
-            self,
-            *,
-            uow: UserUoW,
-            mapper: Mapper,
-            cloud_storage: CloudStorageBase
+        self, *, uow: UserUoW, mapper: Mapper, cloud_storage: UserCloudStorage
     ) -> None:
         self._uow = uow
         self._mapper = mapper
@@ -61,11 +46,11 @@ class SetAvatar(BaseUseCase):
         avatar = AvatarEntity.create_avatar(
             avatar_user_id=AvatarUserId(value=data.avatar_user_id),
             avatar_name=AvatarId(value=data.avatar_id),
-            avatar_type=AvatarType(value=data.avatar_type)
+            avatar_type=AvatarType(value=data.avatar_type),
         )
 
         await self._uow.avatar_repo.set_avatar(avatar=avatar)
-        await self._cloud_storage.put(data=data)
+        await self._cloud_storage.put(avatar=data)
 
         await self._uow.commit()
 

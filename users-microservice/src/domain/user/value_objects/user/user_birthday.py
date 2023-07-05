@@ -1,5 +1,5 @@
-from datetime import date
 from dataclasses import dataclass
+from datetime import date
 
 from src.domain.common import ValueObject
 from src.domain.user.exceptions import InvalidBirthdayDate

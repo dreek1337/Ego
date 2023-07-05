@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.domain.common import ValueObject, GenderValue
+from src.domain.common import GenderValue, ValueObject
 from src.domain.user.exceptions import InvalidGender
 
 
@@ -13,7 +13,7 @@ class UserGender(ValueObject[GenderValue]):
         """
         Получение значения
         """
-        if self.value == 'male':
+        if self.value == "male":
             return GenderValue.MALE
 
         return self.value

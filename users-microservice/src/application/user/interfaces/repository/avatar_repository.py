@@ -1,23 +1,17 @@
-from abc import (
-    ABC,
-    abstractmethod
-)
+from abc import ABC, abstractmethod
 
 from src.domain import AvatarEntity
-from src.domain.user.value_objects import (
-    AvatarId,
-    AvatarUserId
-)
+from src.domain.user.value_objects import AvatarId, AvatarUserId
 
 
 class AvatarRepo(ABC):
     """
     Репозиторий файла
     """
+
     @abstractmethod
     async def get_avatar_by_user_id(
-            self,
-            avatar_user_id: AvatarUserId
+        self, avatar_user_id: AvatarUserId
     ) -> AvatarEntity | None:
         """Получение файла с помощью id"""
 
@@ -26,5 +20,5 @@ class AvatarRepo(ABC):
         """Сохранение файла"""
 
     @abstractmethod
-    async def delete_avatar(self, avatar_id: AvatarId | None) -> None:
+    async def delete_avatar(self, avatar_id: AvatarId) -> None:
         """Удаление файла"""

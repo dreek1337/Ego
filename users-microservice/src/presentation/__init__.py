@@ -1,4 +1,1 @@
-from src.presentation.api import (
-    init_app,
-    APIConfig
-)
+from src.presentation.api import APIConfig, init_app

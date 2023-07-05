@@ -1,11 +1,7 @@
 from functools import wraps
-from typing import (
-    Any,
-    Callable
-)
+from typing import Any, Callable
 
 from sqlalchemy.exc import SQLAlchemyError
-
 from src.application.common.exceptions import RepoError
 
 
@@ -19,4 +15,5 @@ def error_interceptor(file_name: str) -> Callable:
                 raise RepoError(file_name=file_name) from err
 
         return wrapper
+
     return inner

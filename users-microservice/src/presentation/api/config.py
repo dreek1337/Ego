@@ -1,13 +1,11 @@
-from pydantic import (
-    Field,
-    BaseSettings
-)
+from pydantic import BaseSettings, Field
 
 
 class APIConfig(BaseSettings):
     """
     Настройки для ювикорна
     """
+
     host: str = Field(..., env="SITE_HOST")
     port: int = Field(..., env="SITE_PORT")
     loop: str = Field("asyncio")

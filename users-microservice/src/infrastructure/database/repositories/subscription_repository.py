@@ -1,40 +1,26 @@
 from typing import Any
 
-from asyncpg import UniqueViolationError, ForeignKeyViolationError  # type: ignore
-from sqlalchemy.exc import IntegrityError, DBAPIError
-from sqlalchemy import (
-    func,
-    delete,
-    select
-)
-
+from asyncpg import ForeignKeyViolationError, UniqueViolationError  # type: ignore
+from sqlalchemy import delete, func, select
+from sqlalchemy.exc import DBAPIError, IntegrityError
 from src import application as app
 from src.application.user import dto
-from src.domain.common import Empty
 from src.domain import SubscriptionEntity
-from src.infrastructure.database.repositories.base import SQLAlchemyRepo
+from src.domain.common import Empty
+from src.domain.user.value_objects import SubscriberId, SubscriptionId
 from src.infrastructure.database.error_interceptor import error_interceptor
-from src.domain.user.value_objects import (
-    SubscriberId,
-    SubscriptionId,
-)
-from src.infrastructure.database.models import (
-    Users,
-    Avatars,
-    Subscriptions
-)
+from src.infrastructure.database.models import Avatars, Subscriptions, Users
+from src.infrastructure.database.repositories.base import SQLAlchemyRepo
 
 
 class SubscriptionReaderImpl(SQLAlchemyRepo, app.SubscriptionReader):
     """
     Реализация ридера для подписок
     """
+
     @error_interceptor(file_name=__name__)
     async def get_subscriptions_by_id(
-            self,
-            *,
-            subscriber_id: int,
-            filters: app.GetSubscriptionsFilters
+        self, *, subscriber_id: int, filters: app.GetSubscriptionsFilters
     ) -> list[dto.SubscriptionDTO]:
         """
         Получение списка всех подписок пользователя
@@ -49,19 +35,20 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, app.SubscriptionReader):
             )
         ).cte()
 
-        subscriptions_dto = await self._create_subscription_request(
-            cte_query=cte_query,
-            filters=filters
+        query = await self._create_subscription_request(
+            cte_query=cte_query, filters=filters
         )
 
-        return subscriptions_dto
+        subscriptions = await self._session.execute(query)
+
+        return self._mapper.load(
+            from_model=subscriptions if subscriptions else None,
+            to_model=list[dto.SubscriptionDTO],
+        )
 
     @error_interceptor(file_name=__name__)
     async def get_subscribers_by_id(
-            self,
-            *,
-            subscription_id: int,
-            filters: app.GetSubscriptionsFilters
+        self, *, subscription_id: int, filters: app.GetSubscriptionsFilters
     ) -> list[dto.SubscriptionDTO]:
         """
         Получения списка всех подписчиков пользователя
@@ -76,21 +63,24 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, app.SubscriptionReader):
             )
         ).cte()
 
-        subscriptions_dto = await self._create_subscription_request(
-            cte_query=cte_query,
-            filters=filters
+        query = await self._create_subscription_request(
+            cte_query=cte_query, filters=filters
         )
 
-        return subscriptions_dto
+        subscribers = await self._session.execute(query)
+
+        return self._mapper.load(
+            from_model=subscribers if subscribers else None,
+            to_model=list[dto.SubscriptionDTO],
+        )
 
     @error_interceptor(file_name=__name__)
     async def get_count_subscriptions(self, subscriber_id: int) -> int:
         """
         Получить кол-во подписок пользователя
         """
-        query = (
-            select(func.count(Subscriptions.subscription_id))
-            .where(Subscriptions.subscriber_id == subscriber_id)
+        query = select(func.count(Subscriptions.subscription_id)).where(
+            Subscriptions.subscriber_id == subscriber_id
         )
 
         count_of_subscriptions = await self._session.scalar(query)
@@ -102,9 +92,8 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, app.SubscriptionReader):
         """
         Получить кол-во подписчиков пользователя
         """
-        query = (
-            select(func.count(Subscriptions.subscriber_id))
-            .where(Subscriptions.subscription_id == subscription_id)
+        query = select(func.count(Subscriptions.subscriber_id)).where(
+            Subscriptions.subscription_id == subscription_id
         )
 
         count_of_subscribers = await self._session.scalar(query)
@@ -113,10 +102,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, app.SubscriptionReader):
 
     @error_interceptor(file_name=__name__)
     async def _create_subscription_request(
-            self,
-            *,
-            cte_query: Any,
-            filters: app.GetSubscriptionsFilters
+        self, *, cte_query: Any, filters: app.GetSubscriptionsFilters
     ):
         """
         Основной запрос для подтягивания подписчиков и подписок
@@ -127,7 +113,7 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, app.SubscriptionReader):
                 Users.first_name,
                 Users.last_name,
                 Avatars.avatar_type,
-                Users.deleted
+                Users.deleted,
             )
             .select_from(cte_query)
             .join(Users)
@@ -139,34 +125,24 @@ class SubscriptionReaderImpl(SQLAlchemyRepo, app.SubscriptionReader):
         if filters.offset is not Empty.UNSET:
             query = query.offset(filters.offset)
 
-        subscriptions = await self._session.execute(query)
-
-        return self._mapper.load(
-            from_model=subscriptions,
-            to_model=list[dto.SubscriptionDTO]
-        )
+        return query
 
 
 class SubscriptionRepoImpl(SQLAlchemyRepo, app.SubscriptionRepo):
     """
     Реализация репозитория для подписок
     """
+
     @error_interceptor(file_name=__name__)
     async def get_subscription_by_id(
-            self,
-            *,
-            subscription_id: SubscriptionId,
-            subscriber_id: SubscriberId
+        self, *, subscription_id: SubscriptionId, subscriber_id: SubscriberId
     ) -> SubscriptionEntity:
         """
         Получение подписки
         """
-        query = (
-            select(Subscriptions)
-            .where(
-                Subscriptions.subscription_id == subscription_id.to_int,
-                Subscriptions.subscriber_id == subscriber_id.to_int
-            )
+        query = select(Subscriptions).where(
+            Subscriptions.subscription_id == subscription_id.to_int,
+            Subscriptions.subscriber_id == subscriber_id.to_int,
         )
 
         subscription = await self._session.execute(query)
@@ -177,8 +153,7 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, app.SubscriptionRepo):
             raise app.SubscribeIsNotExists()
 
         subscription_entity = self._mapper.load(
-            from_model=result,
-            to_model=SubscriptionEntity
+            from_model=result, to_model=SubscriptionEntity
         )
 
         return subscription_entity
@@ -189,12 +164,8 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, app.SubscriptionRepo):
         Подписаться на пользователя
         """
         subscription_model = self._mapper.load(
-            from_model=subscription,
-            to_model=Subscriptions
+            from_model=subscription, to_model=Subscriptions
         )
-
-        if subscription_model.subscription_id == subscription_model.subscriber_id:
-            raise app.SubscribeOnYourself()
 
         self._session.add(subscription_model)
 
@@ -208,25 +179,15 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, app.SubscriptionRepo):
         """
         Отписаться от пользователя
         """
-        query = (
-            delete(Subscriptions)
-            .where(
-                Subscriptions.subscription_id == (
-                    subscription.subscription_user_id.to_int
-                ),
-                Subscriptions.subscriber_id == (
-                    subscription.subscriber_user_id.to_int
-                )
-            )
+        query = delete(Subscriptions).where(
+            Subscriptions.subscription_id == (subscription.subscription_user_id.to_int),
+            Subscriptions.subscriber_id == (subscription.subscriber_user_id.to_int),
         )
 
         await self._session.execute(query)
 
     @staticmethod
-    def _parse_error(
-            err: DBAPIError,
-            data: SubscriptionEntity
-    ) -> None:
+    def _parse_error(err: DBAPIError, data: SubscriptionEntity) -> None:
         """
         Определение ошибки
         """

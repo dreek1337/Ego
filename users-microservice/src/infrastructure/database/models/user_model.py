@@ -1,15 +1,7 @@
-from datetime import (
-    date,
-    datetime
-)
+from datetime import date, datetime
 
 import sqlalchemy as sa
-from sqlalchemy.orm import (
-    Mapped,
-    relationship,
-    mapped_column
-)
-
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.domain.common import GenderValue
 from src.infrastructure.database.models.base import Base
 
@@ -18,12 +10,11 @@ class Users(Base):
     """
     Таблица для хранения данные о пользователе
     """
-    __tablename__ = 'users'
+
+    __tablename__ = "users"
 
     user_id: Mapped[int] = mapped_column(
-        sa.BigInteger,
-        primary_key=True,
-        autoincrement=False
+        sa.BigInteger, primary_key=True, autoincrement=False
     )
     first_name: Mapped[str] = mapped_column(sa.String(length=128), nullable=False)
     last_name: Mapped[str] = mapped_column(sa.String(length=128), nullable=False)
@@ -34,7 +25,5 @@ class Users(Base):
     avatar = relationship("Avatars", back_populates="user")
 
     time_updated: Mapped[datetime] = mapped_column(
-        sa.DateTime,
-        onupdate=sa.func.now(),
-        nullable=True
+        sa.DateTime, onupdate=sa.func.now(), nullable=True
     )

@@ -1,14 +1,11 @@
-from src.domain.common import Empty
+from src.application.common import BaseUseCase, UseCaseData
 from src.application.user import dto
-from src.application.user.uow import UserUoW
-from src.application.common import (
-    BaseUseCase,
-    UseCaseData
-)
 from src.application.user.interfaces import (
+    GetSubscriptionsFilters,
     GetSubscriptionsOrder,
-    GetSubscriptionsFilters
 )
+from src.application.user.uow import UserUoW
+from src.domain.common import Empty
 from src.domain.user.value_objects import UserId
 
 
@@ -26,11 +23,8 @@ class GetSubscriptions(BaseUseCase):
     """
     Получение всех подписчиков
     """
-    def __init__(
-            self,
-            *,
-            uow: UserUoW
-    ) -> None:
+
+    def __init__(self, *, uow: UserUoW) -> None:
         self._uow = uow
 
     async def __call__(self, data: GetSubscriptionsData) -> dto.SubscriptionsDTO:
@@ -39,14 +33,10 @@ class GetSubscriptions(BaseUseCase):
         subscriptions = await self._uow.subscription_reader.get_subscriptions_by_id(
             subscriber_id=data.user_id,
             filters=GetSubscriptionsFilters(
-                offset=data.offset,
-                limit=data.limit,
-                order=data.order
-            )
+                offset=data.offset, limit=data.limit, order=data.order
+            ),
         )
 
         return dto.SubscriptionsDTO(
-            subscriptions=subscriptions,
-            offset=data.offset,
-            limit=data.limit
+            subscriptions=subscriptions, offset=data.offset, limit=data.limit
         )
