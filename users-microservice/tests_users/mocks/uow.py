@@ -1,4 +1,8 @@
 from src_users import application as app
+from tests_users.mocks.avatar_repo import AvatarRepoMock
+from tests_users.mocks.subscription_reader import SubscriptionReaderMock
+from tests_users.mocks.subscription_repo import SubscriptionRepoMock
+from tests_users.mocks.user_repo import UserRepoMock
 
 
 class UserUoWMock(app.UserUoW):
@@ -9,10 +13,10 @@ class UserUoWMock(app.UserUoW):
     def __init__(
         self,
         *,
-        user_repo: app.UserRepo,
-        avatar_repo: app.AvatarRepo,
-        subscription_repo: app.SubscriptionRepo,
-        subscription_reader: app.SubscriptionReader,
+        user_repo: UserRepoMock,
+        avatar_repo: AvatarRepoMock,
+        subscription_repo: SubscriptionRepoMock,
+        subscription_reader: SubscriptionReaderMock,
     ) -> None:
         self.user_repo = user_repo
         self.avatar_repo = avatar_repo

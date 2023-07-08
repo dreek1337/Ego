@@ -28,7 +28,6 @@ class SubscriptionReaderMock(SubscriptionReader):
             for subscribe in subscription_list:
                 if subscribe.user_id == subscriber_id:
                     subscribers_list.append(subscribe)
-                continue
 
         subscribers = subscribers_list if subscribers_list else None
 
@@ -56,16 +55,14 @@ class SubscriptionReaderMock(SubscriptionReader):
         """
         Получить кол-во подписок пользователя
         """
-        subscribers = [
-            [
-                subscribe
-                for subscribe in subscription_list
-                if subscribe.user_id == subscriber_id
-            ]
-            for subscription_list in self.subscriptions.values()
-        ][0]
+        subscribers_list = list()
 
-        return len(subscribers) if subscribers else 0
+        for subscription_list in self.subscriptions.values():
+            for subscribe in subscription_list:
+                if subscribe.user_id == subscriber_id:
+                    subscribers_list.append(subscribe)
+
+        return len(subscribers_list) if subscribers_list else 0
 
     async def get_count_subscribers(self, subscription_id: int) -> int:
         """
@@ -98,3 +95,10 @@ class SubscriptionReaderMock(SubscriptionReader):
         result = subscriptions if subscriptions else None
 
         return result
+
+    def add_subscriptions(
+        self, user_id: int, subscriptions: list[SubscriptionDTO]
+    ) -> None:
+        if self.subscriptions.get(user_id):
+            self.subscriptions[user_id] += subscriptions
+        self.subscriptions[user_id] = subscriptions

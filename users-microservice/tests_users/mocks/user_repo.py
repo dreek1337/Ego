@@ -1,4 +1,7 @@
-from src_users.application import UserIsNotExist, UserRepo
+from src_users.application import (
+    UserIsNotExist,
+    UserRepo,
+)
 from src_users.domain import UserAggregate
 from src_users.domain.user.value_objects import UserId
 
@@ -16,7 +19,7 @@ class UserRepoMock(UserRepo):
         Получение пользователя с помощью id
         """
         for user in self.users.values():
-            if user.user_id == user:
+            if user.user_id == user_id:
                 return user
         raise UserIsNotExist(user_id=user_id.to_int)
 
