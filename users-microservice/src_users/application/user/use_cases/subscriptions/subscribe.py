@@ -1,9 +1,16 @@
-from src_users.application import SubscribeOnYourself
-from src_users.application.common import BaseUseCase, Mapper, UseCaseData
+from src_users.application.common import (
+    BaseUseCase,
+    Mapper,
+    UseCaseData,
+)
 from src_users.application.user import dto
+from src_users.application.user.exceptions import SubscribeOnYourself
 from src_users.application.user.uow import UserUoW
 from src_users.domain import SubscriptionEntity
-from src_users.domain.user.value_objects import SubscriberId, SubscriptionId
+from src_users.domain.user.value_objects import (
+    SubscriberId,
+    SubscriptionId,
+)
 
 
 class SubscribeData(UseCaseData):

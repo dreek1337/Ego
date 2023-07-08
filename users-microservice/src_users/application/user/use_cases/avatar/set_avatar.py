@@ -1,10 +1,17 @@
 import uuid
 
-from pydantic import UUID4, Field
-from src_users.application.common import BaseUseCase, Mapper, UseCaseData
+from pydantic import (
+    UUID4,
+    Field,
+)
+from src_users.application.common import (
+    BaseUseCase,
+    CloudStorageBase,
+    Mapper,
+    UseCaseData,
+)
 from src_users.application.user import dto
 from src_users.application.user.exceptions import UserIsNotExist
-from src_users.application.user.s3 import UserCloudStorage
 from src_users.application.user.uow import UserUoW
 from src_users.domain import AvatarEntity
 from src_users.domain.user.exceptions import UserIsDeleted
@@ -32,7 +39,7 @@ class SetAvatar(BaseUseCase):
     """
 
     def __init__(
-        self, *, uow: UserUoW, mapper: Mapper, cloud_storage: UserCloudStorage
+        self, *, uow: UserUoW, mapper: Mapper, cloud_storage: CloudStorageBase
     ) -> None:
         self._uow = uow
         self._mapper = mapper

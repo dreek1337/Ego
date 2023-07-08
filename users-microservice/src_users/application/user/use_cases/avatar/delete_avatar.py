@@ -1,6 +1,10 @@
-from src_users.application import AvatarIsNotExist
-from src_users.application.common import BaseUseCase, Mapper, UseCaseData
+from src_users.application.common import (
+    BaseUseCase,
+    Mapper,
+    UseCaseData,
+)
 from src_users.application.user import dto
+from src_users.application.user.exceptions import AvatarIsNotExist
 from src_users.application.user.s3 import UserCloudStorage
 from src_users.application.user.uow import UserUoW
 from src_users.domain.user.value_objects import AvatarUserId

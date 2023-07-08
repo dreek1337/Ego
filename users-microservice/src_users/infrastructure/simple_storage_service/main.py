@@ -1,8 +1,11 @@
-from typing import AsyncContextManager, Callable
+from typing import (
+    AsyncContextManager,
+    Callable,
+)
 
 from aiobotocore.session import ClientCreatorContext  # type: ignore
 from aiobotocore.session import get_session
-from src_users.infrastructure import MinioConfig
+from src_users.infrastructure.simple_storage_service.config import MinioConfig
 
 
 def s3_factory(cloud_config: MinioConfig) -> Callable[..., AsyncContextManager]:
