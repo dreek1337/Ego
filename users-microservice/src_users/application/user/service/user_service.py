@@ -1,4 +1,3 @@
-from src_users.application import UserUoW
 from src_users.application.common import (
     Mapper,
     Service,
@@ -8,6 +7,7 @@ from src_users.application.user import (
     s3,
     use_cases,
 )
+from src_users.application.user.uow import UserUoW
 
 
 class UserService(Service):

@@ -70,6 +70,8 @@ async def test_create_user_incorrect_birthday(
 
     with pytest.raises(InvalidBirthdayDate):
         await user_service.create_user(data=user_data)
+    assert uow.commit_status is False
+    assert uow.rollback_status is False
 
 
 @pytest.mark.asyncio
@@ -88,3 +90,5 @@ async def test_create_user_incorrect_gender(
 
     with pytest.raises(InvalidGender):
         await user_service.create_user(data=user_data)
+    assert uow.commit_status is False
+    assert uow.rollback_status is False
