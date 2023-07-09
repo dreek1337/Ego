@@ -2,7 +2,10 @@ from uuid import UUID
 
 from src_users.application import AvatarRepo
 from src_users.domain import AvatarEntity
-from src_users.domain.user.value_objects import AvatarId, AvatarUserId
+from src_users.domain.user.value_objects import (
+    AvatarId,
+    AvatarUserId,
+)
 
 
 class AvatarRepoMock(AvatarRepo):

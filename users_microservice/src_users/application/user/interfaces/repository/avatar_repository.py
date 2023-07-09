@@ -1,7 +1,13 @@
-from abc import ABC, abstractmethod
+from abc import (
+    ABC,
+    abstractmethod,
+)
 
 from src_users.domain import AvatarEntity
-from src_users.domain.user.value_objects import AvatarId, AvatarUserId
+from src_users.domain.user.value_objects import (
+    AvatarId,
+    AvatarUserId,
+)
 
 
 class AvatarRepo(ABC):
