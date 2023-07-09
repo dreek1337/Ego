@@ -1,4 +1,4 @@
-FROM apache/apisix:3.3.0
+FROM apache/apisix:${APISIX_IMAGE_TAG:-3.4.0-debian}
 
 # Copy custom config.yaml
 COPY conf/config.yaml /usr/local/apisix/conf/config.yaml

@@ -1,13 +1,11 @@
-version: '3.7'
+version: "3"
 
 services:
-  etcd:
-    build: api_gateway/etcd
+  apisix-dashboard:
+    build: api_gateway/apisix_dashboard
     restart: always
-    command: bash etcd-setup.sh
     ports:
-      - "2379:2379"
-      - "2380:2380"
+    - "9000:9000"
     networks:
       apisix:
 
@@ -16,12 +14,29 @@ services:
     restart: always
     depends_on:
       - etcd
+    ##network_mode: host
     ports:
       - "9180:9180/tcp"
       - "9080:9080/tcp"
       - "9091:9091/tcp"
       - "9443:9443/tcp"
       - "9092:9092/tcp"
+    networks:
+      apisix:
+
+  etcd:
+    build: api_gateway/etcd
+    restart: always
+    volumes:
+      - etcd_data:/bitnami/etcd
+    # command: bash entrypoint.sh
+    environment:
+      ETCD_ENABLE_V2: "true"
+      ALLOW_NONE_AUTHENTICATION: "yes"
+      ETCD_ADVERTISE_CLIENT_URLS: "http://etcd:2379"
+      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
+    ports:
+      - "2379:2379/tcp"
     networks:
       apisix:
 
