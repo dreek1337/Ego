@@ -1,14 +1,22 @@
 import imghdr
 from typing import Union
 
-from fastapi import APIRouter, Depends, UploadFile, status
-from src_users.application import AvatarIsNotExist, SetAvatarData, UserIsNotExist
+from fastapi import (
+    APIRouter,
+    Depends,
+    Header,
+    UploadFile,
+    status,
+)
+from src_users.application import (
+    AvatarIsNotExist,
+    DeleteAvatarData,
+    SetAvatarData,
+    UserIsNotExist,
+)
 from src_users.application.user.service.user_service import UserService
 from src_users.domain.user.exceptions import InvalidAvatarType
 from src_users.presentation.api.controllers import response as resp
-from src_users.presentation.api.controllers.request.avatar_requests import (
-    DeleteAvatarRequest,
-)
 from src_users.presentation.api.controllers.response import (
     DeletedAvatarResponse,
     SetAvatarResponse,
@@ -31,8 +39,8 @@ avatar_routers = APIRouter(tags=["avatars"], prefix="/avatars")
 )
 async def set_avatar(
     avatar_data: UploadFile,
-    avatar_user_id: int,
     service: UserService = Depends(get_service_stub),
+    x_user_id: int = Header(None),
 ):
     """
     Установка аватарки у пользователя
@@ -42,8 +50,8 @@ async def set_avatar(
 
     data = SetAvatarData(
         avatar_content=file,
-        avatar_user_id=avatar_user_id,
-        avatar_type=file_type if file_type else "invalid_type",
+        avatar_user_id=x_user_id,
+        avatar_type=file_type if file_type else "none_type",
     )  # type: ignore
 
     return await service.set_avatar(data=data)
@@ -58,10 +66,9 @@ async def set_avatar(
     response_model=DeletedAvatarResponse,
 )
 async def delete_avatar(
-    avatar_user_id: DeleteAvatarRequest,
-    service: UserService = Depends(get_service_stub),
+    service: UserService = Depends(get_service_stub), x_user_id: int = Header(None)
 ):
     """
     Удаление аватарки у пользователя
     """
-    return await service.delete_avatar(data=avatar_user_id)
+    return await service.delete_avatar(data=DeleteAvatarData(user_id=x_user_id))

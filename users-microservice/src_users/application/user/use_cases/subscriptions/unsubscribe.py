@@ -1,12 +1,19 @@
-from src_users.application.common import BaseUseCase, Mapper, UseCaseData
+from src_users.application.common import (
+    BaseUseCase,
+    Mapper,
+    UseCaseData,
+)
 from src_users.application.user import dto
 from src_users.application.user.uow import UserUoW
-from src_users.domain.user.value_objects import SubscriberId, SubscriptionId
+from src_users.domain.user.value_objects import (
+    SubscriberId,
+    SubscriptionId,
+)
 
 
 class UnsubscribeData(UseCaseData):
     subscription_id: int
-    subscriber_id: int
+    user_id: int
 
     class Config:
         frozen = True
@@ -24,7 +31,7 @@ class Unsubscribe(BaseUseCase):
     async def __call__(self, data: UnsubscribeData) -> dto.SubscribeActionDTO:
         subscription = await self._uow.subscription_repo.get_subscription_by_id(
             subscription_id=SubscriptionId(value=data.subscription_id),
-            subscriber_id=SubscriberId(value=data.subscriber_id),
+            subscriber_id=SubscriberId(value=data.user_id),
         )
 
         await self._uow.subscription_repo.unsubscribe(subscription=subscription)

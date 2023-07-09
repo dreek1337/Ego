@@ -1,21 +1,33 @@
+from pydantic import (
+    BaseModel,
+    Field,
+)
 from src_users.application.user.use_cases import (
     GetSubscribersData,
     GetSubscriptionsData,
-    SubscribeData,
-    UnsubscribeData,
 )
 
 
-class SubscribeRequest(SubscribeData):
-    """Модель для оформления подписки"""
+class SubscribeRequest(BaseModel):
+    """
+    Модель для оформления подписки
+    """
+
+    subscription_id: int = Field(..., description="Айди на кого подписка")
 
 
-class UnubscribeRequest(UnsubscribeData):
-    """Модель для отписки"""
+class UnsubscribeRequest(BaseModel):
+    """
+    Модель для отписки
+    """
+
+    subscription_id: int = Field(..., description="Айди от кого отписка")
 
 
 class GetSubscriptionsRequest(GetSubscriptionsData):
-    """Модель для получения подписок"""
+    """
+    Модель для получения подписок
+    """
 
 
 class GetSubscribersRequest(GetSubscribersData):

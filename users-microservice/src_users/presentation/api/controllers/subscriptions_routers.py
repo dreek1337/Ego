@@ -1,6 +1,15 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    Header,
+    status,
+)
 from src_users import application as app
 from src_users.application.user.service.user_service import UserService
+from src_users.application.user.use_cases import (
+    SubscribeData,
+    UnsubscribeData,
+)
 from src_users.presentation.api.controllers import response as resp
 from src_users.presentation.api.di import get_service_stub
 
@@ -8,7 +17,7 @@ from .request.subscription_requests import (
     GetSubscribersRequest,
     GetSubscriptionsRequest,
     SubscribeRequest,
-    UnubscribeRequest,
+    UnsubscribeRequest,
 )
 from .response.subscription_response import (
     SubscribeResponse,
@@ -35,12 +44,16 @@ subscription_routers = APIRouter(tags=["subscription"], prefix="/subscription")
     response_model=SubscribeResponse,
 )
 async def subscribe(
-    subscribe_data: SubscribeRequest, service: UserService = Depends(get_service_stub)
+    subscribe_data: SubscribeRequest,
+    service: UserService = Depends(get_service_stub),
+    x_user_id: int = Header(None),
 ):
     """
     Оформление подписки
     """
-    return await service.subscribe(data=subscribe_data)
+    return await service.subscribe(
+        data=SubscribeData(user_id=x_user_id, **subscribe_data.dict())
+    )
 
 
 @subscription_routers.post(
@@ -54,13 +67,16 @@ async def subscribe(
     response_model=UnsubscribeResponse,
 )
 async def unsubscribe(
-    unsubscribe_data: UnubscribeRequest,
+    unsubscribe_data: UnsubscribeRequest,
     service: UserService = Depends(get_service_stub),
+    x_user_id: int = Header(None),
 ):
     """
     Отписка от пользователя
     """
-    return await service.unsubscribe(data=unsubscribe_data)
+    return await service.unsubscribe(
+        data=UnsubscribeData(user_id=x_user_id, **unsubscribe_data.dict())
+    )
 
 
 @subscription_routers.get(

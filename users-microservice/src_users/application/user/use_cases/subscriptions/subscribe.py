@@ -15,7 +15,7 @@ from src_users.domain.user.value_objects import (
 
 class SubscribeData(UseCaseData):
     subscription_id: int
-    subscriber_id: int
+    user_id: int
 
     class Config:
         frozen = True
@@ -31,12 +31,12 @@ class Subscribe(BaseUseCase):
         self._uow = uow
 
     async def __call__(self, data: SubscribeData) -> dto.SubscribeActionDTO:
-        if data.subscription_id == data.subscriber_id:
+        if data.subscription_id == data.user_id:
             raise SubscribeOnYourself()
 
         subscription = SubscriptionEntity.subscribe(
             subscription_id=SubscriptionId(value=data.subscription_id),
-            subscriber_id=SubscriberId(value=data.subscriber_id),
+            subscriber_id=SubscriberId(value=data.user_id),
         )
         await self._uow.subscription_repo.subscribe(subscription=subscription)
         await self._uow.commit()
