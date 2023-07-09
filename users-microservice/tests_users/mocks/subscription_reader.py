@@ -13,6 +13,7 @@ class SubscriptionReaderMock(SubscriptionReader):
     """
 
     def __init__(self) -> None:
+        self.users: dict[int, SubscriptionDTO] = dict()
         self.subscriptions: dict[int, list[SubscriptionDTO]] = dict()
         # В list[SubscriptionDTO] лежат все подписчики пользователя
 
@@ -22,14 +23,14 @@ class SubscriptionReaderMock(SubscriptionReader):
         """
         Получения списка всех подписок пользователя
         """
-        subscribers_list = list()
+        subscriptions_list = list()
 
-        for subscription_list in self.subscriptions.values():
-            for subscribe in subscription_list:
-                if subscribe.user_id == subscriber_id:
-                    subscribers_list.append(subscribe)
+        for subscription_id, subscription_list in self.subscriptions.items():
+            for subscriber in subscription_list:
+                if subscriber.user_id == subscriber_id:
+                    subscriptions_list.append(self.users[subscription_id])
 
-        subscribers = subscribers_list if subscribers_list else None
+        subscribers = subscriptions_list if subscriptions_list else None
 
         if subscribers:
             subscribers = self._add_filters(filters=filters, subscription=subscribers)
@@ -42,27 +43,25 @@ class SubscriptionReaderMock(SubscriptionReader):
         """
         Получение списка всех подписчиков пользователя
         """
-        subscriptions = self.subscriptions.get(subscription_id)
+        subscribers = self.subscriptions.get(subscription_id)
 
-        if subscriptions:
-            subscriptions = self._add_filters(
-                filters=filters, subscription=subscriptions
-            )
+        if subscribers:
+            subscribers = self._add_filters(filters=filters, subscription=subscribers)
 
-        return subscriptions
+        return subscribers
 
     async def get_count_subscriptions(self, subscriber_id: int) -> int:
         """
         Получить кол-во подписок пользователя
         """
-        subscribers_list = list()
+        subscriptions_list = list()
 
-        for subscription_list in self.subscriptions.values():
-            for subscribe in subscription_list:
-                if subscribe.user_id == subscriber_id:
-                    subscribers_list.append(subscribe)
+        for subscription_id, subscription_list in self.subscriptions.items():
+            for subscriber in subscription_list:
+                if subscriber.user_id == subscriber_id:
+                    subscriptions_list.append(self.users[subscription_id])
 
-        return len(subscribers_list) if subscribers_list else 0
+        return len(subscriptions_list) if subscriptions_list else 0
 
     async def get_count_subscribers(self, subscription_id: int) -> int:
         """
@@ -99,6 +98,20 @@ class SubscriptionReaderMock(SubscriptionReader):
     def add_subscriptions(
         self, user_id: int, subscriptions: list[SubscriptionDTO]
     ) -> None:
-        if self.subscriptions.get(user_id):
-            self.subscriptions[user_id] += subscriptions
+        """
+        Добавление подписок для тестов
+        """
         self.subscriptions[user_id] = subscriptions
+
+    def _add_user(self, user: SubscriptionDTO) -> None:
+        """
+        Добавление пользовтаеля для тестов
+        """
+        self.users[user.user_id] = user
+
+    def add_users(self, users: list[SubscriptionDTO]) -> None:
+        """
+        Добавление пользовтаелей для тестов
+        """
+        for user in users:
+            self._add_user(user=user)

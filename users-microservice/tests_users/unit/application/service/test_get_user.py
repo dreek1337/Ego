@@ -61,16 +61,35 @@ async def test_get_user_correct_with_subs_and_sups(
     uow: UserUoWMock, mapper: MapperImpl, cloud_storage_repo: UserCloudStorageMock
 ) -> None:
     user_service = UserService(uow=uow, mapper=mapper, cloud_storage=cloud_storage_repo)
-    user_subscriptions = [
+
+    users_for_sup = [
         SubscriptionDTO(
             user_id=1,
             first_name="Евгений",
-            last_name="Лучший",
+            last_name="Пригожин",
+            avatar=None,
+            deleted=True,
+        ),
+        SubscriptionDTO(
+            user_id=2,
+            first_name="Владимир",
+            last_name="Царский",
+            avatar=None,
+            deleted=False,
+        ),
+    ]
+
+    uow.subscription_reader.add_users(users=users_for_sup)  # type: ignore
+    subscribes = [
+        SubscriptionDTO(
+            user_id=1,
+            first_name="Евгений",
+            last_name="Пригожин",
             avatar=None,
             deleted=False,
         )
     ]
-    user_subscribes = [
+    subscriptions = [
         SubscriptionDTO(
             user_id=0,
             first_name="Danila",
@@ -81,13 +100,13 @@ async def test_get_user_correct_with_subs_and_sups(
     ]
 
     uow.subscription_reader.add_subscriptions(  # type: ignore
-        user_id=0, subscriptions=user_subscriptions
-    )
+        user_id=0, subscriptions=subscribes
+    )  # Добавляем подписчика пользователю
 
-    for user_id in range(1, 4):
+    for user_id in range(1, 3):
         uow.subscription_reader.add_subscriptions(  # type: ignore
-            user_id=user_id, subscriptions=user_subscribes
-        )
+            user_id=user_id, subscriptions=subscriptions
+        )  # Оформляем подписки на других пользователей
 
     user = UserAggregate(
         user_id=UserId(value=0),
@@ -110,7 +129,7 @@ async def test_get_user_correct_with_subs_and_sups(
         gender="male",
         birthday=datetime.date.today(),
         avatar_path=None,
-        count_of_subscriptions=3,
+        count_of_subscriptions=2,
         count_of_subscribers=1,
         deleted=False,
     )
@@ -133,7 +152,7 @@ async def test_get_not_exist_user(
 
 
 @pytest.mark.asyncio
-async def test_get__deleted_user_correct(
+async def test_get_deleted_user_correct(
     uow: UserUoWMock, mapper: MapperImpl, cloud_storage_repo: UserCloudStorageMock
 ) -> None:
     user_service = UserService(uow=uow, mapper=mapper, cloud_storage=cloud_storage_repo)
