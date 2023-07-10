@@ -27,7 +27,7 @@ user_routers = APIRouter(tags=["users"], prefix="/users")
 
 
 @user_routers.get(
-    path="/info/{user_id}",
+    path="/info",
     responses={
         status.HTTP_200_OK: {"model": resp.UserDataResponse},
         status.HTTP_404_NOT_FOUND: {"model": resp.ErrorResult[UserIsNotExist]},
@@ -36,7 +36,8 @@ user_routers = APIRouter(tags=["users"], prefix="/users")
     status_code=status.HTTP_200_OK,
 )
 async def get_user(
-    request_data: req.GetUserRequest, service: UserService = Depends(get_service_stub)
+    request_data: req.GetUserRequest = Depends(),
+    service: UserService = Depends(get_service_stub),
 ):
     """
     Получение данных о пользователе с помощью его id
