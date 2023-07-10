@@ -14,6 +14,7 @@ class MinioConfig(BaseSettings):
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+        env_prefix = "users_microservice"
 
     @root_validator
     def make_endpoint(cls, values):
