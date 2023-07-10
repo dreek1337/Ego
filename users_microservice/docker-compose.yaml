@@ -17,6 +17,18 @@ services:
     env_file:
       - .env
 
+  postgres_migration:
+    container_name: migrations
+    build:
+      context: .
+    restart: on-failure
+    depends_on:
+      - database
+    volumes:
+      - ./alembic.ini:/app/alembic.ini:ro
+      - ./src_users/infrastructure/database/migrations:/app/src_users/infrastructure/database/migrations:ro
+    command: ["python", "-m", "alembic", "upgrade", "head"]
+
   fastapi-app:
     container_name: app_fast
     build: .
