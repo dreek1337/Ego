@@ -20,7 +20,7 @@ services:
   fastapi-app:
     container_name: app_fast
     build: .
-    command: python run_users.py && alembic upgrade 'head'
+    command: python run_users.py
     ports:
       - ${SITE_PORT}:${SITE_PORT}
     depends_on:
