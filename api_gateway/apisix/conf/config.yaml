@@ -14,15 +14,15 @@ deployment:
 
     admin_key:
       - name: "admin"
-        key: edd1c9f034335f136f87ad84b625c8f1
+        key: ${APISIX_ADMIN_KEY}
         role: admin
 
       - name: "viewer"
-        key: 4054f7cf07e344346cd3f287985e76a2
+        key: ${APISIX_VIEWER_KEY}
         role: viewer
 
   etcd:
     host:
-      - "http://etcd:2379"
+      - "http://@etcd:2379"
     prefix: "/apisix"
     timeout: 30
