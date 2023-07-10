@@ -118,7 +118,10 @@ async def sub_is_already_exist_handler(
 
 async def unsupported_handler(request: Request, err: Exception) -> ORJSONResponse:
     return ORJSONResponse(
-        ErrorResult(message="Unknown server error has occurred", data="Use Debug!"),
+        ErrorResult(
+            message=f"Unknown server error has occurred! {err.__class__}",
+            data="Use Debug!",
+        ),
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
     )
 
