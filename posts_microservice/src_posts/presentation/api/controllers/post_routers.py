@@ -1,10 +1,16 @@
 from fastapi import (
     APIRouter,
     Depends,
+    Header,
     status,
 )
 from src_posts.application import (
+    CreatePostData,
+    DeletePostData,
+    FullTextSearchPostsData,
+    GetPostsData,
     PostService,
+    UpdatePostData,
     UserIsNotPostCreator,
 )
 from src_posts.presentation.api.controllers import (
@@ -28,7 +34,7 @@ async def get_user_posts(
     """
     Получение всех постов пользователя
     """
-    return await service.get_user_posts(data=data)
+    return await service.get_user_posts(data=GetPostsData(**data.dict()))
 
 
 @post_router.get(
@@ -43,7 +49,9 @@ async def full_text_posts_search(
     """
     Получение всех постов пользователя
     """
-    return await service.full_text_posts_search(data=data)
+    return await service.full_text_posts_search(
+        data=FullTextSearchPostsData(**data.dict())
+    )
 
 
 @post_router.post(
@@ -54,12 +62,16 @@ async def full_text_posts_search(
     response_model=resp.PostResponse,
 )
 async def create_post(
-    data: req.CreatePostRequest, service: PostService = Depends(get_service_stub)
+    data: req.CreatePostRequest,
+    service: PostService = Depends(get_service_stub),
+    x_user_id: int = Header(None),
 ):
     """
     Создание поста
     """
-    return await service.create_post(data=data)
+    return await service.create_post(
+        data=CreatePostData(creator_id=x_user_id, **data.dict())
+    )
 
 
 @post_router.delete(
@@ -71,12 +83,16 @@ async def create_post(
     response_model=resp.DeletedPostResponse,
 )
 async def delete_post(
-    data: req.DeletePostRequest, service: PostService = Depends(get_service_stub)
+    data: req.DeletePostRequest,
+    service: PostService = Depends(get_service_stub),
+    x_user_id: int = Header(None),
 ):
     """
     Удание поста пользователя
     """
-    return await service.delete_post(data=data)
+    return await service.delete_post(
+        data=DeletePostData(creator_id=x_user_id, **data.dict())
+    )
 
 
 @post_router.patch(
@@ -88,9 +104,13 @@ async def delete_post(
     response_model=resp.PostResponse,
 )
 async def update_post(
-    data: req.UpdatePostRequest, service: PostService = Depends(get_service_stub)
+    data: req.UpdatePostRequest,
+    service: PostService = Depends(get_service_stub),
+    x_user_id: int = Header(None),
 ):
     """
     Обнволение поста пользователя
     """
-    return await service.update_post(data=data)
+    return await service.update_post(
+        data=UpdatePostData(creator_id=x_user_id, **data.dict())
+    )

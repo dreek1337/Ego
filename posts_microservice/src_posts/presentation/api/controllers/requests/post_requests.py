@@ -1,27 +1,50 @@
-from src_posts.application import (
-    CreatePostData,
-    DeletePostData,
-    FullTextSearchPostsData,
-    GetPostsData,
-    UpdatePostData,
-)
+from pydantic import BaseModel
+from src_posts.application.posts.interfaces import GetPostsOrder
+from src_posts.domain import Empty
 
 
-class GetPostsRequest(GetPostsData):
-    """Модель запрсоа для полученяи постов"""
+class GetPostsRequest(BaseModel):
+    """
+    Модель запрсоа для полученяи постов
+    """
+
+    creator_id: int
+    offset: int | Empty = Empty.UNSET
+    limit: int | Empty = Empty.UNSET
+    order: GetPostsOrder = GetPostsOrder.ASC
 
 
-class FullTextSearchPostsRequest(FullTextSearchPostsData):
-    """Модель запрсоа для полученяи постов по тексту"""
+class FullTextSearchPostsRequest(BaseModel):
+    """
+    Модель запрсоа для полученяи постов по тексту
+    """
+
+    query_string: str
+    offset: int | Empty = Empty.UNSET
+    limit: int | Empty = Empty.UNSET
+    order: GetPostsOrder = GetPostsOrder.ASC
 
 
-class CreatePostRequest(CreatePostData):
-    """Модель для создания поста"""
+class CreatePostRequest(BaseModel):
+    """
+    Модель для создания поста
+    """
+
+    text_content: str
 
 
-class DeletePostRequest(DeletePostData):
-    """Модель для удаления поста"""
+class DeletePostRequest(BaseModel):
+    """
+    Модель для удаления поста
+    """
+
+    post_id: str
 
 
-class UpdatePostRequest(UpdatePostData):
-    """Модель для обнавления поста"""
+class UpdatePostRequest(BaseModel):
+    """
+    Модель для обнавления поста
+    """
+
+    post_id: str
+    text_content: str
