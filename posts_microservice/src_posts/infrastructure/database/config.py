@@ -1,26 +1,18 @@
-import os
-
 from pydantic import (
     BaseSettings,
     Field,
     root_validator,
 )
 
-env_file = ".env"
-cwd_path = os.getcwd()
-
-if os.path.basename(cwd_path) != "posts_microservice":
-    env_file = os.path.join(cwd_path, "posts_microservice", ".env")
-
 
 class ElasticEngine(BaseSettings):
-    port: int = Field(..., env="ELASTIC_PORT")
-    host: str = Field(..., env="ELASTIC_HOST")
-    password: str = Field(..., env="ELASTIC_PASSWORD")
-    username: str = Field(..., env="ELASTIC_USERNAME")
+    port: int = Field(5000, env="ELASTIC_PORT")
+    host: str = Field("host", env="ELASTIC_HOST")
+    password: str = Field("pass", env="ELASTIC_PASSWORD")
+    username: str = Field("username", env="ELASTIC_USERNAME")
 
     class Config:
-        env_file = env_file
+        env_file = ".env"
         env_file_encoding = "utf-8"
 
     @root_validator

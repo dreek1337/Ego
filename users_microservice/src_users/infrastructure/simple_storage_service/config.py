@@ -1,26 +1,18 @@
-import os
-
 from pydantic import (
     BaseSettings,
     Field,
     root_validator,
 )
 
-env_file = ".env"
-cwd_path = os.getcwd()
-
-if os.path.basename(cwd_path) != "users_microservice":
-    env_file = os.path.join(cwd_path, "users_microservice", ".env")
-
 
 class MinioConfig(BaseSettings):
-    host: str = Field(..., env="MINIO_HOST")
-    port: str = Field(..., env="MINIO_PORT")
-    aws_access_key_id: str = Field(..., env="MINIO_ROOT_PASSWORD")
-    aws_secret_access_key: str = Field(..., env="MINIO_ROOT_USER")
+    host: str = Field("host", env="MINIO_HOST")
+    port: str = Field("host", env="MINIO_PORT")
+    aws_access_key_id: str = Field("access_key", env="MINIO_ROOT_PASSWORD")
+    aws_secret_access_key: str = Field("secret_access_key", env="MINIO_ROOT_USER")
 
     class Config:
-        env_file = env_file
+        env_file = ".env"
         env_file_encoding = "utf-8"
 
     @root_validator
