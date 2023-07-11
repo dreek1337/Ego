@@ -38,8 +38,8 @@ jobs:
         DATABASE_PGDATA: pass
         DATABASE_PORT: 0000
         DATABASE_HOST: pass
-        ORM_ECHO_SETTINGS: pass
-        ORM_FUTURE_SETTINGS: pass
+        ORM_ECHO_SETTINGS: True
+        ORM_FUTURE_SETTINGS: True
         ORM_POOL_SIZE_SETTINGS: 1
         MINIO_ROOT_USER: pass
         MINIO_ROOT_PASSWORD: pass
