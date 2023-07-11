@@ -39,7 +39,7 @@ jobs:
         DATABASE_PORT: 0000
         DATABASE_HOST: pass
         ORM_ECHO_SETTINGS: True
-        ORM_FUTURE_SETTINGS: True
+        ORM_FUTURE_SETTINGS: pass # True
         ORM_POOL_SIZE_SETTINGS: 1
         MINIO_ROOT_USER: pass
         MINIO_ROOT_PASSWORD: pass
@@ -54,3 +54,8 @@ jobs:
         ELASTIC_HOST: pass
         KIBANA_PORT: 0000
         KIBANA_SYSTEM_PASSWORD: pass
+    - name: Cancel workflow on failure
+      uses: styfle/cancel-workflow-action@0.8.0
+      if: failure()
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
