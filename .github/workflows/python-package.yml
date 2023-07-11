@@ -28,3 +28,17 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+      env:
+        SITE_HOST: pass
+        SITE_PORT: pass
+
+        DATABASE_USER: pass
+        DATABASE_PASSWORD: pass
+        DATABASE_DB: pass
+        DATABASE_PGDATA: pass
+        DATABASE_PORT: pass
+        DATABASE_HOST: pass
+
+        ORM_ECHO_SETTINGS: pass
+        ORM_FUTURE_SETTINGS: pass
+        ORM_POOL_SIZE_SETTINGS: pass

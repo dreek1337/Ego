@@ -11,5 +11,5 @@ if os.path.basename(cwd_path) != "auth_microservice":
 
 class BaseConfigSettings(BaseSettings):
     class Config:
-        env_file = ".env"
+        env_file = env_file
         env_file_encoding = "utf-8"
