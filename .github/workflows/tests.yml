@@ -54,8 +54,3 @@ jobs:
         ELASTIC_HOST: pass
         KIBANA_PORT: 0000
         KIBANA_SYSTEM_PASSWORD: pass
-    - name: Delete commit on failure
-      if: failure()
-      run: |
-        git reset --hard HEAD~1
-        git push --force
