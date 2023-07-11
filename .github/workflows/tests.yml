@@ -54,8 +54,8 @@ jobs:
         ELASTIC_HOST: pass
         KIBANA_PORT: 0000
         KIBANA_SYSTEM_PASSWORD: pass
-    - name: Cancel workflow on failure
-      uses: styfle/cancel-workflow-action@0.8.0
+    - name: Delete commit on failure
       if: failure()
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git reset --hard HEAD~1
+        git push --force
