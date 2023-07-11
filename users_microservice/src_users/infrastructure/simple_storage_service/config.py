@@ -1,8 +1,16 @@
+import os
+
 from pydantic import (
     BaseSettings,
     Field,
     root_validator,
 )
+
+env_file = ".env"
+cwd_path = os.getcwd()
+
+if os.path.basename(cwd_path) != "users_microservice":
+    env_file = os.path.join(cwd_path, "users_microservice", ".env")
 
 
 class MinioConfig(BaseSettings):
@@ -12,9 +20,8 @@ class MinioConfig(BaseSettings):
     aws_secret_access_key: str = Field(..., env="MINIO_ROOT_USER")
 
     class Config:
-        env_file = ".env"
+        env_file = env_file
         env_file_encoding = "utf-8"
-        env_prefix = "users_microservice"
 
     @root_validator
     def make_endpoint(cls, values):

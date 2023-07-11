@@ -23,11 +23,11 @@ async def test_subscribe_correct(
 
     uow.subscription_repo.add_users(users_id=[0, 1])  # type: ignore
 
-    subscribe_data = SubscribeData(subscription_id=0, subscriber_id=1)
+    subscribe_data = SubscribeData(subscription_id=0, user_id=1)
 
     await user_service.subscribe(data=subscribe_data)
 
-    unsubscribe_data = UnsubscribeData(subscription_id=0, subscriber_id=1)
+    unsubscribe_data = UnsubscribeData(subscription_id=0, user_id=1)
 
     unsubscribe_result = await user_service.unsubscribe(data=unsubscribe_data)
 
@@ -44,7 +44,7 @@ async def test_unsubscribe_without_subscription(
 
     uow.subscription_repo.add_users(users_id=[0, 1])  # type: ignore
 
-    unsubscribe_data = UnsubscribeData(subscription_id=1, subscriber_id=0)
+    unsubscribe_data = UnsubscribeData(subscription_id=1, user_id=0)
 
     with pytest.raises(SubscribeIsNotExists):
         await user_service.unsubscribe(data=unsubscribe_data)
