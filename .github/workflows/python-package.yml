@@ -29,16 +29,28 @@ jobs:
       run: |
         pytest
       env:
+        AUTH_SECRET_KEY: pass
         SITE_HOST: pass
         SITE_PORT: 0000
-
         DATABASE_USER: pass
         DATABASE_PASSWORD: pass
         DATABASE_DB: pass
         DATABASE_PGDATA: pass
         DATABASE_PORT: 0000
         DATABASE_HOST: pass
-
         ORM_ECHO_SETTINGS: pass
         ORM_FUTURE_SETTINGS: pass
-        ORM_POOL_SIZE_SETTINGS: pass
+        ORM_POOL_SIZE_SETTINGS: 1
+        MINIO_ROOT_USER: pass
+        MINIO_ROOT_PASSWORD: pass
+        MINIO_PORT_2: 0000
+        MINIO_PORT: 0000
+        MINIO_HOST: pass
+        ELASTIC_VERSION: pass
+        ELASTIC_USERNAME: pass
+        ELASTIC_PASSWORD: pass
+        ELASTIC_PORT: 0000
+        ELASTIC_TCP_PORT: 0000
+        ELASTIC_HOST: pass
+        KIBANA_PORT: 0000
+        KIBANA_SYSTEM_PASSWORD: pass
