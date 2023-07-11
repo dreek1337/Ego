@@ -195,8 +195,8 @@ class SubscriptionRepoImpl(SQLAlchemyRepo, app.SubscriptionRepo):
         Отписаться от пользователя
         """
         query = delete(Subscriptions).where(
-            Subscriptions.subscription_id == (subscription.subscription_user_id.to_int),
-            Subscriptions.subscriber_id == (subscription.subscriber_user_id.to_int),
+            Subscriptions.subscription_id == subscription.subscription_user_id.to_int,
+            Subscriptions.subscriber_id == subscription.subscriber_user_id.to_int,
         )
 
         await self._session.execute(query)

@@ -5,5 +5,5 @@ from src_auth.config.settings.base import BaseConfigSettings
 
 
 class JWTSettings(BaseConfigSettings):
-    authjwt_secret_key: str = Field(..., env="AUTH_SECRET_KEY")
+    authjwt_secret_key: str = Field("secret_key", env="AUTH_SECRET_KEY")
     authjwt_access_token_expires: timedelta = timedelta(minutes=60)
