@@ -65,6 +65,10 @@ async def handle_app_error(
 
 
 async def handle_jwt_error(
-    *, request: Request, err: BaseJWTException
+    request: Request, err: BaseJWTException, *args, **kwargs
 ) -> ORJSONResponse:
-    return ORJSONResponse(status_code=err.status_code, content={"detail": err.message})
+    print()
+    return ORJSONResponse(
+        ErrorResult(message=err.message, data="JWTException"),
+        status_code=err.status_code,
+    )

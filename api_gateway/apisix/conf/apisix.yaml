@@ -128,10 +128,11 @@ routes:
     name: create-user
     uri: /users/create_user
     plugins:
-      forward-auth:
-        uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/verify
-        request_headers: ["Authorization"]
-        upstream_headers: ["X-User-ID"]
+      plugins:
+        proxy-rewrite:
+          uri: /auth/verify
+          headers:
+            Host: ${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}
     upstream_id: 1
 
 #END

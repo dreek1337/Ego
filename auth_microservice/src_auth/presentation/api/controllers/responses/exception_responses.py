@@ -9,7 +9,7 @@ from pydantic.generics import GenericModel
 ExcData = TypeVar("ExcData")
 
 
-@dataclass
+@dataclass(frozen=True)
 class ErrorResult(GenericModel, Generic[ExcData]):
     message: str
     data: ExcData
