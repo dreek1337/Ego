@@ -2,12 +2,12 @@ upstreams:
   - id: 1
     type: roundrobin
     nodes:
-      ${{APISIX_USERS_MS_HOST}}:${{APISIX_USERS_MS_PORT}}: 1
+      ${APISIX_USERS_MS_HOST}:${APISIX_USERS_MS_PORT}: 1
     healthcheck:
       active:
         type: http
         http_path: /health_check
-        host: ${{APISIX_USERS_MS_HOST}}
+        host: ${APISIX_USERS_MS_HOST}
         healthy:
           interval: 1
           successes: 2
@@ -41,12 +41,12 @@ upstreams:
   - id: 2
     type: roundrobin
     nodes:
-      ${{APISIX_AUTH_MS_HOST}}:${{APISIX_AUTH_MS_PORT}}: 1
+      ${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}: 1
     healthcheck:
       active:
         type: http
-        http_path: /health_check
-        host: ${{APISIX_AUTH_MS_HOST}}
+        http_path: /
+        host: ${APISIX_AUTH_MS_HOST}
         healthy:
           interval: 1
           successes: 2
@@ -80,12 +80,12 @@ upstreams:
   - id: 3
     type: roundrobin
     nodes:
-      ${{APISIX_POSTS_MS_HOST}}:${{APISIX_POSTS_MS_PORT}}: 1
+      ${APISIX_POSTS_MS_HOST}:${APISIX_POSTS_MS_PORT}: 1
     healthcheck:
       active:
         type: http
-        http_path: /health_check
-        host: ${{APISIX_POSTS_MS_HOST}}
+        http_path: /
+        host: ${APISIX_POSTS_MS_HOST}
         healthy:
           interval: 1
           successes: 2
@@ -118,7 +118,6 @@ upstreams:
             - 505
 routes:
   - id: 1
-    methods: ["GET"]
     name: user-info
     uri: /users/info
     query:
@@ -126,12 +125,11 @@ routes:
     upstream_id: 1
 
   - id: 2
-    methods: ["POST"]
     name: create-user
     uri: /users/create_user
     plugins:
       forward-auth:
-        uri: http://${{APISIX_AUTH_MS_HOST}}:${{APISIX_AUTH_MS_PORT}}/verify
+        uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/verify
         request_headers: ["Authorization"]
         upstream_headers: ["X-User-ID"]
     upstream_id: 1

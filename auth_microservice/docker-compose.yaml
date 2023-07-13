@@ -3,6 +3,7 @@ version: '3.9'
 name: my-microservices
 services:
   auth-database:
+    container_name: auth.database
     image: postgres:14-alpine
     restart: always
     environment:
@@ -11,39 +12,44 @@ services:
       POSTGRES_DB: ${DATABASE_DB}
       PGDATA: ${DATABASE_PGDATA}
     ports:
-      - ${DATABASE_PORT}:5432
+      - ${DATABASE_PORT}:${DATABASE_PORT}
     volumes:
       - ${DATABASE_PGDATA}
+    command: ["postgres", "-c", "port=${DATABASE_PORT}"]
+#      - "postgres"
+#      - "-c"
+#      - "port=5431"
     env_file:
       - .env
     networks:
       my-ms:
 
   auth-postgres-migration:
-    container_name: auth-migrations
-    build:
-      context: .
+    container_name: auth.migrations
+    build: .
     restart: on-failure
-    depends_on:
-      - auth-database
     volumes:
       - ./alembic.ini:/app/alembic.ini:ro
-      - ./src_auth/infrastructure/database/migrations:/app/src_auth/infrastructure/database/migrations:ro
+      - ./src_auth/infra/database/migrations:/app/src_auth/infra/database/migrations:ro
     command: ["python", "-m", "alembic", "upgrade", "head"]
+    depends_on:
+      auth-database:
+        condition: service_started
     networks:
       my-ms:
 
   auth-fastapi-app:
-    container_name: auth-web-app
+    container_name: auth.app
     build: .
     command: python run_auth.py
+    restart: always
     ports:
       - ${SITE_PORT}:${SITE_PORT}
-    depends_on:
-      - auth-database
-    restart: always
     env_file:
       - .env
+    depends_on:
+      auth-database:
+        condition: service_started
     networks:
       my-ms:
 
