@@ -1,9 +1,10 @@
-version: '3'
+version: "3.9"
 
+name: my-microservices
 services:
-
-  database:
+  users-database:
     image: postgres:14-alpine
+    container_name: users-database
     restart: always
     environment:
       POSTGRES_USER: ${DATABASE_USER}
@@ -16,32 +17,41 @@ services:
       - ${DATABASE_PGDATA}
     env_file:
       - .env
+    networks:
+      my-ms:
 
-  postgres_migration:
-    container_name: migrations
+  users-postgres-migration:
+    container_name: users-migrations
     build:
       context: .
     restart: on-failure
     depends_on:
-      - database
+      - users-database
     volumes:
       - ./alembic.ini:/app/alembic.ini:ro
       - ./src_users/infrastructure/database/migrations:/app/src_users/infrastructure/database/migrations:ro
     command: ["python", "-m", "alembic", "upgrade", "head"]
+    env_file:
+      - .env
+    networks:
+      my-ms:
 
-  fastapi-app:
-    container_name: app_fast
+  users-fastapi-app:
+    container_name: users-web-app
     build: .
     command: python run_users.py
     ports:
       - ${SITE_PORT}:${SITE_PORT}
     depends_on:
-      - database
+      - users-database
     restart: always
     env_file:
       - .env
+    networks:
+      my-ms:
 
   minio:
+    container_name: minio-server
     image: minio/minio
     restart: always
     environment:
@@ -56,6 +66,12 @@ services:
     ports:
         - ${MINIO_HOST}:${MINIO_PORT}:${MINIO_PORT}
         - ${MINIO_PORT_2}:${MINIO_PORT_2}
+    networks:
+      my-ms:
+
+networks:
+  my-ms:
+    driver: bridge
 
 volumes:
   minio_data:

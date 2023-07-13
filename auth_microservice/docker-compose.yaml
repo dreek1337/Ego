@@ -1,8 +1,8 @@
-version: '3'
+version: '3.9'
 
+name: my-microservices
 services:
-
-  database:
+  auth-database:
     image: postgres:14-alpine
     restart: always
     environment:
@@ -16,15 +16,37 @@ services:
       - ${DATABASE_PGDATA}
     env_file:
       - .env
+    networks:
+      my-ms:
 
-    postgres_migration:
-    container_name: migrations
+  auth-postgres-migration:
+    container_name: auth-migrations
     build:
       context: .
     restart: on-failure
     depends_on:
-      - database
+      - auth-database
     volumes:
       - ./alembic.ini:/app/alembic.ini:ro
       - ./src_auth/infrastructure/database/migrations:/app/src_auth/infrastructure/database/migrations:ro
     command: ["python", "-m", "alembic", "upgrade", "head"]
+    networks:
+      my-ms:
+
+  auth-fastapi-app:
+    container_name: auth-web-app
+    build: .
+    command: python run_auth.py
+    ports:
+      - ${SITE_PORT}:${SITE_PORT}
+    depends_on:
+      - auth-database
+    restart: always
+    env_file:
+      - .env
+    networks:
+      my-ms:
+
+networks:
+  my-ms:
+    driver: bridge

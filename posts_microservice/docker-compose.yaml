@@ -1,5 +1,6 @@
-version: '3.7'
+version: "3.9"
 
+name: my-microservices
 services:
   setup:
     profiles:
@@ -23,11 +24,12 @@ services:
       MONITORING_INTERNAL_PASSWORD: ${MONITORING_INTERNAL_PASSWORD:-}
       BEATS_SYSTEM_PASSWORD: ${BEATS_SYSTEM_PASSWORD:-}
     networks:
-      - elk
+      my-ms:
     depends_on:
-      - elasticsearch
+      - posts-elasticsearch
 
-  elasticsearch:
+  posts-elasticsearch:
+    container_name: posts-elasticsearch
     build:
       context: elasticsearch/
       args:
@@ -44,12 +46,13 @@ services:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
       discovery.type: single-node
     networks:
-      - elk
+      my-ms:
     restart: unless-stopped
     env_file:
       - .env
 
-  kibana:
+  posts-kibana:
+    container_name: posts-kibana
     build:
       context: kibana/
       args:
@@ -61,14 +64,15 @@ services:
     environment:
       KIBANA_SYSTEM_PASSWORD: ${KIBANA_SYSTEM_PASSWORD:-}
     networks:
-      - elk
+      my-ms:
     depends_on:
-      - elasticsearch
+      - posts-elasticsearch
     restart: unless-stopped
     env_file:
       - .env
 
-  curator:
+  posts-curator:
+    container_name: posts-curator
     build:
       context: curator/
     command: --config ./.curator/curator.yml /.curator/create_post_index.yml
@@ -78,25 +82,26 @@ services:
     environment:
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
     networks:
-      - elk
+      my-ms:
     depends_on:
-      - elasticsearch
+      - posts-elasticsearch
 
-  fastapi-app:
+  posts-fastapi-app:
+    container_name: posts-web-app
     build: .
     command: python run_posts.py
     ports:
       - ${SITE_PORT}:${SITE_PORT}
     depends_on:
-      - elasticsearch
+      - posts-elasticsearch
     restart: always
     networks:
-      - elk
+      my-ms:
     env_file:
       - .env
 
 networks:
-  elk:
+  my-ms:
     driver: bridge
 
 volumes:

@@ -5,4 +5,4 @@ from pydantic import (
 
 
 class HealthCheckResponse(BaseModel):
-    response: str = Field(..., description="Ответ сервера")
+    response: str = Field("OK", description="Ответ сервера")

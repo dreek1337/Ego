@@ -1,5 +1,8 @@
-from pydantic import BaseModel
+from pydantic import (
+    BaseModel,
+    Field,
+)
 
 
 class HealthCheckResponse(BaseModel):
-    response: str = "OK"
+    response: str = Field("OK", description="Ответ сервера")
