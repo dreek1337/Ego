@@ -131,10 +131,9 @@ routes:
     uri: /users/create_user
     plugins:
       forward-auth:
-        uri: /verify
+        uri: http://${{APISIX_AUTH_MS_HOST}}:${{APISIX_AUTH_MS_PORT}}/verify
         request_headers: ["Authorization"]
         upstream_headers: ["X-User-ID"]
-        upstream_id: 2
     upstream_id: 1
 
 #END
