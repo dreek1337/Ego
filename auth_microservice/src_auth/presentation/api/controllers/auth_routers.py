@@ -86,7 +86,7 @@ async def token_verify(
     """
     user_id = await service.verify_token(authorize=authorize)
     response.headers["X-User-ID"] = str(user_id)
-    return VerifyStatus
+    return VerifyStatus()
 
 
 @auth_routers.get(
