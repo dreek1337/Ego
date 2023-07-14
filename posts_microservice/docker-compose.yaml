@@ -27,6 +27,8 @@ services:
       my-ms:
     depends_on:
       - posts-elasticsearch
+    env_file:
+      - .env
 
   posts-elasticsearch:
     container_name: posts-elasticsearch

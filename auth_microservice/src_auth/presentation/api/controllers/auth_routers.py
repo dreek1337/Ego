@@ -23,6 +23,7 @@ from .requests.auth_requests import (
 from .responses.auth_response import (
     RefreshTokenResponse,
     TokensResponse,
+    VerifyStatus,
 )
 from .responses.exception_responses import ErrorResult
 
@@ -70,10 +71,10 @@ async def user_login(
 @auth_routers.get(
     path="/verify",
     responses={
-        status.HTTP_200_OK: {"model": None},
+        status.HTTP_200_OK: {"model": VerifyStatus},
         status.HTTP_404_NOT_FOUND: {"model": ErrorResult[UserIsNotExists]},
     },
-    response_model=dict,
+    response_model=VerifyStatus,
 )
 async def token_verify(
     response: Response,
@@ -85,7 +86,7 @@ async def token_verify(
     """
     user_id = await service.verify_token(authorize=authorize)
     response.headers["X-User-ID"] = str(user_id)
-    return {"Response": "Done"}
+    return VerifyStatus
 
 
 @auth_routers.get(
