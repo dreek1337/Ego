@@ -2,3 +2,12 @@ deployment:
     role: data_plane
     role_data_plane:
        config_provider: yaml
+
+plugins:
+  - forward-auth
+
+plugin_attr:
+  forward-auth:
+    uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
+    request_headers: ["Authorization"]
+    upstream_headers: ["X-User-ID"]
