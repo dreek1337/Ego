@@ -1,3 +1,5 @@
+from typing import Union
+
 from fastapi import (
     APIRouter,
     Depends,
@@ -73,7 +75,7 @@ async def user_login(
         status.HTTP_200_OK: {"model": None},
         status.HTTP_404_NOT_FOUND: {"model": ErrorResult[UserIsNotExists]},
     },
-    response_model=Response,
+    response_model=Union[Response, dict, None],
 )
 async def token_verify(
     response: Response,
