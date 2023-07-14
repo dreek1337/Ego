@@ -5,9 +5,3 @@ deployment:
 
 plugins:
   - forward-auth
-
-plugin_attr:
-  forward-auth:
-    uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
-    request_headers: ["Authorization"]
-    upstream_headers: ["X-User-ID"]
