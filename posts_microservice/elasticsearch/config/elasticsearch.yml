@@ -1,7 +1,7 @@
 ---
 ## Elasticsearch configuration
 cluster.name: docker-cluster
-network.host: 0.0.0.0
+network.host: ${{ELASTIC_HOST}}
 
 xpack.license.self_generated.type: trial
 xpack.security.enabled: true
