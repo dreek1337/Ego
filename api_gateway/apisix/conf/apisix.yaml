@@ -17,8 +17,7 @@ upstreams:
         unhealthy:
           interval: 1
           http_failures: 2
-        req_headers:
-          - User-Agent: curl/7.29.0
+        req_headers: ["User-Agent: curl/7.29.0"]
       passive:
         healthy:
           http_statuses:
@@ -48,8 +47,7 @@ upstreams:
         unhealthy:
           interval: 1
           http_failures: 2
-        req_headers:
-          - User-Agent: curl/7.29.0
+        req_headers: ["User-Agent: curl/7.29.0"]
       passive:
         healthy:
           http_statuses:
@@ -79,8 +77,7 @@ upstreams:
         unhealthy:
           interval: 1
           http_failures: 2
-        req_headers:
-          - User-Agent: curl/7.29.0
+        req_headers: ["User-Agent: curl/7.29.0"]
       passive:
         healthy:
           http_statuses:
