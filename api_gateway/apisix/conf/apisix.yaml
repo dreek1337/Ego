@@ -1,4 +1,5 @@
 upstreams:
+# Users service
   - id: 1
     type: roundrobin
     nodes:
@@ -7,8 +8,7 @@ upstreams:
     checks:
       active:
         timeout: 5
-        http_path: /status
-        host: foo.com
+        http_path: /
         healthy:
           interval: 2
           successes: 1
@@ -28,7 +28,7 @@ upstreams:
             - 500
           http_failures: 3
           tcp_failures: 3
-
+# Auth service
   - id: 2
     type: roundrobin
     nodes:
@@ -37,8 +37,7 @@ upstreams:
     checks:
       active:
         timeout: 5
-        http_path: /status
-        host: foo.com
+        http_path: /
         healthy:
           interval: 2
           successes: 1
@@ -58,7 +57,7 @@ upstreams:
             - 500
           http_failures: 3
           tcp_failures: 3
-
+# Post service
   - id: 3
     type: roundrobin
     nodes:
@@ -67,8 +66,7 @@ upstreams:
     checks:
       active:
         timeout: 5
-        http_path: /status
-        host: foo.com
+        http_path: /
         healthy:
           interval: 2
           successes: 1
@@ -90,9 +88,8 @@ upstreams:
           tcp_failures: 3
 
 routes:
-
+# Users Service
 # Users routers
-
   - id: 1
     methods: ["GET"]
     name: user-info
@@ -111,7 +108,7 @@ routes:
     upstream_id: 1
 
   - id: 3
-    methods: ["POST"]
+    methods: ["PATCH"]
     name: user-update
     uri: /users/update_user_info
     plugins:
@@ -122,7 +119,7 @@ routes:
     upstream_id: 1
 
   - id: 4
-    methods: ["POST"]
+    methods: ["DELETE"]
     name: user-delete
     uri: /users/delete_user
     plugins:
@@ -133,7 +130,6 @@ routes:
     upstream_id: 1
 
 # Subscription routers
-
   - id: 5
     methods: ["POST"]
     name: subscription-subscribe
@@ -146,7 +142,7 @@ routes:
     upstream_id: 1
 
   - id: 6
-    methods: ["POST"]
+    methods: ["DELETE"]
     name: subscription-unsubscribe
     uri: /subscription/unsubscribe
     plugins:
@@ -170,7 +166,7 @@ routes:
 
 # Avatars routers
   - id: 9
-    methods: [ "POST" ]
+    methods: ["POST"]
     name: avatars-set_avatar
     uri: /avatars/set_avatar
     plugins:
@@ -181,14 +177,89 @@ routes:
     upstream_id: 1
 
   - id: 10
-    methods: [ "POST" ]
+    methods: ["DELETE"]
     name: avatars-delete_avatar
     uri: /avatars/delete_avatar
     plugins:
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
-        request_headers: [ "Authorization" ]
-        upstream_headers: [ "x-user-id" ]
+        request_headers: ["Authorization"]
+        upstream_headers: ["x-user-id"]
     upstream_id: 1
 
+# Posts Service
+# Posts routers
+  - id: 11
+    methods: ["GET"]
+    name: posts-user_posts
+    uri: /posts/user_posts
+    upstream_id: 3
+
+  - id: 12
+    methods: ["GET"]
+    name: posts-full_text_search
+    uri: /posts/full_text_search
+    upstream_id: 3
+
+  - id: 13
+    methods: ["POST"]
+    name: posts-create_post
+    uri: /posts/create_post
+    plugins:
+      forward-auth:
+        uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
+        request_headers: ["Authorization"]
+        upstream_headers: ["x-user-id"]
+    upstream_id: 3
+
+  - id: 14
+    methods: ["DELETE"]
+    name: posts-delete_post
+    uri: /posts/delete_post
+    plugins:
+      forward-auth:
+        uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
+        request_headers: ["Authorization"]
+        upstream_headers: ["x-user-id"]
+    upstream_id: 3
+
+  - id: 15
+    methods: ["PATCH"]
+    name: posts-update_post
+    uri: /posts/update_post
+    plugins:
+      forward-auth:
+        uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
+        request_headers: ["Authorization"]
+        upstream_headers: ["x-user-id"]
+    upstream_id: 3
+
+# Auth Service
+# Auth routes
+  - id: 16
+    methods: ["POST"]
+    name: auth-registration
+    uri: /auth/registration
+    upstream_id: 2
+
+  - id: 17
+    methods: ["POST"]
+    name: auth-login
+    uri: /auth/login
+    upstream_id: 2
+
+  - id: 18
+    methods: ["GET"]
+    name: auth-refresh
+    uri: /auth/refresh
+    upstream_id: 2
+
+# Auth-users routes
+  - id: 19
+    methods: ["PATCH"]
+    name: auth-users-update_user
+    uri: /auth/users/update_user
+    upstream_id: 2
+
+# Сделать путь для формирования профиля ( объединения постов и информации о пользователе )
 #END

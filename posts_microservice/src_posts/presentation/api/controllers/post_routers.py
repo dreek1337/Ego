@@ -19,11 +19,11 @@ from src_posts.presentation.api.controllers import (
 )
 from src_posts.presentation.api.di import get_service_stub
 
-post_router = APIRouter(tags=["posts"])
+post_router = APIRouter(tags=["posts"], prefix="/posts")
 
 
 @post_router.get(
-    path="/posts",
+    path="/user_posts",
     responses={status.HTTP_200_OK: {"model": resp.PostsResponse}},
     response_model=resp.PostsResponse,
 )

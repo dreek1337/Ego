@@ -13,7 +13,7 @@ from ..di.providers import (
 from .requests.user_requests import UpdateUserRequest
 from .responses.user_responses import UpdateUserResponse
 
-user_routers = APIRouter(prefix="/auth/user", tags=["user"])
+user_routers = APIRouter(prefix="/auth/users", tags=["users"])
 
 
 @user_routers.patch(

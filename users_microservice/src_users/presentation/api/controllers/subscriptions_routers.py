@@ -56,7 +56,7 @@ async def subscribe(
     )
 
 
-@subscription_routers.post(
+@subscription_routers.delete(
     path="/unsubscribe",
     responses={
         status.HTTP_200_OK: {"model": UnsubscribeResponse},
