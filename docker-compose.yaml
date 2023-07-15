@@ -3,7 +3,7 @@ version: "3.9"
 name: my-microservices
 services:
   apisix:
-    container_name: apisix-con
+    container_name: apisix.gateway
     build: api_gateway/apisix
     restart: always
     ports:
