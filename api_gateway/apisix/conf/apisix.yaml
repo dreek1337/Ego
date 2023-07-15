@@ -9,6 +9,7 @@ upstreams:
       active:
         timeout: 5
         http_path: /
+        host: ${APISIX_USERS_MS_HOST}:${APISIX_USERS_MS_PORT}
         healthy:
           interval: 2
           successes: 1
@@ -38,6 +39,7 @@ upstreams:
       active:
         timeout: 5
         http_path: /
+        host: ${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}
         healthy:
           interval: 2
           successes: 1
@@ -67,6 +69,7 @@ upstreams:
       active:
         timeout: 5
         http_path: /
+        host: ${APISIX_POSTS_MS_HOST}:${APISIX_POSTS_MS_PORT}
         healthy:
           interval: 2
           successes: 1
