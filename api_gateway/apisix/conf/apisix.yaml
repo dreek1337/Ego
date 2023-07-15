@@ -89,7 +89,13 @@ upstreams:
             - 500
           http_failures: 3
           tcp_failures: 3
-
+services:
+  - name: auth-service
+    plugins:
+      forward-auth:
+        uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
+        request_headers: [ "Authorization" ]
+        upstream_headers: [ "x-user-id" ]
 routes:
 # Users Service
 # Users routers
@@ -103,11 +109,7 @@ routes:
     methods: ["POST"]
     name: user-create
     uri: /users/create_user
-    plugins:
-      forward-auth:
-        uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
-        request_headers: ["Authorization"]
-        upstream_headers: ["x-user-id"]
+    service_id: auth-service
     upstream_id: 1
 
   - id: 3
