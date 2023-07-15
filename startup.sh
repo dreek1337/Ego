@@ -1,4 +1,6 @@
 #!/bin/bash
+# Add variables
+source .env
 
 # Clean Docker
 sudo docker stop $(sudo docker ps -qa)
@@ -15,4 +17,16 @@ sudo docker compose -f users_microservice/docker-compose.yaml up -d
 sudo docker compose up -d
 
 # Start bash script into container
-sudo docker exec apisix-con bash -c "./configure_variables.sh"
+sudo docker exec $APISIX_HOST bash -c "./configure_variables.sh"
+
+# Reset iptables to the default settings
+# sudo iptables -F
+
+# Block ports and accept host for blocked ports
+export APISIX_CON_IP=$(sudo docker container inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $APISIX_HOST)
+
+for service_port in $APISIX_USERS_MS_PORT $APISIX_AUTH_MS_PORT $APISIX_POSTS_MS_PORT
+do
+    sudo iptables -I DOCKER 1 -p tcp --dport $service_port -j DROP
+    sudo iptables -I DOCKER 1 -p tcp --dport $service_port  -s $APISIX_CON_IP -j ACCEPT
+done
