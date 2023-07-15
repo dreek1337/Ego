@@ -4,6 +4,3 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
 USER root
-RUN apt-get update && apt-get install -y iptables
-RUN iptables -A INPUT -p tcp --dport $SITE_PORT -s $APISIX_HOST -j ACCEPT
-RUN iptables -A INPUT -p tcp --dport $SITE_PORT -j DROP
