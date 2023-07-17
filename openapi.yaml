@@ -3,7 +3,7 @@ info:
   title: Ego Microservices
   version: 1.0.0
 servers:
-  - url: http://${APISIX_HOST}:${APISIX_PORT}
+  - url: http://${HOST_FOR_SWAGGER}:${APISIX_PORT}
 paths:
   /auth/registration:
     post:
