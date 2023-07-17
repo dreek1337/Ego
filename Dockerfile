@@ -14,6 +14,6 @@ COPY openapi.yaml ./openapi_no_env.yaml
 
 USER root
 
-RUN apk update && apk upgrade
+RUN apk update && apk add gettext
 
 RUN /bin/sh -c "envsubst < openapi_no_env.yaml > openapi.yaml"
