@@ -29,7 +29,7 @@ services:
     build:
       context: .
       args:
-        APISIX_ENV_HOST: ${APISIX_HOST}
+        APISIX_ENV_HOST: ${HOST_FOR_SWAGGER}
         APISIX_ENV_PORT: ${APISIX_PORT}
     container_name: swagger.ui
     ports:
