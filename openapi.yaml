@@ -12,6 +12,7 @@ paths:
       summary: User Registration
       description: Регистрация пользователя
       operationId: user_registration_auth_registration_post
+      x-allowed-origins: "*"
       requestBody:
         content:
           application/json:
