@@ -2,6 +2,9 @@
 # Add variables
 source .env
 
+# Reset iptables to the default settings
+sudo iptables -F
+
 # Clean Docker
 sudo docker stop $(sudo docker ps -qa)
 sudo docker rm $(sudo docker ps -qa)
@@ -15,9 +18,6 @@ sudo docker compose -f posts_microservice/docker-compose.yaml up -d
 sudo docker compose -f auth_microservice/docker-compose.yaml up -d
 sudo docker compose -f users_microservice/docker-compose.yaml up -d
 sudo docker compose up -d
-
-# Reset iptables to the default settings
-sudo iptables -F
 
 # Block ports and accept host for blocked ports
 export APISIX_CON_IP=$(sudo docker container inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $APISIX_HOST)

@@ -76,14 +76,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /auth/verify:
-    security:
-      - bearerAuth: []
     get:
       tags:
         - auth
       summary: Token Verify
       description: Проверка токена
       operationId: token_verify_auth_verify_get
+      parameters:
+        - name: Authorization
+          in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Successful Response
@@ -98,14 +104,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResult_UserIsNotExists_'
   /auth/refresh:
-    security:
-      - bearerAuth: []
     get:
       tags:
         - auth
       summary: Token Refresh
       description: Обновление токена
       operationId: token_refresh_auth_refresh_get
+      parameters:
+        - name: Authorization
+          in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Successful Response
@@ -114,14 +126,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/RefreshTokenResponse'
   /auth/update_login_data:
-    security:
-      - bearerAuth: []
     patch:
       tags:
         - auth
       summary: Update User Data
       description: Обнавление данных пользователя
       operationId: update_user_data_auth_users_update_user_patch
+      parameters:
+        - name: Authorization
+          in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -175,8 +193,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /users/create_user:
-    security:
-      - bearerAuth: []
     post:
       tags:
         - users
@@ -184,12 +200,13 @@ paths:
       description: Создание пользователя
       operationId: create_user_users_create_user_post
       parameters:
-        - required: false
-          schema:
-            type: integer
-            title: X-User-Id
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -223,8 +240,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /users/update_user_info:
-    security:
-      - bearerAuth: []
     patch:
       tags:
         - users
@@ -232,12 +247,13 @@ paths:
       description: Обновление данных пользователя
       operationId: update_user_info_users_update_user_info_patch
       parameters:
-        - required: false
-          schema:
-            type: integer
-            title: X-User-Id
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -271,8 +287,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /users/delete_user:
-    security:
-      - bearerAuth: []
     delete:
       tags:
         - users
@@ -280,12 +294,13 @@ paths:
       description: Удаление пользователя
       operationId: delete_user_users_delete_user_delete
       parameters:
-        - required: false
-          schema:
-            type: integer
-            title: X-User-Id
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Successful Response
@@ -312,8 +327,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /avatars/set_avatar:
-    security:
-      - bearerAuth: []
     post:
       tags:
         - avatars
@@ -321,12 +334,13 @@ paths:
       description: Установка аватарки у пользователя
       operationId: set_avatar_avatars_set_avatar_post
       parameters:
-        - required: false
-          schema:
-            type: integer
-            title: X-User-Id
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           multipart/form-data:
@@ -365,8 +379,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /avatars/delete_avatar:
-    security:
-      - bearerAuth: []
     delete:
       tags:
         - avatars
@@ -374,12 +386,13 @@ paths:
       description: Удаление аватарки у пользователя
       operationId: delete_avatar_avatars_delete_avatar_delete
       parameters:
-        - required: false
-          schema:
-            type: integer
-            title: X-User-Id
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Successful Response
@@ -400,8 +413,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /subscription/subscribe:
-    security:
-      - bearerAuth: []
     post:
       tags:
         - subscription
@@ -409,12 +420,13 @@ paths:
       description: Оформление подписки
       operationId: subscribe_subscription_subscribe_post
       parameters:
-        - required: false
-          schema:
-            type: integer
-            title: X-User-Id
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -459,8 +471,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /subscription/unsubscribe:
-    security:
-      - bearerAuth: []
     delete:
       tags:
         - subscription
@@ -468,12 +478,13 @@ paths:
       description: Отписка от пользователя
       operationId: unsubscribe_subscription_unsubscribe_delete
       parameters:
-        - required: false
-          schema:
-            type: integer
-            title: X-User-Id
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -720,8 +731,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /posts/create_post:
-    security:
-      - bearerAuth: []
     post:
       tags:
         - posts
@@ -729,12 +738,13 @@ paths:
       description: Создание поста
       operationId: create_post_posts_create_post_post
       parameters:
-        - required: false
-          schema:
-            title: X-User-Id
-            type: integer
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -761,8 +771,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /posts/delete_post:
-    security:
-      - bearerAuth: []
     delete:
       tags:
         - posts
@@ -770,12 +778,13 @@ paths:
       description: Удание поста пользователя
       operationId: delete_post_posts_delete_post_delete
       parameters:
-        - required: false
-          schema:
-            title: X-User-Id
-            type: integer
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -802,8 +811,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /posts/update_post:
-    security:
-      - bearerAuth: []
     patch:
       tags:
         - posts
@@ -811,12 +818,13 @@ paths:
       description: Обнволение поста пользователя
       operationId: update_post_posts_update_post_patch
       parameters:
-        - required: false
-          schema:
-            title: X-User-Id
-            type: integer
-          name: x-user-id
+        - name: Authorization
           in: header
+          description:
+            Enter the token with the 'Bearer:' prefix.
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -1675,8 +1683,3 @@ components:
           default: Done
       type: object
       title: VerifyStatus
-    securitySchemes:
-      bearerAuth:
-        type: http
-        scheme: bearer
-        bearerFormat: JWT
