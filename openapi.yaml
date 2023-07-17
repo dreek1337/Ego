@@ -12,7 +12,6 @@ paths:
       summary: User Registration
       description: Регистрация пользователя
       operationId: user_registration_auth_registration_post
-      x-allowed-origins: "*"
       requestBody:
         content:
           application/json:
@@ -1684,3 +1683,10 @@ components:
           default: Done
       type: object
       title: VerifyStatus
+x-flat-cors:
+  allowOrigins: ["http://${HOST_FOR_SWAGGER}:${APISIX_PORT}"]
+  allowMethods: ["GET", "POST", "PATCH", "DELETE"]
+  allowHeaders: ["Content-Type", "Authorization"]
+  exposeHeaders: ["X-Total-Count"]
+  allowCredentials: true
+  maxAge: 86400
