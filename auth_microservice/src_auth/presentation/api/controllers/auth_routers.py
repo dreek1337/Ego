@@ -19,10 +19,12 @@ from ..di.providers import (
 from .requests.auth_requests import (
     LoginRequest,
     RegistrationRequest,
+    UpdateLoginUserRequest,
 )
 from .responses.auth_response import (
     RefreshTokenResponse,
     TokensResponse,
+    UpdateLoginUserResponse,
     VerifyStatus,
 )
 from .responses.exception_responses import ErrorResult
@@ -102,3 +104,19 @@ async def token_refresh(
     Обновление токена
     """
     return await service.refresh_token(authorize=authorize)
+
+
+@auth_routers.patch(
+    path="/update_login_data",
+    responses={status.HTTP_200_OK: {"model": UpdateLoginUserResponse}},
+    response_model=UpdateLoginUserResponse,
+)
+async def update_user_data(
+    data: UpdateLoginUserRequest,
+    authorize: AuthJWT = Depends(get_auth_jwt_stub),
+    service: AuthService = Depends(get_service_stub),
+):
+    """
+    Обнавление данных пользователя
+    """
+    return await service.update_user_data(data=data, authorize=authorize)

@@ -71,8 +71,8 @@ class UpdateUserData(BaseDataModel):
     Данные для обнавления пароля и почты
     """
 
-    password: str | Empty = Field(Empty.UNSET.value)
-    user_email: EmailStr | Empty = Field(Empty.UNSET.value)
+    password: str | Empty = Field(default=Empty.UNSET.value)
+    user_email: EmailStr | Empty = Field(default=Empty.UNSET.value)
 
     @validator("password")
     def check_password(cls, password):

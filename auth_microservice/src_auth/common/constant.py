@@ -1,8 +1,5 @@
-from enum import (
-    Enum,
-    auto,
-)
+from enum import Enum
 
 
 class Empty(str, Enum):
-    UNSET = auto()
+    UNSET = "UNSET"

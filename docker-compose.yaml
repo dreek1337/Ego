@@ -4,7 +4,15 @@ name: my-microservices
 services:
   apisix:
     container_name: apisix.gateway
-    build: api_gateway/apisix
+    build:
+      context: api_gateway/apisix
+      args:
+        APISIX_ENV_USERS_MS_HOST: ${APISIX_USERS_MS_HOST}
+        APISIX_ENV_USERS_MS_PORT: ${APISIX_USERS_MS_PORT}
+        APISIX_ENV_AUTH_MS_HOST: ${APISIX_AUTH_MS_HOST}
+        APISIX_ENV_AUTH_MS_PORT: ${APISIX_AUTH_MS_PORT}
+        APISIX_ENV_POSTS_MS_HOST: ${APISIX_POSTS_MS_HOST}
+        APISIX_ENV_POSTS_MS_PORT: ${APISIX_POSTS_MS_PORT}
     restart: always
     ports:
       - "9180:9180/tcp"
@@ -12,6 +20,45 @@ services:
       - "9091:9091/tcp"
       - "9443:9443/tcp"
       - "9092:9092/tcp"
+    networks:
+      my-ms:
+    env_file:
+      - .env
+
+  swagger-ui:
+    build:
+      context: .
+      args:
+        APISIX_ENV_HOST: ${APISIX_HOST}
+        APISIX_ENV_PORT: ${APISIX_PORT}
+    container_name: swagger.ui
+    ports:
+      - "8002:8080"
+    environment:
+      SWAGGER_JSON: /openapi.yaml
+    networks:
+      my-ms:
+    env_file:
+      - .env
+
+  swagger-editor:
+    image: swaggerapi/swagger-editor
+    container_name: swagger.editor
+    ports:
+      - "8005:8080"
+    networks:
+      my-ms:
+    env_file:
+      - .env
+
+  swagger-api:
+    image: stoplight/prism:3
+    container_name: swagger.api
+    ports:
+      - "8003:4010"
+    command: mock -h 0.0.0.0 /openapi.yaml
+    volumes:
+      - ./openapi.yaml:/openapi.yaml
     networks:
       my-ms:
     env_file:

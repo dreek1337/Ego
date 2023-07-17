@@ -1,0 +1,1682 @@
+openapi: 3.1.0
+info:
+  title: Ego Microservices
+  version: 1.0.0
+servers:
+  - url: http://${APISIX_HOST}:${APISIX_PORT}
+paths:
+  /auth/registration:
+    post:
+      tags:
+        - auth
+      summary: User Registration
+      description: Регистрация пользователя
+      operationId: user_registration_auth_registration_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationRequest'
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokensResponse'
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokensResponse'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UsernameIsAlreadyExist_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: User Login
+      description: Вход пользователя и выдача токенов
+      operationId: user_login_auth_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokensResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserDataIsNotCorrect_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/verify:
+    security:
+      - bearerAuth: []
+    get:
+      tags:
+        - auth
+      summary: Token Verify
+      description: Проверка токена
+      operationId: token_verify_auth_verify_get
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyStatus'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsNotExists_'
+  /auth/refresh:
+    security:
+      - bearerAuth: []
+    get:
+      tags:
+        - auth
+      summary: Token Refresh
+      description: Обновление токена
+      operationId: token_refresh_auth_refresh_get
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokenResponse'
+  /auth/update_login_data:
+    security:
+      - bearerAuth: []
+    patch:
+      tags:
+        - auth
+      summary: Update User Data
+      description: Обнавление данных пользователя
+      operationId: update_user_data_auth_users_update_user_patch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLoginUserRequest'
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateLoginUserResponse'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/info:
+    get:
+      tags:
+        - users
+      summary: Get User
+      description: Получение данных о пользователе с помощью его id
+      operationId: get_user_users_info_get
+      parameters:
+        - required: true
+          schema:
+            type: integer
+            title: User Id
+          name: user_id
+          in: query
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDataResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsNotExist_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/create_user:
+    security:
+      - bearerAuth: []
+    post:
+      tags:
+        - users
+      summary: Create User
+      description: Создание пользователя
+      operationId: create_user_users_create_user_post
+      parameters:
+        - required: false
+          schema:
+            type: integer
+            title: X-User-Id
+          name: x-user-id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+        required: true
+      responses:
+        201:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDataResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/ErrorResult_Union_InvalidGender__InvalidBirthdayDate__
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIdIsAlreadyExist_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/update_user_info:
+    security:
+      - bearerAuth: []
+    patch:
+      tags:
+        - users
+      summary: Update User Info
+      description: Обновление данных пользователя
+      operationId: update_user_info_users_update_user_info_patch
+      parameters:
+        - required: false
+          schema:
+            type: integer
+            title: X-User-Id
+          name: x-user-id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDataResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: >-
+                  #/components/schemas/ErrorResult_Union_InvalidGender__InvalidBirthdayDate__
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsDeleted_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/delete_user:
+    security:
+      - bearerAuth: []
+    delete:
+      tags:
+        - users
+      summary: Delete User
+      description: Удаление пользователя
+      operationId: delete_user_users_delete_user_delete
+      parameters:
+        - required: false
+          schema:
+            type: integer
+            title: X-User-Id
+          name: x-user-id
+          in: header
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedUserResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsNotExist_'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsDeleted_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /avatars/set_avatar:
+    security:
+      - bearerAuth: []
+    post:
+      tags:
+        - avatars
+      summary: Set Avatar
+      description: Установка аватарки у пользователя
+      operationId: set_avatar_avatars_set_avatar_post
+      parameters:
+        - required: false
+          schema:
+            type: integer
+            title: X-User-Id
+          name: x-user-id
+          in: header
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_set_avatar_avatars_set_avatar_post'
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetAvatarResponse'
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetAvatarResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_InvalidAvatarType_'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsNotExist_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /avatars/delete_avatar:
+    security:
+      - bearerAuth: []
+    delete:
+      tags:
+        - avatars
+      summary: Delete Avatar
+      description: Удаление аватарки у пользователя
+      operationId: delete_avatar_avatars_delete_avatar_delete
+      parameters:
+        - required: false
+          schema:
+            type: integer
+            title: X-User-Id
+          name: x-user-id
+          in: header
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedAvatarResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarIsNotExist'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /subscription/subscribe:
+    security:
+      - bearerAuth: []
+    post:
+      tags:
+        - subscription
+      summary: Subscribe
+      description: Оформление подписки
+      operationId: subscribe_subscription_subscribe_post
+      parameters:
+        - required: false
+          schema:
+            type: integer
+            title: X-User-Id
+          name: x-user-id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscribeRequest'
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscribeResponse'
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscribeResponse'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_SubscribeOnYourself_'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsNotExist_'
+        409:
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_SubscribeIsAlreadyExists_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /subscription/unsubscribe:
+    security:
+      - bearerAuth: []
+    delete:
+      tags:
+        - subscription
+      summary: Unsubscribe
+      description: Отписка от пользователя
+      operationId: unsubscribe_subscription_unsubscribe_delete
+      parameters:
+        - required: false
+          schema:
+            type: integer
+            title: X-User-Id
+          name: x-user-id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnsubscribeRequest'
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnsubscribeResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_SubscribeIsNotExists_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /subscription/get_subscriptions:
+    get:
+      tags:
+        - subscription
+      summary: Get Subscriptions
+      description: Получение подписчиков пользователя
+      operationId: get_subscriptions_subscription_get_subscriptions_get
+      parameters:
+        - required: true
+          schema:
+            type: integer
+            title: User Id
+          name: user_id
+          in: query
+        - required: false
+          schema:
+            anyOf:
+              - type: integer
+              - $ref: '#/components/schemas/Empty'
+            title: Offset
+            default: UNSET
+          name: offset
+          in: query
+        - required: false
+          schema:
+            anyOf:
+              - type: integer
+              - $ref: '#/components/schemas/Empty'
+            title: Limit
+            default: UNSET
+          name: limit
+          in: query
+        - required: false
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/GetSubscriptionsOrder'
+            default: asc
+          name: order
+          in: query
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionsResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsNotExist_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /subscription/get_subscribers:
+    get:
+      tags:
+        - subscription
+      summary: Get Subscribers
+      description: Получение подписчиков пользователя
+      operationId: get_subscribers_subscription_get_subscribers_get
+      parameters:
+        - required: true
+          schema:
+            type: integer
+            title: User Id
+          name: user_id
+          in: query
+        - required: false
+          schema:
+            anyOf:
+              - type: integer
+              - $ref: '#/components/schemas/Empty'
+            title: Offset
+            default: UNSET
+          name: offset
+          in: query
+        - required: false
+          schema:
+            anyOf:
+              - type: integer
+              - $ref: '#/components/schemas/Empty'
+            title: Limit
+            default: UNSET
+          name: limit
+          in: query
+        - required: false
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/GetSubscriptionsOrder'
+            default: asc
+          name: order
+          in: query
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscribersResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsNotExist_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /posts/user_posts:
+    get:
+      tags:
+        - posts
+      summary: Get User Posts
+      description: Получение всех постов пользователя
+      operationId: get_user_posts_posts_user_posts_get
+      parameters:
+        - required: true
+          schema:
+            title: Creator Id
+            type: integer
+          name: creator_id
+          in: query
+        - required: false
+          schema:
+            title: Offset
+            anyOf:
+              - type: integer
+              - $ref: '#/components/schemas/Empty'
+            default: UNSET
+          name: offset
+          in: query
+        - required: false
+          schema:
+            title: Limit
+            anyOf:
+              - type: integer
+              - $ref: '#/components/schemas/Empty'
+            default: UNSET
+          name: limit
+          in: query
+        - required: false
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/GetPostsOrder'
+            default: asc
+          name: order
+          in: query
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostsResponse'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /posts/full_text_search:
+    get:
+      tags:
+        - posts
+      summary: Full Text Posts Search
+      description: Получение всех постов пользователя
+      operationId: full_text_posts_search_posts_full_text_search_get
+      parameters:
+        - required: true
+          schema:
+            title: Query String
+            type: string
+          name: query_string
+          in: query
+        - required: false
+          schema:
+            title: Offset
+            anyOf:
+              - type: integer
+              - $ref: '#/components/schemas/Empty'
+            default: UNSET
+          name: offset
+          in: query
+        - required: false
+          schema:
+            title: Limit
+            anyOf:
+              - type: integer
+              - $ref: '#/components/schemas/Empty'
+            default: UNSET
+          name: limit
+          in: query
+        - required: false
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/GetPostsOrder'
+            default: asc
+          name: order
+          in: query
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostsResponse'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /posts/create_post:
+    security:
+      - bearerAuth: []
+    post:
+      tags:
+        - posts
+      summary: Create Post
+      description: Создание поста
+      operationId: create_post_posts_create_post_post
+      parameters:
+        - required: false
+          schema:
+            title: X-User-Id
+            type: integer
+          name: x-user-id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePostRequest'
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostResponse'
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostResponse'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /posts/delete_post:
+    security:
+      - bearerAuth: []
+    delete:
+      tags:
+        - posts
+      summary: Delete Post
+      description: Удание поста пользователя
+      operationId: delete_post_posts_delete_post_delete
+      parameters:
+        - required: false
+          schema:
+            title: X-User-Id
+            type: integer
+          name: x-user-id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeletePostRequest'
+        required: true
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeletedPostResponse'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsNotPostCreator_'
+        422:
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /posts/update_post:
+    security:
+      - bearerAuth: []
+    patch:
+      tags:
+        - posts
+      summary: Update Post
+      description: Обнволение поста пользователя
+      operationId: update_post_posts_update_post_patch
+      parameters:
+        - required: false
+          schema:
+            title: X-User-Id
+            type: integer
+          name: x-user-id
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePostRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostResponse'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResult_UserIsNotPostCreator_'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CreatePostRequest:
+      title: CreatePostRequest
+      required:
+        - text_content
+      type: object
+      properties:
+        text_content:
+          title: Text Content
+          type: string
+      description: Модель для создания поста
+    DeletePostRequest:
+      title: DeletePostRequest
+      required:
+        - post_id
+      type: object
+      properties:
+        post_id:
+          title: Post Id
+          type: string
+      description: Модель для удаления поста
+    DeletedPostResponse:
+      title: DeletedPostResponse
+      required:
+        - post_id
+      type: object
+      properties:
+        post_id:
+          title: Post Id
+          type: string
+          description: Айди поста
+      description: Модель овтета при удалении поста
+    Empty:
+      title: Empty
+      enum:
+        - UNSET
+      type: string
+      description: An enumeration.
+    ErrorResult_UserIsNotPostCreator_:
+      title: ErrorResult[UserIsNotPostCreator]
+      required:
+        - message
+        - data
+      type: object
+      properties:
+        message:
+          title: Message
+          type: string
+        data:
+          $ref: '#/components/schemas/UserIsNotPostCreator'
+      description: 'ErrorResult(*, message: str, data: ~TData = None)'
+    GetPostsOrder:
+      title: GetPostsOrder
+      enum:
+        - asc
+        - desc
+      type: string
+      description: An enumeration.
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    PostDTO:
+      title: PostDTO
+      required:
+        - post_id
+        - creator_id
+        - text_content
+        - created_at
+      type: object
+      properties:
+        post_id:
+          title: Post Id
+          type: string
+          description: Айди поста
+        creator_id:
+          title: Creator Id
+          type: integer
+          description: Айди создателя поста
+        text_content:
+          title: Text Content
+          type: string
+          description: Текст поста
+        created_at:
+          title: Created At
+          type: string
+          description: Время создания поста
+          format: date-time
+      description: Базовый класс DTO
+    PostResponse:
+      title: PostResponse
+      required:
+        - post_id
+        - creator_id
+        - text_content
+        - created_at
+      type: object
+      properties:
+        post_id:
+          title: Post Id
+          type: string
+          description: Айди поста
+        creator_id:
+          title: Creator Id
+          type: integer
+          description: Айди создателя поста
+        text_content:
+          title: Text Content
+          type: string
+          description: Текст поста
+        created_at:
+          title: Created At
+          type: string
+          description: Время создания поста
+          format: date-time
+      description: Модель ответа для получения поста
+    PostsResponse:
+      title: PostsResponse
+      type: object
+      properties:
+        posts:
+          title: Posts
+          type: array
+          items:
+            $ref: '#/components/schemas/PostDTO'
+        offset:
+          title: Offset
+          anyOf:
+            - type: integer
+            - $ref: '#/components/schemas/Empty'
+          default: UNSET
+        limit:
+          title: Limit
+          anyOf:
+            - type: integer
+            - $ref: '#/components/schemas/Empty'
+          default: UNSET
+      description: Модель ответа для получения постов
+    UpdatePostRequest:
+      title: UpdatePostRequest
+      required:
+        - post_id
+        - text_content
+      type: object
+      properties:
+        post_id:
+          title: Post Id
+          type: string
+        text_content:
+          title: Text Content
+          type: string
+      description: Модель для обнавления поста
+    UserIsNotPostCreator:
+      title: UserIsNotPostCreator
+      type: object
+      properties: {}
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    AvatarIsNotExist:
+      properties: {}
+      type: object
+      title: AvatarIsNotExist
+    Body_set_avatar_avatars_set_avatar_post:
+      properties:
+        avatar_data:
+          type: string
+          format: binary
+          title: Avatar Data
+      type: object
+      required:
+        - avatar_data
+      title: Body_set_avatar_avatars_set_avatar_post
+    CreateUserRequest:
+      properties:
+        first_name:
+          type: string
+          title: First Name
+          description: Имя пользователя
+        last_name:
+          type: string
+          title: Last Name
+          description: Фамилия пользователя
+        gender:
+          allOf:
+            - $ref: '#/components/schemas/GenderValue'
+          description: Пол пользователя
+        birthday:
+          type: string
+          format: date
+          title: Birthday
+          description: Дата рождения
+      type: object
+      required:
+        - first_name
+        - last_name
+        - gender
+        - birthday
+      title: CreateUserRequest
+      description: Модель для создания пользователя
+    DeletedAvatarResponse:
+      properties:
+        avatar_id:
+          type: string
+          format: uuid4
+          title: Avatar Id
+          descriprion: Айди аватара
+      type: object
+      required:
+        - avatar_id
+      title: DeletedAvatarResponse
+      description: Модель ответа удаления аватарки
+    DeletedUserResponse:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+      type: object
+      required:
+        - user_id
+      title: DeletedUserResponse
+      description: Модель ответа данных, удаленного пользователя
+    ErrorResult_InvalidAvatarType_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/InvalidAvatarType'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[InvalidAvatarType]
+      description: 'ErrorResult(*, message: str, data: ~TData = None)'
+    ErrorResult_SubscribeIsAlreadyExists_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/SubscribeIsAlreadyExists'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[SubscribeIsAlreadyExists]
+      description: 'ErrorResult(*, message: str, data: ~TData = None)'
+    ErrorResult_SubscribeIsNotExists_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/SubscribeIsNotExists'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[SubscribeIsNotExists]
+      description: 'ErrorResult(*, message: str, data: ~TData = None)'
+    ErrorResult_SubscribeOnYourself_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/SubscribeOnYourself'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[SubscribeOnYourself]
+      description: 'ErrorResult(*, message: str, data: ~TData = None)'
+    ErrorResult_Union_InvalidGender__InvalidBirthdayDate__:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          anyOf:
+            - $ref: '#/components/schemas/InvalidGender'
+            - $ref: '#/components/schemas/InvalidBirthdayDate'
+          title: Data
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[Union[InvalidGender, InvalidBirthdayDate]]
+      description: 'ErrorResult(*, message: str, data: ~TData = None)'
+    ErrorResult_UserIdIsAlreadyExist_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/UserIdIsAlreadyExist'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[UserIdIsAlreadyExist]
+      description: 'ErrorResult(*, message: str, data: ~TData = None)'
+    ErrorResult_UserIsDeleted_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/UserIsDeleted'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[UserIsDeleted]
+      description: 'ErrorResult(*, message: str, data: ~TData = None)'
+    ErrorResult_UserIsNotExist_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/UserIsNotExist'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[UserIsNotExist]
+      description: 'ErrorResult(*, message: str, data: ~TData = None)'
+    GenderValue:
+      type: string
+      enum:
+        - male
+        - female
+      title: GenderValue
+      description: An enumeration.
+    GetSubscriptionsOrder:
+      type: string
+      enum:
+        - asc
+        - desc
+      title: GetSubscriptionsOrder
+      description: An enumeration.
+    InvalidAvatarType:
+      properties:
+        file_type:
+          type: string
+          title: File Type
+      type: object
+      required:
+        - file_type
+      title: InvalidAvatarType
+    InvalidBirthdayDate:
+      properties:
+        birthday_date:
+          type: string
+          format: date
+          title: Birthday Date
+      type: object
+      required:
+        - birthday_date
+      title: InvalidBirthdayDate
+    InvalidGender:
+      properties:
+        gender_type:
+          type: string
+          title: Gender Type
+      type: object
+      required:
+        - gender_type
+      title: InvalidGender
+    SetAvatarResponse:
+      properties:
+        avatar_id:
+          type: string
+          format: uuid4
+          title: Avatar Id
+          description: Айди файла
+        avatar_type:
+          type: string
+          title: Avatar Type
+          description: Формат файла
+        avatar_user_id:
+          type: integer
+          title: Avatar User Id
+          description: Айди пользователя
+      type: object
+      required:
+        - avatar_id
+        - avatar_type
+        - avatar_user_id
+      title: SetAvatarResponse
+      description: Модель ответа отпарвки данных об аватарке
+    SubscribeIsAlreadyExists:
+      properties: {}
+      type: object
+      title: SubscribeIsAlreadyExists
+    SubscribeIsNotExists:
+      properties: {}
+      type: object
+      title: SubscribeIsNotExists
+    SubscribeOnYourself:
+      properties: {}
+      type: object
+      title: SubscribeOnYourself
+    SubscribeRequest:
+      properties:
+        subscription_id:
+          type: integer
+          title: Subscription Id
+          description: Айди на кого подписка
+      type: object
+      required:
+        - subscription_id
+      title: SubscribeRequest
+      description: Модель для оформления подписки
+    SubscribeResponse:
+      properties:
+        subscriber_id:
+          type: integer
+          title: Subscriber Id
+        subscription_id:
+          type: integer
+          title: Subscription Id
+      type: object
+      required:
+        - subscriber_id
+        - subscription_id
+      title: SubscribeResponse
+      description: Модель ответа оформления подписки
+    SubscribersResponse:
+      properties:
+        subscribers:
+          items:
+            $ref: '#/components/schemas/SubscriptionDTO'
+          type: array
+          title: Subscribers
+        offset:
+          anyOf:
+            - type: integer
+            - $ref: '#/components/schemas/Empty'
+          title: Offset
+          default: UNSET
+        limit:
+          anyOf:
+            - type: integer
+            - $ref: '#/components/schemas/Empty'
+          title: Limit
+          default: UNSET
+      type: object
+      title: SubscribersResponse
+      description: Модель ответа получения подписчиков
+    SubscriptionDTO:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+          description: Айди подпичсика
+        first_name:
+          type: string
+          title: First Name
+          description: Имя пользователя
+        last_name:
+          type: string
+          title: Last Name
+          description: Фамилия пользователя
+        avatar:
+          type: string
+          title: Avatar
+          description: Аватар пользователя
+        deleted:
+          type: boolean
+          title: Deleted
+          description: Показывает удален ли пользователь
+          default: false
+      type: object
+      required:
+        - user_id
+        - first_name
+        - last_name
+      title: SubscriptionDTO
+      description: Модель подписок/подписчиков
+    SubscriptionsResponse:
+      properties:
+        subscriptions:
+          items:
+            $ref: '#/components/schemas/SubscriptionDTO'
+          type: array
+          title: Subscriptions
+        offset:
+          anyOf:
+            - type: integer
+            - $ref: '#/components/schemas/Empty'
+          title: Offset
+          default: UNSET
+        limit:
+          anyOf:
+            - type: integer
+            - $ref: '#/components/schemas/Empty'
+          title: Limit
+          default: UNSET
+      type: object
+      title: SubscriptionsResponse
+      description: Модель ответа получения подписок
+    UnsubscribeRequest:
+      properties:
+        subscription_id:
+          type: integer
+          title: Subscription Id
+          description: Айди от кого отписка
+      type: object
+      required:
+        - subscription_id
+      title: UnsubscribeRequest
+      description: Модель для отписки
+    UnsubscribeResponse:
+      properties:
+        subscriber_id:
+          type: integer
+          title: Subscriber Id
+        subscription_id:
+          type: integer
+          title: Subscription Id
+      type: object
+      required:
+        - subscriber_id
+        - subscription_id
+      title: UnsubscribeResponse
+      description: Модель ответа отписки
+    UpdateUserRequest:
+      properties:
+        first_name:
+          anyOf:
+            - type: string
+            - $ref: '#/components/schemas/Empty'
+          title: First Name
+          description: Имя
+          default: UNSET
+        last_name:
+          anyOf:
+            - type: string
+            - $ref: '#/components/schemas/Empty'
+          title: Last Name
+          description: Фамилия
+          default: UNSET
+        gender:
+          anyOf:
+            - $ref: '#/components/schemas/GenderValue'
+            - $ref: '#/components/schemas/Empty'
+          title: Gender
+          description: Пол
+          default: UNSET
+        birthday:
+          anyOf:
+            - type: string
+              format: date
+            - $ref: '#/components/schemas/Empty'
+          title: Birthday
+          description: Дата
+          default: UNSET
+      type: object
+      title: UpdateUserRequest
+      description: Модель для обнавления данных
+    UserDataResponse:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+          description: Айди профиля
+        first_name:
+          type: string
+          title: First Name
+          description: Имя пользователя
+        last_name:
+          type: string
+          title: Last Name
+          description: Фамилия пользователя
+        gender:
+          type: string
+          title: Gender
+          description: Пол пользователя
+        birthday:
+          type: string
+          format: date
+          title: Birthday
+          description: День рождения пользователя
+        avatar_path:
+          type: string
+          title: Avatar Path
+          description: Аватарка пользователя
+        count_of_subscriptions:
+          type: integer
+          title: Count Of Subscriptions
+          description: Кол-во подписок
+        count_of_subscribers:
+          type: integer
+          title: Count Of Subscribers
+          description: Кол-во подписчиков
+        deleted:
+          type: boolean
+          title: Deleted
+          description: Пользователь удален/неудален
+          default: false
+      type: object
+      required:
+        - user_id
+        - first_name
+        - last_name
+        - gender
+        - birthday
+        - count_of_subscriptions
+        - count_of_subscribers
+      title: UserDataResponse
+      description: Модель ответа получения пользоватлея
+    UserIdIsAlreadyExist:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+      type: object
+      required:
+        - user_id
+      title: UserIdIsAlreadyExist
+    UserIsDeleted:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+      type: object
+      required:
+        - user_id
+      title: UserIsDeleted
+    UserIsNotExist:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+      type: object
+      required:
+        - user_id
+      title: UserIsNotExist
+    ErrorResult_UserDataIsNotCorrect_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/UserDataIsNotCorrect'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[UserDataIsNotCorrect]
+      description: 'ErrorResult(*, message: str, data: ~ExcData = None)'
+    ErrorResult_UserIsNotExists_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/UserIsNotExists'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[UserIsNotExists]
+      description: 'ErrorResult(*, message: str, data: ~ExcData = None)'
+    ErrorResult_UsernameIsAlreadyExist_:
+      properties:
+        message:
+          type: string
+          title: Message
+        data:
+          $ref: '#/components/schemas/UsernameIsAlreadyExist'
+      type: object
+      required:
+        - message
+        - data
+      title: ErrorResult[UsernameIsAlreadyExist]
+      description: 'ErrorResult(*, message: str, data: ~ExcData = None)'
+    LoginRequest:
+      properties:
+        username:
+          type: string
+          title: Username
+          description: Никнейм пользователя
+        password:
+          type: string
+          title: Password
+          description: Пароль пользователя
+      type: object
+      required:
+        - username
+        - password
+      title: LoginRequest
+      description: Модель входа в систему
+    RefreshTokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+          description: Jwt для авторизации
+      type: object
+      required:
+        - access_token
+      title: RefreshTokenResponse
+      description: Модель обнавленного ткоена
+    RegistrationRequest:
+      properties:
+        username:
+          type: string
+          title: Username
+          description: Никнейм пользователя
+        password:
+          type: string
+          title: Password
+          description: Пароль пользователя
+        user_email:
+          type: string
+          format: email
+          title: User Email
+          description: Почта пользователя
+      type: object
+      required:
+        - username
+        - password
+        - user_email
+      title: RegistrationRequest
+      description: Модель регистрации пользоватлея
+    TokensResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+          description: Jwt для авторизации
+        refresh_token:
+          type: string
+          title: Refresh Token
+          description: Рефреш токен для обнавления jwt
+        access_token_expires:
+          type: integer
+          title: Access Token Expires
+          description: Время, сколько активен jwt
+      type: object
+      required:
+        - access_token
+        - refresh_token
+        - access_token_expires
+      title: TokensResponse
+      description: Выдача токенов
+    UpdateLoginUserRequest:
+      properties:
+        password:
+          anyOf:
+            - type: string
+            - $ref: '#/components/schemas/Empty'
+          title: Password
+          default: '1'
+        user_email:
+          anyOf:
+            - type: string
+              format: email
+            - $ref: '#/components/schemas/Empty'
+          title: User Email
+          default: '1'
+      type: object
+      title: UpdateUserRequest
+      description: Модель для обнавление данных пользователя
+    UpdateLoginUserResponse:
+      properties:
+        username:
+          type: string
+          title: Username
+          description: Никнейм пользователя
+      type: object
+      required:
+        - username
+      title: UpdateLoginUserResponse
+      description: Модель ответа об обновлении пользователя
+    UserDataIsNotCorrect:
+      properties: {}
+      type: object
+      title: UserDataIsNotCorrect
+    UserIsNotExists:
+      properties:
+        user_id:
+          type: integer
+          title: User Id
+      type: object
+      required:
+        - user_id
+      title: UserIsNotExists
+    UsernameIsAlreadyExist:
+      properties:
+        username:
+          type: string
+          title: Username
+      type: object
+      required:
+        - username
+      title: UsernameIsAlreadyExist
+    VerifyStatus:
+      properties:
+        verify_status:
+          type: string
+          title: Verify Status
+          default: Done
+      type: object
+      title: VerifyStatus
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
