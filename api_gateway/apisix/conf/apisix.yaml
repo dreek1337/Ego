@@ -93,17 +93,17 @@ upstreams:
 #plugins:
 ## Plugins for all routers
 #  cors:
-    enable: true
-    config:
-      allow_origins:
-        - '*'
-      allow_methods:
-        - '*'
-      allow_headers:
-        - '*'
-      expose_headers:
-        - '*'
-      max_age: 3600
+#    enable: true
+#    config:
+#      allow_origins:
+#        - '*'
+#      allow_methods:
+#        - '*'
+#      allow_headers:
+#        - '*'
+#      expose_headers:
+#        - '*'
+#      max_age: 3600
 
 routes:
 # Users Service
