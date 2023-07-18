@@ -5,3 +5,4 @@ deployment:
 
 plugins:
   - forward-auth
+  - cors
