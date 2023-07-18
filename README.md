@@ -1,6 +1,6 @@
 <h1>EGO</h1>
 
-<h3>Архетектура сервиса</h3>
+<h3>Архетиктура сервиса</h3>
 
 ![alt text](https://sun9-71.userapi.com/impg/BAO9NoMLWJkVN-cieiTrhuOIXQzp6LtvCC372g/tvNiEiPjCPs.jpg?size=1111x899&quality=96&sign=6ce5d0d87be548442dc9e87babb773ea&type=album)
 
@@ -24,7 +24,7 @@
 
 - Apache APISIX
 
-<h3>Архетектура</h3>
+<h3>Архетиктура</h3>
 
 - Микросервисы
 
