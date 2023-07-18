@@ -114,13 +114,6 @@ routes:
     uri: /users/info
     plugins:
       cors:
-        allow_origins:
-          - "*"
-        allow_methods:
-          - "*"
-        allow_headers:
-          - "*"
-        max_age: 3600
     upstream_id: 1
 
   - id: 2
