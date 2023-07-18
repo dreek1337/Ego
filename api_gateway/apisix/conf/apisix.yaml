@@ -90,20 +90,20 @@ upstreams:
           http_failures: 3
           tcp_failures: 3
 
-plugins:
-# Plugins for all routers
-  cors:
-    enable: true
-    config:
-      allow_origins:
-        - '*'
-      allow_methods:
-        - '*'
-      allow_headers:
-        - '*'
-      expose_headers:
-        - '*'
-      max_age: 3600
+#plugins:
+## Plugins for all routers
+#  cors:
+#    enable: true
+#    config:
+#      allow_origins:
+#        - '*'
+#      allow_methods:
+#        - '*'
+#      allow_headers:
+#        - '*'
+#      expose_headers:
+#        - '*'
+#      max_age: 3600
 
 routes:
 # Users Service
@@ -112,6 +112,15 @@ routes:
     methods: ["GET"]
     name: user-info
     uri: /users/info
+    plugins:
+      cors:
+        allow_origins:
+          - "*"
+        allow_methods:
+          - "*"
+        allow_headers:
+          - "*"
+        max_age: 3600
     upstream_id: 1
 
   - id: 2
