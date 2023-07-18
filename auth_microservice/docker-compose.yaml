@@ -16,9 +16,6 @@ services:
     volumes:
       - ${DATABASE_PGDATA}
     command: ["postgres", "-c", "port=${DATABASE_PORT}"]
-#      - "postgres"
-#      - "-c"
-#      - "port=5431"
     env_file:
       - .env
     networks:

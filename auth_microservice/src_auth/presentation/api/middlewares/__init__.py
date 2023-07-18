@@ -1,1 +1,0 @@
-from src_auth.presentation.api.middlewares.cors_middlware import add_cors_middleware
