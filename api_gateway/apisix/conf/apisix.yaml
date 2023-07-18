@@ -319,7 +319,7 @@ routes:
         enable: true
         config:
           allow_origins: '*'
-          allow_methods: '*'
+          allow_methods: '**'
           allow_headers: '*'
           expose_headers: '*'
           max_age: 3600
