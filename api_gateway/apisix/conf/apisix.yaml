@@ -89,22 +89,6 @@ upstreams:
             - 500
           http_failures: 3
           tcp_failures: 3
-
-#plugins:
-## Plugins for all routers
-#  cors:
-#    enable: true
-#    config:
-#      allow_origins:
-#        - '*'
-#      allow_methods:
-#        - '*'
-#      allow_headers:
-#        - '*'
-#      expose_headers:
-#        - '*'
-#      max_age: 3600
-
 routes:
 # Users Service
 # Users routers
@@ -411,7 +395,7 @@ routes:
 # Auth Service
 # Auth routes
   - id: 16
-    methods: ["POST"]
+    methods: ["POST", "OPTIONS"]
     name: auth-registration
     uri: /auth/registration
     plugins:
