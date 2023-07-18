@@ -30,6 +30,12 @@
 
 - DDD
 
+<h3>Запуск проекта</h3>
+
+```
+bash startup.sh
+```
+
 <h3>Swagger-UI</h3>
 
 ![alt text](https://sun9-79.userapi.com/impg/X_1zgW6V1j1SVRvsDahf2foHvxLbL8DFDeya-Q/ZfK7z4AdV24.jpg?size=1280x636&quality=96&sign=1ce2cd48110e66267e3c78831674f62f&type=album)
