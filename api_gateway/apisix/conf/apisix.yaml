@@ -110,7 +110,7 @@ routes:
     upstream_id: 1
 
   - id: 2
-    methods: ["POST"]
+    methods: ["POST", "OPTIONS"]
     name: user-create
     uri: /users/create_user
     plugins:
@@ -131,7 +131,7 @@ routes:
     upstream_id: 1
 
   - id: 3
-    methods: ["PATCH"]
+    methods: ["PATCH", "OPTIONS"]
     name: user-update
     uri: /users/update_user_info
     plugins:
@@ -152,7 +152,7 @@ routes:
     upstream_id: 1
 
   - id: 4
-    methods: ["DELETE"]
+    methods: ["DELETE", "OPTIONS"]
     name: user-delete
     uri: /users/delete_user
     plugins:
@@ -174,7 +174,7 @@ routes:
 
 # Subscription routers
   - id: 5
-    methods: ["POST"]
+    methods: ["POST", "OPTIONS"]
     name: subscription-subscribe
     uri: /subscription/subscribe
     plugins:
@@ -195,7 +195,7 @@ routes:
     upstream_id: 1
 
   - id: 6
-    methods: ["DELETE"]
+    methods: ["DELETE", "OPTIONS"]
     name: subscription-unsubscribe
     uri: /subscription/unsubscribe
     plugins:
@@ -251,7 +251,7 @@ routes:
 
 # Avatars routers
   - id: 9
-    methods: ["POST"]
+    methods: ["POST", "OPTIONS"]
     name: avatars-set_avatar
     uri: /avatars/set_avatar
     plugins:
@@ -272,7 +272,7 @@ routes:
     upstream_id: 1
 
   - id: 10
-    methods: ["DELETE"]
+    methods: ["DELETE", "OPTIONS"]
     name: avatars-delete_avatar
     uri: /avatars/delete_avatar
     plugins:
@@ -304,7 +304,7 @@ routes:
         config:
           allow_credential:
           allow_origins: '*'
-          allow_methods: 'GET, POST, PUT, DELETE'
+          allow_methods: '*'
           allow_headers: '*'
           expose_headers: '*'
           max_age: 3600
@@ -330,7 +330,7 @@ routes:
     upstream_id: 3
 
   - id: 13
-    methods: ["POST"]
+    methods: ["POST", "OPTIONS"]
     name: posts-create_post
     uri: /posts/create_post
     plugins:
@@ -351,7 +351,7 @@ routes:
     upstream_id: 3
 
   - id: 14
-    methods: ["DELETE"]
+    methods: ["DELETE", "OPTIONS"]
     name: posts-delete_post
     uri: /posts/delete_post
     plugins:
@@ -372,7 +372,7 @@ routes:
     upstream_id: 3
 
   - id: 15
-    methods: ["PATCH"]
+    methods: ["PATCH", "OPTIONS"]
     name: posts-update_post
     uri: /posts/update_post
     plugins:
@@ -412,7 +412,7 @@ routes:
     upstream_id: 2
 
   - id: 17
-    methods: ["POST"]
+    methods: ["POST", "OPTIONS"]
     name: auth-login
     uri: /auth/login
     plugins:
@@ -447,7 +447,7 @@ routes:
 
 # Auth-users routes
   - id: 19
-    methods: ["PATCH"]
+    methods: ["PATCH", "OPTIONS"]
     name: auth-users-update_user
     uri: /auth/users/update_user
     plugins:
