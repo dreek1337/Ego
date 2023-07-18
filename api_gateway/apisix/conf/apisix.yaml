@@ -130,6 +130,16 @@ routes:
     name: user-create
     uri: /users/create_user
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -141,6 +151,16 @@ routes:
     name: user-update
     uri: /users/update_user_info
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -152,6 +172,16 @@ routes:
     name: user-delete
     uri: /users/delete_user
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -164,6 +194,16 @@ routes:
     name: subscription-subscribe
     uri: /subscription/subscribe
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -175,6 +215,16 @@ routes:
     name: subscription-unsubscribe
     uri: /subscription/unsubscribe
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -185,12 +235,34 @@ routes:
     methods: ["GET"]
     name: subscription-get_subscriptions
     uri: /subscription/get_subscriptions
+    plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
     upstream_id: 1
 
   - id: 8
     methods: ["GET"]
     name: subscription-get_subscribers
     uri: /subscription/get_subscribers
+    plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
     upstream_id: 1
 
 # Avatars routers
@@ -199,6 +271,16 @@ routes:
     name: avatars-set_avatar
     uri: /avatars/set_avatar
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -210,6 +292,16 @@ routes:
     name: avatars-delete_avatar
     uri: /avatars/delete_avatar
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -222,12 +314,34 @@ routes:
     methods: ["GET"]
     name: posts-user_posts
     uri: /posts/user_posts
+    plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
     upstream_id: 3
 
   - id: 12
     methods: ["GET"]
     name: posts-full_text_search
     uri: /posts/full_text_search
+    plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
     upstream_id: 3
 
   - id: 13
@@ -235,6 +349,16 @@ routes:
     name: posts-create_post
     uri: /posts/create_post
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -246,6 +370,16 @@ routes:
     name: posts-delete_post
     uri: /posts/delete_post
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -257,6 +391,16 @@ routes:
     name: posts-update_post
     uri: /posts/update_post
     plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
       forward-auth:
         uri: http://${APISIX_AUTH_MS_HOST}:${APISIX_AUTH_MS_PORT}/auth/verify
         request_headers: ["Authorization"]
@@ -269,18 +413,51 @@ routes:
     methods: ["POST"]
     name: auth-registration
     uri: /auth/registration
+    plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
     upstream_id: 2
 
   - id: 17
     methods: ["POST"]
     name: auth-login
     uri: /auth/login
+    plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
     upstream_id: 2
 
   - id: 18
     methods: ["GET"]
     name: auth-refresh
     uri: /auth/refresh
+    plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
     upstream_id: 2
 
 # Auth-users routes
@@ -288,6 +465,17 @@ routes:
     methods: ["PATCH"]
     name: auth-users-update_user
     uri: /auth/users/update_user
+    plugins:
+      cors:
+        enable: true
+        config:
+          allow_origins: '*'
+          allow_methods: '*'
+          allow_headers: '*'
+          expose_headers: '*'
+          max_age: 3600
+        headers:
+          - Origin
     upstream_id: 2
 
 # Сделать путь для формирования профиля ( объединения постов и информации о пользователе )
