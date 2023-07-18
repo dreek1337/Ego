@@ -22,6 +22,6 @@ COPY conf/config.yaml /usr/local/apisix/conf/config.yaml
 
 USER root
 
-RUN apt-get update && apt-get install -y gettext
+RUN apt-get install -y gettext
 
 RUN /bin/sh -c "envsubst < apisix_no_env.yaml > /usr/local/apisix/conf/apisix.yaml"
